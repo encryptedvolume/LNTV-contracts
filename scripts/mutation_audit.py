@@ -91,6 +91,16 @@ MUTANTS = [
     ("reserved batch starts at wrong ID", "RankedAuction", "SUPPLY + RESERVED_SUPPLY - reservedRemaining + 1", "SUPPLY + RESERVED_SUPPLY - reservedRemaining + 2"),
     ("metadata ignores token ID", "AuctionEdition", 'return string.concat(metadataURI, Strings.toString(tokenId), ".json");', "return metadataURI;"),
     ("metadata slash validation bypassed", "AuctionEdition", 'if (bytes(metadataURI_)[bytes(metadataURI_).length - 1] != bytes1("/"))', 'if (false)'),
+    ('batch payment check removed', 'RankedAuction', 'if (msg.value != total) revert IncorrectPayment();', ''),
+    ('batch size guard removed', 'RankedAuction', 'if (count == 0 || count > SUPPLY) revert InvalidBatch();', ''),
+    ('batch total reused for every bid', 'RankedAuction', 'ids[i] = _createBid(msg.sender, amounts[i]);', 'ids[i] = _createBid(msg.sender, msg.value);'),
+    ('batch repeats first amount', 'RankedAuction', 'ids[i] = _createBid(msg.sender, amounts[i]);', 'ids[i] = _createBid(msg.sender, amounts[0]);'),
+    ('batch ownership assigned to auction', 'RankedAuction', 'ids[i] = _createBid(msg.sender, amounts[i]);', 'ids[i] = _createBid(address(this), amounts[i]);'),
+    ('batch returned IDs lost', 'RankedAuction', 'ids[i] = _createBid(msg.sender, amounts[i]);', '_createBid(msg.sender, amounts[i]);'),
+    ('batch skips last bid', 'RankedAuction', 'for (uint256 i; i < count; ++i) {\n            ids[i] = _createBid', 'for (uint256 i; i + 1 < count; ++i) {\n            ids[i] = _createBid'),
+    ('batch updated floor ignored', 'RankedAuction', 'if (bidAmount < minimumBid()) revert BidTooLow();', ''),
+    ('batch reentrancy guard removed', 'RankedAuction', 'function createBids(uint256[] calldata amounts) external payable nonReentrant', 'function createBids(uint256[] calldata amounts) external payable'),
+    ('batch escrow counts full payment repeatedly', 'RankedAuction', 'escrow += bidAmount;', 'escrow += msg.value;'),
 ]
 
 # These tests primarily assert configuration values; they cannot establish behavioral kill redundancy.
@@ -138,6 +148,11 @@ for label, names in {
     "recovery reentrancy guard removed": ["testRecoveryCannotReenterRecovery", "testRecoveryCannotNominateAnotherWalletDuringCallback"],
 }.items():
     REQUIRED_BEHAVIORS[label] = [f"{RECOVERY_SUITE}::{name}()" for name in names]
+
+
+BATCH_SUITE = "test/BatchBidding.t.sol:BatchBiddingTest"
+for label, names in {'batch payment check removed': ['testUnderpaymentRevertsWholeBatch', 'testOverpaymentRevertsWholeBatch'], 'batch size guard removed': ['testEmptyBatchRejected', 'testBatchOver90RejectedBeforeFundingOrBidding'], 'batch total reused for every bid': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testBatchWinnerTopUpsClaimsAndTieredRefundsRemainIndependent'], 'batch repeats first amount': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testBatchWinnerTopUpsClaimsAndTieredRefundsRemainIndependent'], 'batch ownership assigned to auction': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testContractWalletOwnsBatchWithoutReceiverCallbacks'], 'batch returned IDs lost': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testOneElementBatchRetainsSingleBidBehavior'], 'batch skips last bid': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testOneElementBatchRetainsSingleBidBehavior'], 'batch updated floor ignored': ['testNewFloorRejectsLaterBidAndRestoresDisplacedBid', 'testFillingLastSlotChangesMinimumWithinBatch'], 'batch reentrancy guard removed': ['testRefundCallbackCannotReenterBatchBidding', 'testMintCallbackCannotReenterBatchBiddingWhileLive'], 'batch escrow counts full payment repeatedly': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testBatchWinnerTopUpsClaimsAndTieredRefundsRemainIndependent']}.items():
+    REQUIRED_BEHAVIORS[label] = [f"{BATCH_SUITE}::{name}()" for name in names]
 
 
 def collect_tests(stdout):

@@ -11,6 +11,7 @@ import time
 from web3 import Web3
 from check_deployment import check
 from refund_recovery_e2e import run_refund_recovery
+from batch_bidding_e2e import run_batch_bidding
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "audit/generated"
@@ -254,6 +255,7 @@ def main():
                       "deploymentCheckerNegativeCases": ["incorrect royalty configuration rejected", "unexpected current payout wallet rejected", "unexpected pending payout wallet rejected", "inconsistent immutable bytecode rejected"],
                       "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully"}
             result["refundRecovery"] = run_refund_recovery(w3, artifact)
+            result["batchBidding"] = run_batch_bidding(w3, artifact)
             (OUT / "local-e2e.json").write_text(json.dumps(result, indent=2) + "\n")
             print(json.dumps(result, indent=2))
         finally:

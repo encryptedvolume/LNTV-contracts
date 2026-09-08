@@ -84,6 +84,7 @@ contract RankedAuction is ReentrancyGuard {
     error NotSettled();
     error AlreadyClaimed();
     error InvalidBatch();
+    error IncorrectPayment();
     error InvalidRecipient();
     error NothingToWithdraw();
     error TransferFailed();
@@ -169,28 +170,28 @@ contract RankedAuction is ReentrancyGuard {
         return minimumIncrement(bids[id].amount, INCREASE_BPS);
     }
 
+    /// @notice Place one bid for one possible NFT win.
     function createBid() external payable nonReentrant returns (uint256 id) {
         _requireLive();
-        if (msg.value > MAX_BID) revert BidTooLarge();
-        if (msg.value < minimumBid()) revert BidTooLow();
-        id = nextBidId++;
-        bids[id] = Bid(msg.sender, uint128(msg.value), 0, 0, true, false, false, 0);
-        escrow += msg.value;
-        _insert(id);
-        if (activeCount > SUPPLY) {
-            uint256 displacedId = tail;
-            Bid storage displaced = bids[displacedId];
-            _unlink(displacedId);
-            displaced.active = false;
-            displaced.refundCredited = true;
-            uint256 amount = displaced.amount;
-            escrow -= amount;
-            _refunds[displaced.bidder] += amount;
-            totalRefunds += amount;
-            emit BidDisplaced(displacedId, displaced.bidder, amount);
+        return _createBid(msg.sender, msg.value);
+    }
+
+    /// @notice Place 1-90 independent bids in input order, paying exactly their sum.
+    /// @dev Each bid checks the updated minimum. Any failure reverts the entire batch.
+    ///      Later bids can displace earlier ones, including bids created in this batch.
+    function createBids(uint256[] calldata amounts) external payable nonReentrant returns (uint256[] memory ids) {
+        _requireLive();
+        uint256 count = amounts.length;
+        if (count == 0 || count > SUPPLY) revert InvalidBatch();
+        uint256 total;
+        for (uint256 i; i < count; ++i) {
+            total += amounts[i];
         }
-        _extend();
-        emit BidCreated(id, msg.sender, msg.value);
+        if (msg.value != total) revert IncorrectPayment();
+        ids = new uint256[](count);
+        for (uint256 i; i < count; ++i) {
+            ids[i] = _createBid(msg.sender, amounts[i]);
+        }
     }
 
     /// @notice Add ETH to your active bid. Earlier bid IDs retain priority when totals tie.
@@ -371,6 +372,29 @@ contract RankedAuction is ReentrancyGuard {
             ids[i] = next;
             next = bids[next].next;
         }
+    }
+
+    function _createBid(address bidder, uint256 bidAmount) private returns (uint256 id) {
+        if (bidAmount > MAX_BID) revert BidTooLarge();
+        if (bidAmount < minimumBid()) revert BidTooLow();
+        id = nextBidId++;
+        bids[id] = Bid(bidder, uint128(bidAmount), 0, 0, true, false, false, 0);
+        escrow += bidAmount;
+        _insert(id);
+        if (activeCount > SUPPLY) {
+            uint256 displacedId = tail;
+            Bid storage displaced = bids[displacedId];
+            _unlink(displacedId);
+            displaced.active = false;
+            displaced.refundCredited = true;
+            uint256 amount = displaced.amount;
+            escrow -= amount;
+            _refunds[displaced.bidder] += amount;
+            totalRefunds += amount;
+            emit BidDisplaced(displacedId, displaced.bidder, amount);
+        }
+        _extend();
+        emit BidCreated(id, bidder, bidAmount);
     }
 
     function _requireLive() private view {

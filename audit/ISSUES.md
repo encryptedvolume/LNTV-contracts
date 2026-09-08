@@ -1,6 +1,6 @@
 # Current issue register
 
-Last reconciled: 2026-09-08 after the [settlement-clock fix](SETTLEMENT-CLOCK-2026-09-08.md), including [Claude/Fable's third review](INDEPENDENT-AUDIT-2026-09-08-fable-3.md). This is the current status list for the contract package and the related integration work discussed with the creator. Historical audits retain their original findings, measurements and source snapshots.
+Last reconciled: 2026-09-08 after [batch bidding validation](BATCH-BIDDING-2026-09-08.md) and the [settlement-clock fix](SETTLEMENT-CLOCK-2026-09-08.md), including [Claude/Fable's third review](INDEPENDENT-AUDIT-2026-09-08-fable-3.md). This is the current status list for the contract package and the related integration work discussed with the creator. Historical audits retain their original findings, measurements and source snapshots.
 
 There are **nine open work items (four optional)**, **three accepted design choices**, **six resolved findings/work items** and disclosed informational findings. Integration tasks are work still to build; they are not production-contract vulnerabilities. Accepted means the creator explicitly chose to retain the behavior. Resolved means a corrective change was verified.
 
@@ -9,7 +9,7 @@ There are **nine open work items (four optional)**, **three accepted design choi
 | ID | Item | Current evidence | Completion condition |
 |---|---|---|---|
 | APP-01 | Off-chain metadata and reveal service | The contract provides fixed per-token URLs. The creator-enabled, owner-requested reveal service is not implemented in this package. | Implement and verify unrevealed metadata for all 100 tokens, creator activation and authenticated owner reveal requests. |
-| APP-02 | Wallet and contract integration | The local bidding page is an in-memory simulation with no wallet or RPC access. Version 3.1.0 optional-recovery disclosure, behavior and copied interface are intentionally deferred by the creator. | Connect the page to the deployed auction and implement real bids, increases, ranking updates, settlement, refunds and NFT claims with transaction state handling. |
+| APP-02 | Wallet and contract integration | Frontend integration is maintained separately. This package exports interface 3.2.0; batch controls, gas-aware quantity handling and recovery integration need separate release verification and remain unchanged by this request. | Connect the page to the deployed auction and implement real single/batch bids, gas estimation, increases, ranking updates, settlement, refunds and NFT claims with transaction state handling. |
 | DEP-01 | Public testnet deployment and connected rehearsal | Successful rehearsals use isolated Anvil chain 31337; no public-chain deployment is recorded for this package. | Deploy and verify the contracts on the chosen testnet, connect the frontend, and rehearse the auction, refunds, claims, payout rotation and secondary-sale flows. |
 | Fable second pass N-01 | Ranked-list back-pointer regression coverage | The invariants catch the proposed regression, but a mutant deleting the successor's `prev` update survives the unit-only mutation selection. This is a test coverage gap, not a demonstrated defect in the current contract. | Add explicit list-integrity unit checks and both pointer-update mutants to the mutation gate. |
 | Fable second pass N-04 | Extra-mutant redundancy (optional) | Fifteen additional mutants outside the package campaign have only one behavioral test failure. | Strengthen independent behavioral coverage for these additional boundaries if adopted into the campaign. |
@@ -51,7 +51,7 @@ P-03 is closed by the version-control checkpoint above. Accepted findings retain
 
 ## Evidence status
 
-- Current complete evidence: [settlement-clock verification](SETTLEMENT-CLOCK-2026-09-08.md), [results.json](results.json), and [SHA256SUMS](SHA256SUMS). The full run passed 157 tests, 80 two-behavioral-test mutation gates, full instrumented production coverage, and the deployment lifecycle.
+- Current batch validation: [batch report](BATCH-BIDDING-2026-09-08.md), [results.json](results.json) and [SHA256SUMS](SHA256SUMS). All 187 tests, seven 10,000-run fuzz tests, 768,000 invariant actions, production coverage and the dedicated batch rehearsal passed. Mutation testing was stopped at the creator's request; Claude will audit. The earlier complete 3.1.0 mutation campaign is historical and does not attest the batch source. Large batches may require smaller quantities for gas limits.
 - All three Fable reviews and their proof-of-concept/mutation evidence are retained. The third review covers the earlier 3.0.0 snapshot; its F3-02 is resolved by the current change. The new N-01, optional N-04 and optional N-05 remain open above; automated PASS does not close those findings.
 - Historical 0.5% reports remain explicitly historical. Their original results and manifest are preserved in `history/`; source history and the catch-up commit retain the original file layout.
 - The earlier M-01 numerical correction and the second review's N-02 describe the accepted extension economics. They do not change the creator's accepted design policy.

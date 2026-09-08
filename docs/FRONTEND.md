@@ -54,8 +54,18 @@ Use confirmed state to reconcile simultaneous refund/recovery transactions.
 
 Frontend wording, behavior and the copied interface have deliberately not been
 updated in this request. The frontend snapshot remains pinned to 1.1.0.
-When integrating, synchronize the interface to the published 3.1.0 commit and
+When integrating, synchronize the interface to the published 3.2.0 commit and
 disclose the optional recovery policy before real bids. Keep refund actions
 available until the live closure flag changes, and retain NFT claim actions.
 
 `UnclaimedETHWithdrawn.amount` includes unwithdrawn primary proceeds, remaining refunds and surplus. For separate bookkeeping, reconcile `AuctionSettled.proceeds` with prior `ProceedsWithdrawn` events; do not classify the entire recovery as forfeited refunds.
+
+## Batch bidding in interface 3.2.0
+
+`createBids(uint256[] amounts)` is payable and returns the created bid IDs in input order. Pass 1–90 integer wei amounts and `value = amounts.reduce((sum, amount) => sum + amount, 0n)`. Simulate the complete call using the connected account and estimate gas, then use the same request for submission. The 90-item bound is not a guarantee that every batch fits a network or wallet gas limit; reduce quantity when needed. Ordinary wallets can send a batch as one transaction; wallet-specific batching support is unnecessary.
+
+Decode every `BidCreated` event in the confirmed receipt, not only the first. Bids share the sender but keep separate IDs, amounts, rank, cost, refund and claim status. Array order breaks same-amount ties through original ID priority. A returned ID is a bid ID, not an NFT ID or a promise that it remains active. Later entries can displace earlier ones; include `BidDisplaced` when refreshing state. A failed batch has no partial success.
+
+Handle `IncorrectPayment`, `InvalidBatch`, `BidTooLow`, `BidTooLarge`, and `BiddingClosed`. The floor can rise during a batch or before inclusion, so multiplying the current minimum by quantity does not reliably produce a valid batch quote. Existing credits cannot fund bids automatically. `increaseBid` remains a single-bid top-up. A late successful batch leaves ten minutes once, without accumulating ten-minute extensions per item. Pricing, the settlement-anchored recovery delay, and NFT claims retain their existing rules.
+
+These are integration instructions only. The separate frontend's controls, wording and copied ABI are not modified by the batch contract update.

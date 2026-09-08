@@ -1,5 +1,5 @@
-Compiling 33 files with Solc 0.8.28
-Solc 0.8.28 finished in 5.76s
+Compiling 34 files with Solc 0.8.28
+Solc 0.8.28 finished in 12.29s
 Compiler run successful with warnings:
 Warning (5159): "selfdestruct" has been deprecated. Note that, starting from the Cancun hard fork, the underlying opcode no longer deletes the code and data associated with an account and only transfers its Ether to the beneficiary, unless executed in the same transaction in which the contract was created (see EIP-6780). Any use in newly deployed contracts is strongly discouraged even if the new behavior is taken into account. Future changes to the EVM might further reduce the functionality of the opcode.
    --> test/TestBase.sol:146:9:
@@ -8,228 +8,265 @@ Warning (5159): "selfdestruct" has been deprecated. Note that, starting from the
     |         ^^^^^^^^^^^^
 
 
+Ran 14 tests for test/PayoutWallet.t.sol:PayoutWalletTest
+[PASS] testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned() (gas: 3272361)
+[PASS] testConstructorRejectsSystemAddressesAsPayoutWallet() (gas: 7404031)
+[PASS] testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds() (gas: 793194)
+[PASS] testNominationCanBeReplacedOrCancelledAndStaleAcceptanceFails() (gas: 69676)
+[PASS] testNominationRequiresAcceptanceAndEmitsBothEvents() (gas: 58860)
+[PASS] testOutsidersCannotProposeAcceptOrCancel() (gas: 82540)
+[PASS] testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate() (gas: 5115031)
+[PASS] testProceedsCallbackCannotRotateOrDoubleWithdraw() (gas: 968794)
+[PASS] testRejectingContractWalletCanAcceptAndRedirectPayments() (gas: 443121)
+[PASS] testRepeatedRotationsRevokeFormerWallets() (gas: 114272)
+[PASS] testRotatingDuringLiveAuctionDoesNotAlterBidsOrAuctionTerms() (gas: 315766)
+[PASS] testRoyaltiesWithdrawalValidationAndDoubleWithdrawal() (gas: 3087441)
+[PASS] testRoyaltyWithdrawalCannotReenterSellerWithdrawal() (gas: 3715887)
+[PASS] testUnsafePayoutWalletsAreRejected() (gas: 70487)
+Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 10.70ms (7.18ms CPU time)
+
+Ran 3 tests for test/Metadata.t.sol:MetadataTest
+[PASS] testBaseEndpointMustEndWithSlash() (gas: 4853016)
+[PASS] testDistinctOffchainEndpointsForAuctionAndReservedNfts() (gas: 2850298)
+[PASS] testNoOnchainRevealOrMetadataReplacementAuthority() (gas: 2846234)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 13.08ms (10.83ms CPU time)
+
 Ran 6 tests for test/Deployment.t.sol:DeploymentTest
 [PASS] testChainMismatchAndUnsupportedNetwork() (gas: 44655)
-[PASS] testDeploymentRunLoadsEnvironmentAndBindsAllContracts() (gas: 4591167)
-[PASS] testLeadTimeAndFixed48HourDuration() (gas: 4574367)
+[PASS] testDeploymentRunLoadsEnvironmentAndBindsAllContracts() (gas: 4674475)
+[PASS] testLeadTimeAndFixed48HourDuration() (gas: 4658564)
 [PASS] testNoSilentNumericTruncation() (gas: 69053)
 [PASS] testRejectsZeroPayoutAndEmptyMetadata() (gas: 70540)
 [PASS] testValidatesDeploymentConfiguration() (gas: 29503)
-Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 3.07ms (925.42µs CPU time)
-
-Ran 14 tests for test/PayoutWallet.t.sol:PayoutWalletTest
-[PASS] testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned() (gas: 3272211)
-[PASS] testConstructorRejectsSystemAddressesAsPayoutWallet() (gas: 7403755)
-[PASS] testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds() (gas: 793092)
-[PASS] testNominationCanBeReplacedOrCancelledAndStaleAcceptanceFails() (gas: 69660)
-[PASS] testNominationRequiresAcceptanceAndEmitsBothEvents() (gas: 58968)
-[PASS] testOutsidersCannotProposeAcceptOrCancel() (gas: 82541)
-[PASS] testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate() (gas: 5030786)
-[PASS] testProceedsCallbackCannotRotateOrDoubleWithdraw() (gas: 968764)
-[PASS] testRejectingContractWalletCanAcceptAndRedirectPayments() (gas: 443046)
-[PASS] testRepeatedRotationsRevokeFormerWallets() (gas: 114308)
-[PASS] testRotatingDuringLiveAuctionDoesNotAlterBidsOrAuctionTerms() (gas: 315691)
-[PASS] testRoyaltiesWithdrawalValidationAndDoubleWithdrawal() (gas: 3087396)
-[PASS] testRoyaltyWithdrawalCannotReenterSellerWithdrawal() (gas: 3715842)
-[PASS] testUnsafePayoutWalletsAreRejected() (gas: 70532)
-Suite result: ok. 14 passed; 0 failed; 0 skipped; finished in 3.07ms (2.43ms CPU time)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 2.21ms (1.35ms CPU time)
 
 Ran 15 tests for test/MutationBehavior.t.sol:MutationBehaviorTest
-[PASS] testBiddingRemainsOpenAtHour47() (gas: 399677)
-[PASS] testFormerSellerCannotCancelCurrentOwnersResale() (gas: 442841)
-[PASS] testFreePurchaseCannotSpendExistingSellerProceeds() (gas: 3189361)
-[PASS] testInsufficientTopUpCannotChangeRankOrDelayClosing() (gas: 14549912)
-[PASS] testInvalidNomineeCannotEraseUsablePayoutReplacement() (gas: 322485)
-[PASS] testMintReceiverCannotMintAnUnallocatedAuctionToken() (gas: 1199901)
-[PASS] testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail() (gas: 19164631)
-[PASS] testPurchasedNftRejectsTokenApprovalToFormerSeller() (gas: 440362)
-[PASS] testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain() (gas: 443376)
-[PASS] testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement() (gas: 4995337)
-[PASS] testRankIncreasesKeepAuctionLiveBeyond24HourExtension() (gas: 7613601)
-[PASS] testRefundCreditDoesNotAuthorizeForcedBatchMint() (gas: 717192)
-[PASS] testSellerCannotWithdrawTwiceUsingAnotherSellersBalance() (gas: 459372)
-[PASS] testSettlementCannotReleaseFundsAtHour24() (gas: 299363)
+[PASS] testBiddingRemainsOpenAtHour47() (gas: 399752)
+[PASS] testFormerSellerCannotCancelCurrentOwnersResale() (gas: 442886)
+[PASS] testFreePurchaseCannotSpendExistingSellerProceeds() (gas: 3189406)
+[PASS] testInsufficientTopUpCannotChangeRankOrDelayClosing() (gas: 14556684)
+[PASS] testInvalidNomineeCannotEraseUsablePayoutReplacement() (gas: 322538)
+[PASS] testMintReceiverCannotMintAnUnallocatedAuctionToken() (gas: 1200021)
+[PASS] testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail() (gas: 19255640)
+[PASS] testPurchasedNftRejectsTokenApprovalToFormerSeller() (gas: 440407)
+[PASS] testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain() (gas: 443421)
+[PASS] testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement() (gas: 5079670)
+[PASS] testRankIncreasesKeepAuctionLiveBeyond24HourExtension() (gas: 7613721)
+[PASS] testRefundCreditDoesNotAuthorizeForcedBatchMint() (gas: 717417)
+[PASS] testSellerCannotWithdrawTwiceUsingAnotherSellersBalance() (gas: 459408)
+[PASS] testSettlementCannotReleaseFundsAtHour24() (gas: 299416)
 [PASS] testStandaloneEditionRequiresSeparatorForMintedTokenEndpoints() (gas: 2506703)
-Suite result: ok. 15 passed; 0 failed; 0 skipped; finished in 22.14ms (20.57ms CPU time)
+Suite result: ok. 15 passed; 0 failed; 0 skipped; finished in 37.97ms (35.51ms CPU time)
+
+Ran 28 tests for test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest
+[PASS] testAllERC721TransferEntrypointsRequireRoyaltyMarket() (gas: 2850058)
+[PASS] testBuyRejectsInvalidPaymentAndRecipient() (gas: 2993577)
+[PASS] testBuyerMayChooseDifferentReceiver() (gas: 3045923)
+[PASS] testCancellingAnotherListingPreservesCompletedSale() (gas: 3101033)
+[PASS] testERC165AndERC2981AndMetadata() (gas: 2879457)
+[PASS] testERC721CallbackCannotReenterBuyOrCancel() (gas: 3825120)
+[PASS] testExpiryExclusive() (gas: 3111266)
+[PASS] testForcedEtherDoesNotCreateCredits() (gas: 2877112)
+[PASS] testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds() (gas: 7576533)
+[PASS] testFuzzRoyaltyMathNoOverflow(uint256,uint96) (runs: 10000, μ: 2321296, ~: 2321510)
+[PASS] testFuzzTokenSaleConservesValue(uint128,uint16) (runs: 10000, μ: 3049458, ~: 3050182)
+[PASS] testIndividualSalesPayRoyaltyAndSellerExactly() (gas: 3170218)
+[PASS] testListingRequirements() (gas: 2885812)
+[PASS] testMintAuthorityUniqueIdsAndLifetimeCap() (gas: 5256455)
+[PASS] testOneWeiSaleCannotRoundRoyaltyToZero() (gas: 3019126)
+[PASS] testOnlySellerCanCancelAndListingIdNeverReused() (gas: 2984957)
+[PASS] testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn() (gas: 3378299)
+[PASS] testRejectedMintRollsBackSupply() (gas: 5274779)
+[PASS] testRejectingNFTReceiverCannotConsumeBuyerFunds() (gas: 3164943)
+[PASS] testRejectingSellerAndRoyaltyReceiversCannotBlockSale() (gas: 7502487)
+[PASS] testRevokedApprovalRollsBackFillAndCredit() (gas: 3066026)
+[PASS] testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings() (gas: 3086743)
+[PASS] testTokenApprovalAllowsMarketAndClearsOnTransfer() (gas: 3070617)
+[PASS] testTransfersCannotMintUnissuedIds() (gas: 43318)
+[PASS] testUnapprovedOperatorCannotTransferOrApproveItself() (gas: 2833607)
+[PASS] testUnsolicitedMarketEtherRejected() (gas: 14807)
+[PASS] testWithdrawAccessValidationAndRevertsPreserveFunds() (gas: 3161587)
+[PASS] testWithdrawalCallbackCannotReenter() (gas: 8281708)
+Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 22.88s (22.88s CPU time)
 
 Ran 10 tests for test/TieredAllocation.t.sol:TieredAllocationTest
 [PASS] testFixedSupplyAnd48HourDuration() (gas: 21351)
-[PASS] testRejectedReservedBatchRollsBackAndCanBeRedirected() (gas: 1057373)
-[PASS] testReservedAllocationIndependentOfAuctionAndClaimOrder() (gas: 17669819)
-[PASS] testReservedReceiverCannotReenterClaimsOrRotateWallet() (gas: 1076569)
-[PASS] testReservedValidationAndLifetimeLimit() (gas: 385416)
-[PASS] testRotationTransfersOnlyUnclaimedReservedEntitlements() (gas: 391573)
-[PASS] testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds() (gas: 4937963)
-[PASS] testTiedTopBidsUseOriginalBidPriorityAndDifferentCosts() (gas: 485139)
-[PASS] testTopPaysFullAndOthersPay90thWithIndependentRefunds() (gas: 14833601)
-[PASS] testWinningCostOnlyExistsForSettledWinners() (gas: 14668023)
-Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 21.84ms (21.16ms CPU time)
-
-Ran 28 tests for test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest
-[PASS] testAllERC721TransferEntrypointsRequireRoyaltyMarket() (gas: 2850013)
-[PASS] testBuyRejectsInvalidPaymentAndRecipient() (gas: 2993532)
-[PASS] testBuyerMayChooseDifferentReceiver() (gas: 3045878)
-[PASS] testCancellingAnotherListingPreservesCompletedSale() (gas: 3100988)
-[PASS] testERC165AndERC2981AndMetadata() (gas: 2879412)
-[PASS] testERC721CallbackCannotReenterBuyOrCancel() (gas: 3825075)
-[PASS] testExpiryExclusive() (gas: 3111221)
-[PASS] testForcedEtherDoesNotCreateCredits() (gas: 2877067)
-[PASS] testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds() (gas: 7492393)
-[PASS] testFuzzRoyaltyMathNoOverflow(uint256,uint96) (runs: 10000, μ: 2321288, ~: 2321510)
-[PASS] testFuzzTokenSaleConservesValue(uint128,uint16) (runs: 10000, μ: 3049323, ~: 3050137)
-[PASS] testIndividualSalesPayRoyaltyAndSellerExactly() (gas: 3170173)
-[PASS] testListingRequirements() (gas: 2885767)
-[PASS] testMintAuthorityUniqueIdsAndLifetimeCap() (gas: 5256455)
-[PASS] testOneWeiSaleCannotRoundRoyaltyToZero() (gas: 3019081)
-[PASS] testOnlySellerCanCancelAndListingIdNeverReused() (gas: 2984912)
-[PASS] testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn() (gas: 3378254)
-[PASS] testRejectedMintRollsBackSupply() (gas: 5274779)
-[PASS] testRejectingNFTReceiverCannotConsumeBuyerFunds() (gas: 3164898)
-[PASS] testRejectingSellerAndRoyaltyReceiversCannotBlockSale() (gas: 7418392)
-[PASS] testRevokedApprovalRollsBackFillAndCredit() (gas: 3065981)
-[PASS] testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings() (gas: 3086698)
-[PASS] testTokenApprovalAllowsMarketAndClearsOnTransfer() (gas: 3070572)
-[PASS] testTransfersCannotMintUnissuedIds() (gas: 43318)
-[PASS] testUnapprovedOperatorCannotTransferOrApproveItself() (gas: 2833562)
-[PASS] testUnsolicitedMarketEtherRejected() (gas: 14807)
-[PASS] testWithdrawAccessValidationAndRevertsPreserveFunds() (gas: 3161542)
-[PASS] testWithdrawalCallbackCannotReenter() (gas: 8197568)
-Suite result: ok. 28 passed; 0 failed; 0 skipped; finished in 18.88s (18.90s CPU time)
-
-Ran 3 tests for test/Metadata.t.sol:MetadataTest
-[PASS] testBaseEndpointMustEndWithSlash() (gas: 4768856)
-[PASS] testDistinctOffchainEndpointsForAuctionAndReservedNfts() (gas: 2850253)
-[PASS] testNoOnchainRevealOrMetadataReplacementAuthority() (gas: 2846189)
-Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 18.88s (1.99ms CPU time)
-
-Ran 5 tests for test/CrossContractAudit.t.sol:CrossContractAuditTest
-[PASS] testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8) (runs: 10000, μ: 6766646, ~: 4781162)
-[PASS] testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment() (gas: 1306326)
-[PASS] testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting() (gas: 1105719)
-[PASS] testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal() (gas: 3349850)
-[PASS] testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit() (gas: 3374279)
-Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 23.83s (23.83s CPU time)
+[PASS] testRejectedReservedBatchRollsBackAndCanBeRedirected() (gas: 1057463)
+[PASS] testReservedAllocationIndependentOfAuctionAndClaimOrder() (gas: 17676682)
+[PASS] testReservedReceiverCannotReenterClaimsOrRotateWallet() (gas: 1076659)
+[PASS] testReservedValidationAndLifetimeLimit() (gas: 385664)
+[PASS] testRotationTransfersOnlyUnclaimedReservedEntitlements() (gas: 391753)
+[PASS] testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds() (gas: 5022200)
+[PASS] testTiedTopBidsUseOriginalBidPriorityAndDifferentCosts() (gas: 485245)
+[PASS] testTopPaysFullAndOthersPay90thWithIndependentRefunds() (gas: 14840307)
+[PASS] testWinningCostOnlyExistsForSettledWinners() (gas: 14674848)
+Suite result: ok. 10 passed; 0 failed; 0 skipped; finished in 35.34ms (34.47ms CPU time)
 
 Ran 43 tests for test/RankedAuction.t.sol:RankedAuctionTest
 [PASS] testClaimsRequireSettlementAndValidBatches() (gas: 199500)
-[PASS] testConfigurationAndBindings() (gas: 37310)
-[PASS] testDisplacedBidCannotBeIncreasedOrClaimed() (gas: 14675096)
-[PASS] testDisplacementNeverCallsRejectingBidder() (gas: 14752111)
-[PASS] testDuplicateTokenClaimRevertsWholeBatch() (gas: 323376)
-[PASS] testEmptyAuctionAndUnsoldClaim() (gas: 2581621)
+[PASS] testConfigurationAndBindings() (gas: 37333)
+[PASS] testDisplacedBidCannotBeIncreasedOrClaimed() (gas: 14681921)
+[PASS] testDisplacementNeverCallsRejectingBidder() (gas: 14758914)
+[PASS] testDuplicateTokenClaimRevertsWholeBatch() (gas: 323451)
+[PASS] testEmptyAuctionAndUnsoldClaim() (gas: 2581599)
 [PASS] testEmptyPagination() (gas: 8780)
-[PASS] testExactTimeBoundaries() (gas: 334326)
-[PASS] testExistingBidRequiresTwoPointFivePercentRoundedUpAndCompounds() (gas: 321084)
-[PASS] testExtensionDoesNotTruncateAtUint64Boundary() (gas: 4944909)
-[PASS] testFinalRankFixesTokenIdsRegardlessOfClaimOrder() (gas: 800355)
-[PASS] testForcedEtherCannotAlterPricingOrBeStolen() (gas: 331781)
-[PASS] testFullyAllocatedOutbidAndFullLoserRefund() (gas: 14552389)
-[PASS] testFuzzTieredSettlement(uint128,uint128,uint8) (runs: 10000, μ: 3894821, ~: 1749509)
-[PASS] testIncreaseMaintainsSizeAndOriginalTiePriority() (gas: 489666)
-[PASS] testInvalidAndUnauthorizedIncrease() (gas: 237060)
+[PASS] testExactTimeBoundaries() (gas: 334536)
+[PASS] testExistingBidRequiresTwoPointFivePercentRoundedUpAndCompounds() (gas: 321127)
+[PASS] testExtensionDoesNotTruncateAtUint64Boundary() (gas: 5029264)
+[PASS] testFinalRankFixesTokenIdsRegardlessOfClaimOrder() (gas: 800580)
+[PASS] testForcedEtherCannotAlterPricingOrBeStolen() (gas: 331834)
+[PASS] testFullyAllocatedOutbidAndFullLoserRefund() (gas: 14559238)
+[PASS] testFuzzTieredSettlement(uint128,uint128,uint8) (runs: 10000, μ: 3840672, ~: 1709098)
+[PASS] testIncreaseMaintainsSizeAndOriginalTiePriority() (gas: 489935)
+[PASS] testInvalidAndUnauthorizedIncrease() (gas: 237135)
 [PASS] testLargeBidCannotTruncate() (gas: 37642)
-[PASS] testMaximumFloorDoesNotOverflowAndCanSettle() (gas: 14518074)
-[PASS] testMixedOwnerBatchCannotBeStolen() (gas: 432867)
-[PASS] testOneWalletCanWinAll90() (gas: 17689128)
-[PASS] testOneWeiReserveHasStrictPositiveIncrements() (gas: 19173108)
-[PASS] testOnlyRankChangingIncreaseExtends() (gas: 359294)
-[PASS] testOverflowIncreaseRejected() (gas: 205905)
-[PASS] testPagination() (gas: 466960)
-[PASS] testRankHeadMiddleTailAndStableTies() (gas: 585268)
-[PASS] testRefundCallbackCannotDoubleWithdraw() (gas: 1111381)
-[PASS] testRefundRecipientAndFailedProceedsValidation() (gas: 435253)
-[PASS] testRejectBadAuctionConfiguration() (gas: 2664404)
-[PASS] testRejectBadEditionConfiguration() (gas: 1136656)
-[PASS] testRejectedLaterNftRollsBackEntireBatchAndCanBeRedirected() (gas: 1497358)
-[PASS] testRejectingBidderCannotBlockBiddingSettlementOrRefunds() (gas: 803704)
+[PASS] testMaximumFloorDoesNotOverflowAndCanSettle() (gas: 14524802)
+[PASS] testMixedOwnerBatchCannotBeStolen() (gas: 432995)
+[PASS] testOneWalletCanWinAll90() (gas: 17695878)
+[PASS] testOneWeiReserveHasStrictPositiveIncrements() (gas: 19264116)
+[PASS] testOnlyRankChangingIncreaseExtends() (gas: 359444)
+[PASS] testOverflowIncreaseRejected() (gas: 205980)
+[PASS] testPagination() (gas: 467185)
+[PASS] testRankHeadMiddleTailAndStableTies() (gas: 585568)
+[PASS] testRefundCallbackCannotDoubleWithdraw() (gas: 1111553)
+[PASS] testRefundRecipientAndFailedProceedsValidation() (gas: 435394)
+[PASS] testRejectBadAuctionConfiguration() (gas: 2664680)
+[PASS] testRejectBadEditionConfiguration() (gas: 1137064)
+[PASS] testRejectedLaterNftRollsBackEntireBatchAndCanBeRedirected() (gas: 1497561)
+[PASS] testRejectingBidderCannotBlockBiddingSettlementOrRefunds() (gas: 803854)
 [PASS] testSettlementTimingAndSingleUse() (gas: 142503)
-[PASS] testSingleBidIncrease() (gas: 221916)
-[PASS] testSoldOutClearingIsLowestWinnerNotHighestLoser() (gas: 14660384)
-[PASS] testTenMinuteExtensionsContinueBeyond24Hours() (gas: 22016280)
-[PASS] testThirdPartyCannotForceDeliveryBeforeWinnerRedirects() (gas: 414370)
-[PASS] testTokenCallbackCannotReenterClaims() (gas: 1128667)
-[PASS] testTreasuryCannotConsumeRefunds() (gas: 572044)
-[PASS] testUnauthorisedClaimRedirectionAndPayouts() (gas: 417409)
-[PASS] testUnderReserveAndZeroBidsRejected() (gas: 45365)
-[PASS] testUnderSubscribedTieredReserveAndIndependentRefunds() (gas: 500518)
-[PASS] testUnsoldIdsCannotConsumeUnclaimedWinningNfts() (gas: 3086629)
+[PASS] testSingleBidIncrease() (gas: 221993)
+[PASS] testSoldOutClearingIsLowestWinnerNotHighestLoser() (gas: 14667165)
+[PASS] testTenMinuteExtensionsContinueBeyond24Hours() (gas: 22027477)
+[PASS] testThirdPartyCannotForceDeliveryBeforeWinnerRedirects() (gas: 414445)
+[PASS] testTokenCallbackCannotReenterClaims() (gas: 1128742)
+[PASS] testTreasuryCannotConsumeRefunds() (gas: 572194)
+[PASS] testUnauthorisedClaimRedirectionAndPayouts() (gas: 417484)
+[PASS] testUnderReserveAndZeroBidsRejected() (gas: 45411)
+[PASS] testUnderSubscribedTieredReserveAndIndependentRefunds() (gas: 500624)
+[PASS] testUnsoldIdsCannotConsumeUnclaimedWinningNfts() (gas: 3086779)
 [PASS] testUnsolicitedEtherRejected() (gas: 14858)
-Suite result: ok. 43 passed; 0 failed; 0 skipped; finished in 23.81s (23.86s CPU time)
+Suite result: ok. 43 passed; 0 failed; 0 skipped; finished in 43.74s (43.83s CPU time)
+
+Ran 5 tests for test/CrossContractAudit.t.sol:CrossContractAuditTest
+[PASS] testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8) (runs: 10000, μ: 6704700, ~: 4781552)
+[PASS] testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment() (gas: 1306476)
+[PASS] testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting() (gas: 1105825)
+[PASS] testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal() (gas: 3349674)
+[PASS] testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit() (gas: 3374103)
+Suite result: ok. 5 passed; 0 failed; 0 skipped; finished in 62.45s (62.45s CPU time)
+
+Ran 30 tests for test/BatchBidding.t.sol:BatchBiddingTest
+[PASS] testBatchAtExactExtensionWindowDoesNotMoveEnd() (gas: 572364)
+[PASS] testBatchBeforeStartRejectedThenAcceptedAtStart() (gas: 344813)
+[PASS] testBatchOver90RejectedBeforeFundingOrBidding() (gas: 89596)
+[PASS] testBatchRefundsStayOpenUntilRecoveryAfterSettlementDelay() (gas: 614293)
+[PASS] testBatchRejectedAtEndAndAfterSettlement() (gas: 154451)
+[PASS] testBatchWinnerTopUpsClaimsAndTieredRefundsRemainIndependent() (gas: 650531)
+[PASS] testContractWalletOwnsBatchWithoutReceiverCallbacks() (gas: 699000)
+[PASS] testDistinctBidAmountsOwnersIdsAndEvents() (gas: 490591)
+[PASS] testEmptyBatchRejected() (gas: 47744)
+[PASS] testExistingEscrowCannotFundAnotherWalletsBatch() (gas: 209381)
+[PASS] testFillingLastSlotChangesMinimumWithinBatch() (gas: 14752995)
+[PASS] testForcedSurplusCannotSubstituteForBatchPayment() (gas: 86799)
+[PASS] testFuzzBatchMatchesSequentialBidding(uint96,uint8,uint8) (runs: 10000, μ: 13552057, ~: 13557298)
+[PASS] testFuzzInvalidLaterBidRollsBackEveryWei(uint96,uint8) (runs: 10000, μ: 586666, ~: 471613)
+[PASS] testInvalidLastBidRollsBackIdsEscrowAndExtension() (gas: 528021)
+[PASS] testLateBatchExtendsOnceToTenMinutesFromTransaction() (gas: 685741)
+[PASS] testLaterBidCanDisplaceEarlierBatchBidAndRefundOriginalWallet() (gas: 14768935)
+[PASS] testMaximumBatchRetainsNinetyIndependentWinsAndTenReserves() (gas: 16904247)
+[PASS] testMintCallbackCannotReenterBatchBiddingWhileLive() (gas: 773921)
+[PASS] testMultipleMaximumBatchesHaveNoWalletBidCap() (gas: 24341061)
+[PASS] testNewFloorRejectsLaterBidAndRestoresDisplacedBid() (gas: 14620878)
+[PASS] testOneElementBatchRetainsSingleBidBehavior() (gas: 411301)
+[PASS] testOverflowingInputSumRevertsBeforeAnyBid() (gas: 46119)
+[PASS] testOverpaymentRevertsWholeBatch() (gas: 55521)
+[PASS] testOversizedIndividualBidCannotTruncateInBatch() (gas: 224460)
+[PASS] testRefundCallbackCannotReenterBatchBidding() (gas: 15225670)
+[PASS] testSingleAndBatchShareIdsAndStableTiePriority() (gas: 576158)
+[PASS] testTotalCanExceedUint128WhileEveryBidFits() (gas: 473416)
+[PASS] testUnderpaymentRevertsWholeBatch() (gas: 55144)
+[PASS] testWeiFloorRoundsUpSeparatelyForEveryBatchBid() (gas: 19578755)
+Suite result: ok. 30 passed; 0 failed; 0 skipped; finished in 67.21s (71.95s CPU time)
 
 Ran 30 tests for test/RefundRecovery.t.sol:RefundRecoveryTest
-[PASS] testAtomicLateSettlementAndRecoveryCannotCloseRefunds() (gas: 15252403)
-[PASS] testCreditedRefundsCannotBeWithdrawnAfterRecovery() (gas: 14888264)
-[PASS] testCreditingRemainsAvailableAtRecoveryEligibility() (gas: 14903812)
-[PASS] testEmptyAuctionRecoveryCollectsOnlyForcedETH() (gas: 201760)
-[PASS] testExtendedRefundCanBeCreditedAtOriginalEligibilityTime() (gas: 14973927)
-[PASS] testFuzzRecoveryConservesClaimedRefundsAndRemainingETH(uint96,uint8,uint32,uint32) (runs: 10000, μ: 14912257, ~: 14915409)
-[PASS] testLateSettlementPastUint64PreservesRecoveryDelay() (gas: 14873298)
-[PASS] testLateSettlementStartsFullRecoveryDelay() (gas: 14891253)
-[PASS] testNormalProceedsWithdrawalDoesNotCloseRefunds() (gas: 14904652)
-[PASS] testOnlyCurrentPayoutWalletCanRecoverNotOriginalDeployer() (gas: 14891425)
-[PASS] testRecoveryAfterProceedsAndPartialRefundsIncludesForcedSurplus() (gas: 14977737)
-[PASS] testRecoveryAuthorityFollowsAcceptedWalletRotation() (gas: 14879778)
-[PASS] testRecoveryCannotNominateAnotherWalletDuringCallback() (gas: 15533802)
-[PASS] testRecoveryCannotReenterRecovery() (gas: 15533352)
-[PASS] testRecoveryClosesRefundsBeforeRecipientCallback() (gas: 15054876)
-[PASS] testRecoveryEligibilityFollowsTheExtendedEnd() (gas: 14869658)
-[PASS] testRecoveryLeavesWinningNFTsAndTradingCreditsAvailable() (gas: 15254989)
-[PASS] testRecoveryPreservesUnsoldAndReservedMintEntitlements() (gas: 3225254)
-[PASS] testRecoveryPreviewTracksExtensionsUntilSettlement() (gas: 14947675)
-[PASS] testRecoveryRejectsEarlyCallsWithoutFreezingRefunds() (gas: 14898640)
-[PASS] testRecoveryRejectsInvalidRecipientsAndEmptyRepeat() (gas: 14783573)
-[PASS] testRecoveryTransfersCreditedUncreditedRefundsAndProceeds() (gas: 14855559)
-[PASS] testRefundsCanBeCreditedAndWithdrawnBeforeRecoveryEligibility() (gas: 14888809)
-[PASS] testRejectedRecoveryPreservesAllAccountingForRetry() (gas: 14966784)
-[PASS] testRepeatedSettlementCannotResetRecoveryDate() (gas: 14891076)
-[PASS] testSettlementOnDay27GivesFull28Days() (gas: 14874214)
-[PASS] testUncreditedRefundsCannotRecreateLiabilitiesAfterRecovery() (gas: 14885912)
-[PASS] testUnsettledRecoveryCannotEraseWinnerAllocation() (gas: 444206)
-[PASS] testWithdrawingRemainsAvailableAtRecoveryEligibility() (gas: 14878859)
-[PASS] testYearsOfInactionDoNotCloseRefunds() (gas: 14885766)
-Suite result: ok. 30 passed; 0 failed; 0 skipped; finished in 23.83s (24.00s CPU time)
+[PASS] testAtomicLateSettlementAndRecoveryCannotCloseRefunds() (gas: 15259269)
+[PASS] testCreditedRefundsCannotBeWithdrawnAfterRecovery() (gas: 14895130)
+[PASS] testCreditingRemainsAvailableAtRecoveryEligibility() (gas: 14910656)
+[PASS] testEmptyAuctionRecoveryCollectsOnlyForcedETH() (gas: 201629)
+[PASS] testExtendedRefundCanBeCreditedAtOriginalEligibilityTime() (gas: 14980889)
+[PASS] testFuzzRecoveryConservesClaimedRefundsAndRemainingETH(uint96,uint8,uint32,uint32) (runs: 10000, μ: 14919873, ~: 14922210)
+[PASS] testLateSettlementPastUint64PreservesRecoveryDelay() (gas: 14880142)
+[PASS] testLateSettlementStartsFullRecoveryDelay() (gas: 14898097)
+[PASS] testNormalProceedsWithdrawalDoesNotCloseRefunds() (gas: 14911518)
+[PASS] testOnlyCurrentPayoutWalletCanRecoverNotOriginalDeployer() (gas: 14898269)
+[PASS] testRecoveryAfterProceedsAndPartialRefundsIncludesForcedSurplus() (gas: 14984515)
+[PASS] testRecoveryAuthorityFollowsAcceptedWalletRotation() (gas: 14886622)
+[PASS] testRecoveryCannotNominateAnotherWalletDuringCallback() (gas: 15540601)
+[PASS] testRecoveryCannotReenterRecovery() (gas: 15540196)
+[PASS] testRecoveryClosesRefundsBeforeRecipientCallback() (gas: 15061676)
+[PASS] testRecoveryEligibilityFollowsTheExtendedEnd() (gas: 14876545)
+[PASS] testRecoveryLeavesWinningNFTsAndTradingCreditsAvailable() (gas: 15261790)
+[PASS] testRecoveryPreservesUnsoldAndReservedMintEntitlements() (gas: 3225318)
+[PASS] testRecoveryPreviewTracksExtensionsUntilSettlement() (gas: 14954572)
+[PASS] testRecoveryRejectsEarlyCallsWithoutFreezingRefunds() (gas: 14905594)
+[PASS] testRecoveryRejectsInvalidRecipientsAndEmptyRepeat() (gas: 14790395)
+[PASS] testRecoveryTransfersCreditedUncreditedRefundsAndProceeds() (gas: 14862403)
+[PASS] testRefundsCanBeCreditedAndWithdrawnBeforeRecoveryEligibility() (gas: 14895610)
+[PASS] testRejectedRecoveryPreservesAllAccountingForRetry() (gas: 14973650)
+[PASS] testRepeatedSettlementCannotResetRecoveryDate() (gas: 14897833)
+[PASS] testSettlementOnDay27GivesFull28Days() (gas: 14881123)
+[PASS] testUncreditedRefundsCannotRecreateLiabilitiesAfterRecovery() (gas: 14892756)
+[PASS] testUnsettledRecoveryCannotEraseWinnerAllocation() (gas: 444215)
+[PASS] testWithdrawingRemainsAvailableAtRecoveryEligibility() (gas: 14885681)
+[PASS] testYearsOfInactionDoNotCloseRefunds() (gas: 14892698)
+Suite result: ok. 30 passed; 0 failed; 0 skipped; finished in 67.22s (67.48s CPU time)
 
 Ran 1 test for test/AuctionInvariant.t.sol:GrowingAuctionInvariantTest
 [PASS] invariant_matchesIndependentRankingAndConservesEveryWei() (runs: 1000, calls: 256000, reverts: 0)
 
-╭----------------+----------+-------+---------+----------╮
-| Contract       | Selector | Calls | Reverts | Discards |
-+========================================================+
-| AuctionHandler | advance  | 42493 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | create   | 42843 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | increase | 42762 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | reserve  | 42314 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | rotate   | 42719 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | withdraw | 42869 | 0       | 0        |
-╰----------------+----------+-------+---------+----------╯
+╭----------------+-------------+-------+---------+----------╮
+| Contract       | Selector    | Calls | Reverts | Discards |
++===========================================================+
+| AuctionHandler | advance     | 36930 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | create      | 36427 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | createBatch | 36405 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | increase    | 36305 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | reserve     | 36516 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | rotate      | 36569 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | withdraw    | 36848 | 0       | 0        |
+╰----------------+-------------+-------+---------+----------╯
 
-Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 230.84s (230.84s CPU time)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 939.15s (939.14s CPU time)
 
 Ran 1 test for test/AuctionInvariant.t.sol:FullAuctionInvariantTest
 [PASS] invariant_matchesIndependentRankingAndConservesEveryWei() (runs: 1000, calls: 256000, reverts: 0)
 
-╭----------------+----------+-------+---------+----------╮
-| Contract       | Selector | Calls | Reverts | Discards |
-+========================================================+
-| AuctionHandler | advance  | 42493 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | create   | 42843 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | increase | 42762 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | reserve  | 42314 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | rotate   | 42719 | 0       | 0        |
-|----------------+----------+-------+---------+----------|
-| AuctionHandler | withdraw | 42869 | 0       | 0        |
-╰----------------+----------+-------+---------+----------╯
+╭----------------+-------------+-------+---------+----------╮
+| Contract       | Selector    | Calls | Reverts | Discards |
++===========================================================+
+| AuctionHandler | advance     | 36930 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | create      | 36427 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | createBatch | 36405 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | increase    | 36305 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | reserve     | 36516 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | rotate      | 36569 | 0       | 0        |
+|----------------+-------------+-------+---------+----------|
+| AuctionHandler | withdraw    | 36848 | 0       | 0        |
+╰----------------+-------------+-------+---------+----------╯
 
-Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 672.87s (672.84s CPU time)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1257.34s (1257.25s CPU time)
 
 Ran 1 test for test/MarketInvariant.t.sol:MarketInvariantTest
 [PASS] invariant_marketConservesTokensAndEthAndPaysRoyalties() (runs: 1000, calls: 256000, reverts: 0)
@@ -237,25 +274,25 @@ Ran 1 test for test/MarketInvariant.t.sol:MarketInvariantTest
 ╭---------------+-------------------+-------+---------+----------╮
 | Contract      | Selector          | Calls | Reverts | Discards |
 +================================================================+
-| MarketHandler | advance           | 28557 | 0       | 0        |
+| MarketHandler | advance           | 28461 | 0       | 0        |
 |---------------+-------------------+-------+---------+----------|
-| MarketHandler | approval          | 28447 | 0       | 0        |
+| MarketHandler | approval          | 28472 | 0       | 0        |
 |---------------+-------------------+-------+---------+----------|
-| MarketHandler | approveToken      | 28464 | 0       | 0        |
+| MarketHandler | approveToken      | 28611 | 0       | 0        |
 |---------------+-------------------+-------+---------+----------|
-| MarketHandler | buy               | 28384 | 0       | 0        |
+| MarketHandler | buy               | 28173 | 0       | 0        |
 |---------------+-------------------+-------+---------+----------|
-| MarketHandler | cancel            | 28305 | 0       | 0        |
+| MarketHandler | cancel            | 28275 | 0       | 0        |
 |---------------+-------------------+-------+---------+----------|
-| MarketHandler | list              | 28703 | 0       | 0        |
+| MarketHandler | list              | 28427 | 0       | 0        |
 |---------------+-------------------+-------+---------+----------|
-| MarketHandler | rotate            | 28620 | 0       | 0        |
+| MarketHandler | rotate            | 28649 | 0       | 0        |
 |---------------+-------------------+-------+---------+----------|
-| MarketHandler | withdraw          | 28329 | 0       | 0        |
+| MarketHandler | withdraw          | 28472 | 0       | 0        |
 |---------------+-------------------+-------+---------+----------|
-| MarketHandler | withdrawRoyalties | 28191 | 0       | 0        |
+| MarketHandler | withdrawRoyalties | 28460 | 0       | 0        |
 ╰---------------+-------------------+-------+---------+----------╯
 
-Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 905.18s (905.17s CPU time)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1453.33s (1453.32s CPU time)
 
-Ran 12 test suites in 905.18s (1918.17s CPU time): 157 tests passed, 0 failed, 0 skipped (157 total tests)
+Ran 13 test suites in 1453.35s (3913.41s CPU time): 187 tests passed, 0 failed, 0 skipped (187 total tests)

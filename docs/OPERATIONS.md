@@ -73,7 +73,8 @@ At capacity, the minimum new bid is the current floor plus 5%, rounded up to a w
 | Intent | Call |
 |---|---|
 | One bid / one possible win | `createBid()` with the full bid as `msg.value` |
-| Multiple wins | Submit multiple `createBid()` transactions from the same wallet |
+| Multiple bids in one transaction | `createBids(amounts)` with 1–90 individual wei amounts and `msg.value` equal to their sum |
+| More bids from the same wallet | Repeat `createBid()` or `createBids(amounts)`; the batch bound is not a lifetime wallet cap |
 | Raise an active bid | `minimumIncrease(id)`, then `increaseBid(id)` with added ETH only |
 | Inspect a bid and its awarded NFT | `bids(id)`; its `tokenId` field is zero before settlement or for a displaced bid |
 | Inspect NFT ownership/metadata | `edition.ownerOf(tokenId)`, `edition.tokenURI(tokenId)`; both require a minted ID |
@@ -87,6 +88,12 @@ At capacity, the minimum new bid is the current floor plus 5%, rounded up to a w
 | Receive reserved NFTs | Current payout wallet calls `claimReserved(quantity, recipient)`, up to 10 total, at any phase |
 | Receive unallocated supply | Current payout wallet calls `claimUnsold(quantity, recipient)` after settlement |
 | Withdraw all auction sale revenue | Current payout wallet calls `withdrawProceeds(payableRecipient)` |
+
+Batch inputs are processed in their supplied order, with a fresh `minimumBid()` check after each insertion and displacement. Crossing 90 active bids changes the minimum even inside one batch. Later entries may displace the sender's existing bids or earlier entries in that batch; displaced amounts become ordinary pull refunds. Successful submission does not guarantee that all batch IDs remain active or eventually win. Equal amounts retain original ID priority. All bids belong to the calling wallet.
+
+Payment must equal the sum; `IncorrectPayment` rejects both underpayment and overpayment. `InvalidBatch` rejects zero or more than 90 amounts. Every individual amount must fit `MAX_BID` and meet its current minimum. No refund balance or forced surplus can substitute for payment. Any failure rolls back all IDs, ranking, credits, escrow, events and extensions in that transaction; gas is still charged. A successful late batch sets the deadline to its transaction timestamp plus 600 seconds once, rather than adding ten minutes for every item.
+
+Estimate gas and simulate the complete batch before submission, including the exact sender, amounts and total ETH. A changing floor can still invalidate the transaction before inclusion. Reduce the batch size when the estimate exceeds the selected network or wallet's transaction budget. Read all `BidCreated` events from the receipt; the return array is in input order, while final NFT IDs are assigned only at settlement. `increaseBid` continues to update one active bid per call.
 
 Index `BidCreated` for the wallet-to-ID history, `BidIncreased`, `BidDisplaced`, `AuctionExtended`, and `AuctionSettled` for auction state. Follow refund and claim events for entitlements. Query current state to reconcile events after reorganizations. `rankedBids` shows current/final winners, not all historical bidders; terminated pages return next ID 0, which also means the head when supplied as input. Stop pagination when next is zero.
 
@@ -184,3 +191,7 @@ with `refunds(wallet)` and `refundsClosed()`. Index `UnclaimedETHWithdrawn` for
 successful recovery transactions.
 
 Version 3.1.0 supersedes the auction-end anchor in 3.0.0 and resolves F3-02. The settlement timestamp adds one storage write paid by the settlement caller; ordinary bidder actions gain no new state write. The creator can submit settlement after close.
+
+## Batch bidding — interface 3.2.0
+
+`createBids(uint256[] amounts)` is an additive payable entry point. Single-bid, top-up, settlement, recovery and claim signatures retain their behavior; no deployment parameter changes. Existing immutable deployments require a new deployment for batch support. Regenerate and synchronize the versioned interface before adding frontend controls. This contract update leaves frontend code and wording for the creator's separate integration work.

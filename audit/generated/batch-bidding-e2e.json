@@ -1,0 +1,24 @@
+{
+  "result": "PASS",
+  "auction": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "gasUsed": {
+    "three_bids_batch": 430421,
+    "three_bids_separate_total": 530430,
+    "forty_five_bids_dense_first": 7371850,
+    "forty_five_bids_dense_second": 7360192,
+    "ninety_bids_empty_book_ties": 13667532,
+    "two_bids_late_full_book": 366336
+  },
+  "batchSizeLimit": 90,
+  "maximumBatchMined": true,
+  "denseNinetyBidGasEstimate": 17861124,
+  "transactionGasBudget": 16000000,
+  "overBudgetBatchRolledBackAndRetriedAsTwoBatches": true,
+  "denseBookMatchesIndependentModel": true,
+  "sameBatchDisplacementRefunded": true,
+  "rejectedBatchRollsBackEventsEscrowRefundsIdsAndTimer": true,
+  "oneExtensionForLateBatch": true,
+  "minted": 100,
+  "auctionEndingLiabilities": 0,
+  "auctionEndingBalance": 0
+}

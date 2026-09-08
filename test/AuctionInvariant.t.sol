@@ -60,6 +60,38 @@ contract AuctionHandler is Test {
         _extendModel();
     }
 
+    /// @dev Build bids against the independent evolving model, then execute them in one transaction.
+    function createBatch(uint256 actorSeed, uint8 countSeed, uint128 extra) external {
+        address actor = actors[actorSeed % 8];
+        uint256 count = bound(countSeed, 1, 5);
+        uint256[] memory batchAmounts = new uint256[](count);
+        uint256[] memory expectedIds = new uint256[](count);
+        uint256 total;
+        for (uint256 i; i < count; ++i) {
+            uint256 amount = _minimumBid() + bound(uint256(keccak256(abi.encode(extra, i))), 0, 10 ether);
+            // The bounded campaign starts below 1 ETH and has only 256 actions.
+            // Keep this as an assertion: a model overflow must fail the campaign, not leave partial state.
+            assertLe(amount, auction.MAX_BID());
+            batchAmounts[i] = amount;
+            total += amount;
+            uint256 id = ++created;
+            expectedIds[i] = id;
+            amounts[id] = amount;
+            owners[id] = actor;
+            modelIds.push(id);
+            _sort();
+            if (modelIds.length > 90) {
+                uint256 removed = modelIds[90];
+                modelRefunds[owners[removed]] += amounts[removed];
+                modelIds.pop();
+            }
+        }
+        vm.prank(actor);
+        assertEq(auction.createBids{ value: total }(batchAmounts), expectedIds);
+        paidIn += total;
+        _extendModel();
+    }
+
     function increase(uint256 rankSeed, uint128 extra) external {
         if (modelIds.length == 0) return;
         uint256 oldRank = rankSeed % modelIds.length;
@@ -261,13 +293,14 @@ abstract contract AuctionInvariantBase is StdInvariant, Test {
         handler = new AuctionHandler(auction);
         vm.warp(auction.startTime());
         handler.seed(initialBids);
-        bytes4[] memory selectors = new bytes4[](6);
+        bytes4[] memory selectors = new bytes4[](7);
         selectors[0] = handler.create.selector;
         selectors[1] = handler.increase.selector;
         selectors[2] = handler.withdraw.selector;
         selectors[3] = handler.rotate.selector;
         selectors[4] = handler.reserve.selector;
         selectors[5] = handler.advance.selector;
+        selectors[6] = handler.createBatch.selector;
         targetSelector(FuzzSelector(address(handler), selectors));
         targetContract(address(handler));
     }

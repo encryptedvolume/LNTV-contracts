@@ -19,7 +19,8 @@ The initial auction lasts exactly **48 hours**. Qualifying late bids leave ten m
 | Other winners' price | 90th winning bid when full, otherwise reserve |
 | Metadata/reveal | Fixed per-token off-chain URL; initially unrevealed content and later reveal policy managed by the metadata service |
 | Payment | Native ETH, one fully escrowed bid per NFT |
-| Multiple wins | Repeat `createBid()`; no wallet cap or allowlist |
+| Multiple wins | `createBids(amounts)` for 1–90 bids in one transaction, or repeat `createBid()`; no wallet cap or allowlist |
+| Batch funding | Exact sum of individual amounts; updated minimum checked after each bid; any failure reverts the whole batch |
 | Ranking | Amount descending, original bid ID ascending for ties |
 | Before 90 active bids | New bid must meet reserve |
 | At capacity | New bid must meet floor + 5%, rounded up to a wei |
@@ -70,13 +71,13 @@ python3 -m venv .venv
 npm run audit
 ```
 
-`npm run audit` runs formatting, native-runner and mutation-runner regression tests, Slither with an exact reviewed-findings gate, production coverage, the extended fuzz/invariant suite, 80 intentional security mutations in an isolated copy, bytecode size checks, and a complete deployment/bidding/claims/resale/wallet-rotation rehearsal on a temporary local Anvil. It exits unsuccessfully on any failing gate. Local Anvil is shut down afterward. Reports are written to `audit/generated/`.
+`npm run audit` runs formatting, native-runner and mutation-runner regression tests, Slither with an exact reviewed-findings gate, production coverage, the extended fuzz/invariant suite, 90 intentional security mutations in an isolated copy, bytecode size checks, and a complete deployment/bidding/claims/resale/wallet-rotation rehearsal on a temporary local Anvil. It exits unsuccessfully on any failing gate. Local Anvil is shut down afterward. Reports are written to `audit/generated/`.
 
 The mutation campaign first requires the unmodified contracts to pass the same test selection and fixed seed. Each mutation must then fail at least two behavioral tests; configuration-only checks, compiler errors, setup failures, skipped tests and changed test inventories cannot satisfy that requirement. Explicit scenarios are required for the previously weak cases, including bidding at hour 47 and rejecting settlement at hour 24. The runner retains native Forge JSON, named test failures and input hashes. Use `python scripts/mutation_audit.py --output-dir <directory>` inside the audit virtual environment to retain a separate campaign without overwriting earlier evidence.
 
-The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x20260907 npm run audit` to run the current source with the 2026-09-07 re-audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts and randomized claim/refund ordering.
+The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x20260907 npm run audit` to run the current source with the 2026-09-07 re-audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts, randomized claim/refund ordering, and batch equivalence to sequential bids. Both auction invariant campaigns mix batch bidding into their independent ranking and ETH model.
 
-Historical reports `audit/REPORT.md` and `audit/REAUDIT-2026-09-07.md` describe the earlier 0.5% increase snapshot; its original results and manifest are preserved under `audit/history/`. The current standalone-repository validation and attestation are documented in [the refund recovery audit](audit/SETTLEMENT-CLOCK-2026-09-08.md), `audit/results.json` and `audit/SHA256SUMS`. See [ISSUES.md](audit/ISSUES.md) for remaining findings.
+Historical reports `audit/REPORT.md` and `audit/REAUDIT-2026-09-07.md` describe the earlier 0.5% increase snapshot; its original results and manifest are preserved under `audit/history/`. The current standalone-repository validation and attestation are documented in [the batch bidding audit](audit/BATCH-BIDDING-2026-09-08.md), `audit/results.json` and `audit/SHA256SUMS`. See [ISSUES.md](audit/ISSUES.md) for remaining findings.
 
 The native tool runner is also available directly:
 

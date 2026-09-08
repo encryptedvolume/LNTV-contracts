@@ -1,5 +1,7 @@
 # F3-02 fix: recovery delay starts at settlement — 2026-09-08
 
+> Historical 3.1.0 evidence. Current batch changes and the creator-limited validation run are documented in [batch bidding](BATCH-BIDDING-2026-09-08.md). Settlement-based recovery remains in effect.
+
 The creator explicitly approved: “Yep okay move recovery timer to settlement
 date.” This supersedes the earlier auction-end anchor in interface 3.0.0.
 The existing optional closure rule remains: refunds stay available until the

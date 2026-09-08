@@ -3,30 +3,37 @@
   "slitherVersion": "0.11.5",
   "sourceSha256": {
     "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
-    "src/RankedAuction.sol": "42255828c76235a2be2244e5d870ecd1b5a69675552ebc8140be9459fe21503b",
+    "src/RankedAuction.sol": "a8934f1700ab27545204657e13b8e4b74bedfe4f9e9cb0920b7215376e219404",
     "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
   },
   "findings": [
     {
-      "id": "94a96d14d79f4c37509e8241179277e9d170d0ecafbb7c50a8d5105795d222bd",
+      "id": "d7fa297a3cbbb42cbaa8e1cbfb17b68b39c5852db10a7c4d437971354ef09fc3",
       "check": "arbitrary-send-eth",
       "reportedImpact": "High",
       "reason": "Reviewed authorized payment: _send is private and all callers are nonReentrant. Refund withdrawals debit the original bidder while refundsClosed is false, with no time expiry. Normal proceeds require the current payout wallet and do not close refunds. Recovery requires that wallet, settlement and settledAt + 28 days; it sets refundsClosed and zeros all accounting before interaction. Recipient/empty-payment checks and transfer rejection revert all effects, preserving refunds if recovery fails. Optional successful recovery forfeits remaining refunds by explicit creator choice. Tests cover late refunds, rejection/retry, callback state, ordering, wallet rotation, unauthorized and early calls, repeated recovery and preserved NFTs.",
-      "location": "src/RankedAuction.sol:437"
+      "location": "src/RankedAuction.sol:461"
     },
     {
-      "id": "0ba9ea9c324130c752b9ba2cd5abd657dcbe1f69712bf58646761994f9c928e2",
+      "id": "71a7c607e3a3f4e0a6f8d4cab22f62c3617dc75f3f3c69690440c9927f0ea650",
       "check": "incorrect-equality",
       "reportedImpact": "Medium",
       "reason": "False positive: amount == 0 is solely an empty-withdrawal guard. There is no requirement that an ETH balance equal a predetermined target. Recovery accepts the entire positive balance, including forced surplus; a later forced deposit can be recovered again. Unit and fuzz tests exercise zero balances, partial prior withdrawals and arbitrary forced surplus.",
-      "location": "src/RankedAuction.sol:437"
+      "location": "src/RankedAuction.sol:461"
     },
     {
       "id": "34692b64f08f40f032e0f0f6fcc1603e183b9e65ff5a8c892538e901db06a4e1",
       "check": "uninitialized-local",
       "reportedImpact": "Medium",
       "reason": "False positive: credited is a Solidity zero-initialized local uint256 accumulator, not a storage pointer. It sums validated overpayments and moves exactly that amount from escrow into the original bidders\u2019 pull credits. Duplicate credits and empty-overpayment/full-batch cases are tested.",
-      "location": "src/RankedAuction.sol:244"
+      "location": "src/RankedAuction.sol:245"
+    },
+    {
+      "id": "394f2dd470ff9519a7b35b00fbdc5af985437d4097a0bbc5ad5faf9611fd9af2",
+      "check": "uninitialized-local",
+      "reportedImpact": "Medium",
+      "reason": "False positive: total is a Solidity zero-initialized local uint256 accumulator. A maximum of 90 calldata amounts is summed with checked arithmetic, and msg.value must equal that exact sum before any bid is created. Each private helper call credits only its supplied individual amount. Tests reject underpayment, overpayment, existing-escrow/forced-surplus funding and arithmetic overflow, and accept a valid aggregate above uint128.max.",
+      "location": "src/RankedAuction.sol:186"
     },
     {
       "id": "31b2355ffb9110add8ebb1107050856090ca4c3a0ffa809c0397854ccd998030",
@@ -43,25 +50,18 @@
       "location": "src/RoyaltyMarketplace.sol:115"
     },
     {
-      "id": "2086a3b79642558c53b802c00c84be56de7c8746b6e2632176bd8828b474a489",
-      "check": "timestamp",
-      "reportedImpact": "Low",
-      "reason": "Intentional optional recovery eligibility. Current payout wallet, completed settlement and settledAt + 28 days are required. settledAt is recorded once on successful settlement and never changes; the pre-settlement endTime estimate cannot authorize recovery. Late settlement and atomic settlement/recovery tests prove a full protected interval; boundaries, extended end, clock reset, uint64 crossing and delayed-settlement fuzz tests cover timestamp handling. Time alone never closes refunds; only successful recovery does.",
-      "location": "src/RankedAuction.sol:339"
-    },
-    {
-      "id": "473df19ea47c9367739f423fbf44124ada3d7e9861e5065c10bab4bdaef07f62",
-      "check": "timestamp",
-      "reportedImpact": "Low",
-      "reason": "Intentional rolling auction timing, never randomness. Only live bidding calls _extend; a qualifying transaction within the last 600 seconds sets endTime to timestamp + 600, with no cumulative cap. Existing tests cover repeated extensions, exact boundaries, unchanged rank and uint64 crossing.",
-      "location": "src/RankedAuction.sol:424"
-    },
-    {
-      "id": "495eddb447c22320c4fa80d3c2d20646a537641385b6e49c056cb0167cc20da0",
+      "id": "1b82a2df334f9d778c1c37b4eae2894c56a993bbdf76a75f46cf62ae4110f9b2",
       "check": "timestamp",
       "reportedImpact": "Low",
       "reason": "Intentional settlement boundary at or after the final extended endTime. Settlement records block.timestamp once in uint256 settledAt, opening winner claims and starting the 28-day recovery delay. No receiver is called. AlreadySettled prevents resetting that timestamp. Tests cover delayed settlement, same-transaction settlement/recovery rollback, early settlement rejection and a timestamp beyond uint64; no timestamp is used as randomness.",
-      "location": "src/RankedAuction.sol:214"
+      "location": "src/RankedAuction.sol:215"
+    },
+    {
+      "id": "29b529050c31cdf19cb91f7dd04a4bba30896c8d742359277f89aebd6a5c652f",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional auction phases: bidding starts at startTime inclusively and ends at endTime exclusively. Settled state takes priority. Boundary, 48-hour duration and extension tests exercise the conditions; timestamps are not randomness.",
+      "location": "src/RankedAuction.sol:153"
     },
     {
       "id": "59177f8f25cc8995ea6c6857e36bf745798a1fe8ddae2f524a7181f55f534291",
@@ -78,18 +78,74 @@
       "location": "src/RoyaltyMarketplace.sol:58"
     },
     {
-      "id": "8f07f047d8eafed41a52607ac2fd4118601057b659f9ff0254ee2506c8ccf32b",
+      "id": "755f068344bf2c157013900b1a78a9d11734ebcc5e44c0f56ef239f2158f7e22",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional rolling auction timing, never randomness. Only live bidding calls _extend; a qualifying transaction within the last 600 seconds sets endTime to timestamp + 600, with no cumulative cap. Existing tests cover repeated extensions, exact boundaries, unchanged rank and uint64 crossing.",
+      "location": "src/RankedAuction.sol:448"
+    },
+    {
+      "id": "ccc1c9d80c794d5fc0e42bf8d352d57d7f521ed7956c004acdbfc314602dbc08",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional optional recovery eligibility. Current payout wallet, completed settlement and settledAt + 28 days are required. settledAt is recorded once on successful settlement and never changes; the pre-settlement endTime estimate cannot authorize recovery. Late settlement and atomic settlement/recovery tests prove a full protected interval; boundaries, extended end, clock reset, uint64 crossing and delayed-settlement fuzz tests cover timestamp handling. Time alone never closes refunds; only successful recovery does.",
+      "location": "src/RankedAuction.sol:340"
+    },
+    {
+      "id": "dfc1c422ebd4305cf276e87a712ce8ea6dba1c5698bf291880c0981a44005d63",
       "check": "timestamp",
       "reportedImpact": "Low",
       "reason": "Intentional deployment validation: reserve must be nonzero and start must be in the future. Fixed initial duration is 48 hours; deployment and invalid-configuration tests exercise these checks. Timestamp is not randomness.",
-      "location": "src/RankedAuction.sol:111"
+      "location": "src/RankedAuction.sol:112"
     },
     {
-      "id": "dd954a5941172e6c5a7c3c24531da8fc30f412fa3d8945e29c1291c25b799ac0",
-      "check": "timestamp",
-      "reportedImpact": "Low",
-      "reason": "Intentional auction phases: bidding starts at startTime inclusively and ends at endTime exclusively. Settled state takes priority. Boundary, 48-hour duration and extension tests exercise the conditions; timestamps are not randomness.",
-      "location": "src/RankedAuction.sol:152"
+      "id": "0f9552c71c92c364dbbaa704c5bca80b0d49dd0a43cff857dafcd8b46d1012f7",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded batch accounting: at most 90 independent bids, each with its explicit funded amount. Escrow grows once per item; displaced amounts are debited before the next item. There are no external calls. Exact-total, solvency, differential and independent-model invariant tests cover this path.",
+      "location": "src/RankedAuction.sol:377"
+    },
+    {
+      "id": "30d787895ae477230656bc53ef85aacade7b8a798baeeb90ec849de839794fd6",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional shared extension logic. All batch items share block.timestamp; after the first qualifying item sets endTime to timestamp + 600, subsequent items take the >= 600 early return. The batch can update the deadline and emit AuctionExtended at most once. Boundary, event-count and failed-later-bid rollback tests cover this behavior.",
+      "location": "src/RankedAuction.sol:448"
+    },
+    {
+      "id": "36b2fe264e2b7dfc7aea24dc0621152572e78f725df21e27062d83302cce03b0",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded displacement: a batch has at most 90 items, each insert temporarily permits 91 active bids and immediately unlinks the tail. Updating tail preserves the next item's floor. Unit tests cover self-displacement, invalid-later-bid rollback and links; independent model campaigns compare ranking, pointers and credits.",
+      "location": "src/RankedAuction.sol:437"
+    },
+    {
+      "id": "53d65994ae01519bb7928815b6247a13a2a815c8349619410b46380fdfb324bd",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "The shared unlink helper handles a head update for single-bid top-ups. Batch displacement removes a tail from 91 nodes and cannot enter this head-only branch. Both paths are bounded, internal and covered by ranked-list tests and model invariants; batching introduces no external call.",
+      "location": "src/RankedAuction.sol:437"
+    },
+    {
+      "id": "6f4942ade25002ddac103b93bf756dbef154504341ccf358a2ce167919fdd2ce",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded refund accounting: each of at most 90 displacements moves the original bid amount into its original wallet's pull credit and totalRefunds exactly once. This includes the sender's earlier batch bids. No payment callback occurs while bidding. Unit, fuzz and stateful model tests cover conservation and rollback.",
+      "location": "src/RankedAuction.sol:377"
+    },
+    {
+      "id": "7426071f7dd3b871e43072e172d4860165b904a1fff5b85c1724bc8db4ac4568",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded escrow debit on eviction; the same amount becomes a refund liability, so total liabilities stay equal to paid-in ETH. At most one eviction per batch item and at most 90 items. Failed later entries revert every debit and credit. Independent solvency models and full-book transaction rehearsals verify this path.",
+      "location": "src/RankedAuction.sol:377"
+    },
+    {
+      "id": "8c9bdb7746b04da72e66fd0eeded31803e2e6a1a1138c283fb3baca6dbc658cc",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional linked-list head update when an inserted bid ranks first. Each insertion scans at most 90 active nodes and performs bounded pointer writes. The batch has at most 90 insertions. Exact ownership, ranking, stable-tie, differential and invariant tests cover insertion ordering; local transaction gas is measured for maximum batches.",
+      "location": "src/RankedAuction.sol:418"
     },
     {
       "id": "900972bf68b6afd527836f08858255058c95bb8af277294f9a1dece11e1c8a9f",
@@ -97,6 +153,34 @@
       "reportedImpact": "Informational",
       "reason": "Intentional bounded mint loop: lifetime mint cap is 100; auction batches are at most 90 and reserved batches at most 10. The supply count advances before each safe-mint callback. Only the immutable auction may mint and all claim entry points are nonReentrant. Rejected later callbacks roll back the whole batch including allocation counters and ownership. Unit tests cover reserved/unsold/winner partitioning, failed deliveries, reentry and rotation; lifecycle receipt gas bounds batch costs.",
       "location": "src/AuctionEdition.sol:51"
+    },
+    {
+      "id": "9fd08eaa48f3e3a76168708454aaf6ec1fb7fa1d8886bffa7dce88ccfca4cb43",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional count update for each bounded insertion. A subsequent eviction keeps activeCount <= 90 after each completed item. Batch bounds are checked before execution. Maximum-size, repeated-batch, capacity-crossing and independent-model tests verify count and funding invariants.",
+      "location": "src/RankedAuction.sol:418"
+    },
+    {
+      "id": "ad4ca3feb629ac2cf9609b6ec8bb129dc29fa53767a79df466a14abd5be63463",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional tail update while filling the auction or inserting at the end of the bounded ranked list. Every later batch item reads the resulting current floor. Capacity-crossing, rising-floor, stable-tie, max-batch and invariant tests cover these pointer and pricing transitions.",
+      "location": "src/RankedAuction.sol:418"
+    },
+    {
+      "id": "b1044effb44529e5c79685b6872a50038ba5e92ab20988ce36033c6de2dc782b",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional monotonic checked bid-ID allocation, once per independent bid, at most 90 per batch. Input order determines ID and tie priority. Returned IDs and BidCreated events are checked against sequential bidding; a failed later entry reverts all prior increments.",
+      "location": "src/RankedAuction.sol:377"
+    },
+    {
+      "id": "ecad11244408903ada31ccb91b9e662b49ca9364699c9779ce3258d386539546",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded unlink count update. Batch insertions may transiently raise the list to 91 nodes; one tail removal restores 90 before processing the next item. Tests and the independent stateful model verify active count, linked-list integrity and retained/displaced ownership. No iteration traverses historical bids.",
+      "location": "src/RankedAuction.sol:437"
     },
     {
       "id": "51942ec9f72b29e37355c539e94a527faf6ef7437ae3e69b63ff72bc03fffb4d",
@@ -113,11 +197,11 @@
       "location": "src/RoyaltyMarketplace.sol:103"
     },
     {
-      "id": "ee82d33c50d4a52530cb5f348ee3d38726a176f9392343e15927f5237d11a036",
+      "id": "edb12817d4dc9b8b3db0cc1b9ef7cf7de7eda8808538b3107f558018cadf4c32",
       "check": "low-level-calls",
       "reportedImpact": "Informational",
       "reason": "Reviewed authorized payment: _send is private and all callers are nonReentrant. Refund withdrawals debit the original bidder while refundsClosed is false, with no time expiry. Normal proceeds require the current payout wallet and do not close refunds. Recovery requires that wallet, settlement and settledAt + 28 days; it sets refundsClosed and zeros all accounting before interaction. Recipient/empty-payment checks and transfer rejection revert all effects, preserving refunds if recovery fails. Optional successful recovery forfeits remaining refunds by explicit creator choice. Tests cover late refunds, rejection/retry, callback state, ordering, wallet rotation, unauthorized and early calls, repeated recovery and preserved NFTs.",
-      "location": "src/RankedAuction.sol:437"
+      "location": "src/RankedAuction.sol:461"
     }
   ]
 }

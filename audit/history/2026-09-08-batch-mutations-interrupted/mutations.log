@@ -1,0 +1,5 @@
+Clean baseline: 184 tests passed; required behavioral scenarios present.
+KILLED: zero outbid increment (7 behavioral tests)
+KILLED: old 2.5 percent outbid increment restored (2 behavioral tests)
+KILLED: zero increase increment (4 behavioral tests)
+KILLED: old 0.5 percent increase increment restored (2 behavioral tests)
