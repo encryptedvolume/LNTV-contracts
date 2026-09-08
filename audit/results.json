@@ -1,11 +1,11 @@
 {
   "date": "2026-09-08",
   "status": "PASS",
-  "scope": "Standalone repository audit after history-preserving extraction; production source unchanged",
+  "scope": "48-hour initial auction with uncapped ten-minute extensions; full audit of the revised source",
   "sourceSha256": {
-    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
-    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85",
-    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9"
+    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
+    "src/RankedAuction.sol": "ee85141991790851e711969b3703015b1a00362eb7f15addada31b6dc8f180bb",
+    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
   },
   "solidityTests": {
     "passed": 127,
@@ -22,7 +22,7 @@
     "depth": 256,
     "totalHandlerCalls": 768000,
     "unexpectedReverts": 0,
-    "seed": "0x20260908"
+    "seed": "0x2026090810"
   },
   "productionCoverage": {
     "lines": "100%",
@@ -31,7 +31,7 @@
     "functions": "100%"
   },
   "mutations": {
-    "killed": 57,
+    "killed": 60,
     "survived": 0,
     "minimumBehavioralFailures": 2,
     "baselineTests": 124
@@ -50,7 +50,7 @@
     "edition": "0xa16E02E87b7454126E5E10d957A927A7F5B5d2be",
     "marketplace": "0x8Ff3801288a85ea261E4277d44E1131Ea736F77B",
     "gasUsed": {
-      "atomic_deployment": 4826220,
+      "atomic_deployment": 4826196,
       "reserve_4": 187705,
       "worst_bid": 590731,
       "settle": 772183,
@@ -72,211 +72,908 @@
     "tokenIds": "1-90 by final rank; 91-100 reserved",
     "metadata": "Fixed per-token off-chain endpoints; reveal policy belongs to the metadata service",
     "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
-    "initialDurationSeconds": 86400,
+    "initialDurationSeconds": 172800,
     "auctionedSupply": 90,
     "reservedSupply": 10,
     "outbidBps": 500,
     "increaseBps": 250,
     "extensionLimit": null,
-    "lateRankChangingIncreases": 30,
-    "extensionSecondsAfterOriginalClose": 8970,
+    "extensionWindowSeconds": 600,
+    "lateRankChangingIncreases": 146,
+    "extensionSecondsAfterOriginalClose": 87454,
     "timedTransactions": [
       {
         "function": "createBid",
-        "timestamp": 1788851315,
+        "timestamp": 1788863574,
         "blockNumber": 6,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788937714,
+        "timestamp": 1789036373,
         "blockNumber": 101,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788938013,
+        "timestamp": 1789036972,
         "blockNumber": 102,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788938312,
+        "timestamp": 1789037571,
         "blockNumber": 103,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788938611,
+        "timestamp": 1789038170,
         "blockNumber": 104,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788938910,
+        "timestamp": 1789038769,
         "blockNumber": 105,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788939209,
+        "timestamp": 1789039368,
         "blockNumber": 106,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788939508,
+        "timestamp": 1789039967,
         "blockNumber": 107,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788939807,
+        "timestamp": 1789040566,
         "blockNumber": 108,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788940106,
+        "timestamp": 1789041165,
         "blockNumber": 109,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788940405,
+        "timestamp": 1789041764,
         "blockNumber": 110,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788940704,
+        "timestamp": 1789042363,
         "blockNumber": 111,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788941003,
+        "timestamp": 1789042962,
         "blockNumber": 112,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788941302,
+        "timestamp": 1789043561,
         "blockNumber": 113,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788941601,
+        "timestamp": 1789044160,
         "blockNumber": 114,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788941900,
+        "timestamp": 1789044759,
         "blockNumber": 115,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788942199,
+        "timestamp": 1789045358,
         "blockNumber": 116,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788942498,
+        "timestamp": 1789045957,
         "blockNumber": 117,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788942797,
+        "timestamp": 1789046556,
         "blockNumber": 118,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788943096,
+        "timestamp": 1789047155,
         "blockNumber": 119,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788943395,
+        "timestamp": 1789047754,
         "blockNumber": 120,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788943694,
+        "timestamp": 1789048353,
         "blockNumber": 121,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788943993,
+        "timestamp": 1789048952,
         "blockNumber": 122,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788944292,
+        "timestamp": 1789049551,
         "blockNumber": 123,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788944591,
+        "timestamp": 1789050150,
         "blockNumber": 124,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788944890,
+        "timestamp": 1789050749,
         "blockNumber": 125,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788945189,
+        "timestamp": 1789051348,
         "blockNumber": 126,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788945488,
+        "timestamp": 1789051947,
         "blockNumber": 127,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788945787,
+        "timestamp": 1789052546,
         "blockNumber": 128,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788946086,
+        "timestamp": 1789053145,
         "blockNumber": 129,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1788946385,
+        "timestamp": 1789053744,
         "blockNumber": 130,
         "status": 1
       },
       {
-        "function": "settle",
-        "timestamp": 1788946684,
+        "function": "increaseBid",
+        "timestamp": 1789054343,
         "blockNumber": 131,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789054942,
+        "blockNumber": 132,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789055541,
+        "blockNumber": 133,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789056140,
+        "blockNumber": 134,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789056739,
+        "blockNumber": 135,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789057338,
+        "blockNumber": 136,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789057937,
+        "blockNumber": 137,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789058536,
+        "blockNumber": 138,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789059135,
+        "blockNumber": 139,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789059734,
+        "blockNumber": 140,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789060333,
+        "blockNumber": 141,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789060932,
+        "blockNumber": 142,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789061531,
+        "blockNumber": 143,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789062130,
+        "blockNumber": 144,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789062729,
+        "blockNumber": 145,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789063328,
+        "blockNumber": 146,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789063927,
+        "blockNumber": 147,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789064526,
+        "blockNumber": 148,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789065125,
+        "blockNumber": 149,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789065724,
+        "blockNumber": 150,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789066323,
+        "blockNumber": 151,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789066922,
+        "blockNumber": 152,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789067521,
+        "blockNumber": 153,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789068120,
+        "blockNumber": 154,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789068719,
+        "blockNumber": 155,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789069318,
+        "blockNumber": 156,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789069917,
+        "blockNumber": 157,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789070516,
+        "blockNumber": 158,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789071115,
+        "blockNumber": 159,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789071714,
+        "blockNumber": 160,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789072313,
+        "blockNumber": 161,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789072912,
+        "blockNumber": 162,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789073511,
+        "blockNumber": 163,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789074110,
+        "blockNumber": 164,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789074709,
+        "blockNumber": 165,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789075308,
+        "blockNumber": 166,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789075907,
+        "blockNumber": 167,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789076506,
+        "blockNumber": 168,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789077105,
+        "blockNumber": 169,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789077704,
+        "blockNumber": 170,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789078303,
+        "blockNumber": 171,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789078902,
+        "blockNumber": 172,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789079501,
+        "blockNumber": 173,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789080100,
+        "blockNumber": 174,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789080699,
+        "blockNumber": 175,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789081298,
+        "blockNumber": 176,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789081897,
+        "blockNumber": 177,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789082496,
+        "blockNumber": 178,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789083095,
+        "blockNumber": 179,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789083694,
+        "blockNumber": 180,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789084293,
+        "blockNumber": 181,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789084892,
+        "blockNumber": 182,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789085491,
+        "blockNumber": 183,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789086090,
+        "blockNumber": 184,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789086689,
+        "blockNumber": 185,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789087288,
+        "blockNumber": 186,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789087887,
+        "blockNumber": 187,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789088486,
+        "blockNumber": 188,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789089085,
+        "blockNumber": 189,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789089684,
+        "blockNumber": 190,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789090283,
+        "blockNumber": 191,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789090882,
+        "blockNumber": 192,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789091481,
+        "blockNumber": 193,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789092080,
+        "blockNumber": 194,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789092679,
+        "blockNumber": 195,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789093278,
+        "blockNumber": 196,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789093877,
+        "blockNumber": 197,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789094476,
+        "blockNumber": 198,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789095075,
+        "blockNumber": 199,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789095674,
+        "blockNumber": 200,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789096273,
+        "blockNumber": 201,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789096872,
+        "blockNumber": 202,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789097471,
+        "blockNumber": 203,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789098070,
+        "blockNumber": 204,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789098669,
+        "blockNumber": 205,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789099268,
+        "blockNumber": 206,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789099867,
+        "blockNumber": 207,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789100466,
+        "blockNumber": 208,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789101065,
+        "blockNumber": 209,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789101664,
+        "blockNumber": 210,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789102263,
+        "blockNumber": 211,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789102862,
+        "blockNumber": 212,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789103461,
+        "blockNumber": 213,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789104060,
+        "blockNumber": 214,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789104659,
+        "blockNumber": 215,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789105258,
+        "blockNumber": 216,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789105857,
+        "blockNumber": 217,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789106456,
+        "blockNumber": 218,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789107055,
+        "blockNumber": 219,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789107654,
+        "blockNumber": 220,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789108253,
+        "blockNumber": 221,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789108852,
+        "blockNumber": 222,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789109451,
+        "blockNumber": 223,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789110050,
+        "blockNumber": 224,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789110649,
+        "blockNumber": 225,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789111248,
+        "blockNumber": 226,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789111847,
+        "blockNumber": 227,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789112446,
+        "blockNumber": 228,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789113045,
+        "blockNumber": 229,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789113644,
+        "blockNumber": 230,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789114243,
+        "blockNumber": 231,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789114842,
+        "blockNumber": 232,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789115441,
+        "blockNumber": 233,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789116040,
+        "blockNumber": 234,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789116639,
+        "blockNumber": 235,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789117238,
+        "blockNumber": 236,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789117837,
+        "blockNumber": 237,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789118436,
+        "blockNumber": 238,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789119035,
+        "blockNumber": 239,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789119634,
+        "blockNumber": 240,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789120233,
+        "blockNumber": 241,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789120832,
+        "blockNumber": 242,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789121431,
+        "blockNumber": 243,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789122030,
+        "blockNumber": 244,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789122629,
+        "blockNumber": 245,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789123228,
+        "blockNumber": 246,
+        "status": 1
+      },
+      {
+        "function": "settle",
+        "timestamp": 1789123827,
+        "blockNumber": 247,
         "status": 0
       },
       {
         "function": "settle",
-        "timestamp": 1788946685,
-        "blockNumber": 132,
+        "timestamp": 1789123828,
+        "blockNumber": 248,
         "status": 1
       }
     ],
@@ -289,7 +986,7 @@
     "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully"
   },
   "frontendInterface": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "freshBuildMatchesExports": true,
     "publicDeployments": 0
   },
@@ -300,11 +997,9 @@
     "No public deployment, live auction wallet integration, or off-chain reveal backend",
     "Passing tests are not a proof of absence of defects"
   ],
-  "repositoryPublication": {
-    "repository": "https://github.com/encryptedvolume/LNTV-contracts",
-    "visibility": "private",
-    "approvedByCreator": "2026-09-08",
-    "changesSinceFullAudit": "Repository URL, interface manifest and CI timeout only; Solidity and audit tests/scripts unchanged",
-    "interfaceCheck": "PASS"
+  "timing": {
+    "initialDurationSeconds": 172800,
+    "extensionWindowSeconds": 600,
+    "cumulativeExtensionCap": null
   }
 }

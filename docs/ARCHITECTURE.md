@@ -22,7 +22,7 @@ Construction is atomic. `AuctionEdition.auction` is its deploying auction; `Roya
 
 ## Auction state
 
-The constructor fixes `initialEndTime = uint256(startTime) + 24 hours` and initializes `endTime` to it. `phase()` derives Scheduled, Live and Ended from timestamps until `settled` is true. `[startTime, endTime)` is the only bidding interval; settlement is allowed from `endTime` onward. Settlement sets the clearing price once and walks the bounded winner list to assign token IDs 1 through the winner count in final rank order. These assignments cannot change, regardless of the order in which winners claim. No transaction can reopen the auction.
+The constructor fixes `initialEndTime = uint256(startTime) + 48 hours` and initializes `endTime` to it. `phase()` derives Scheduled, Live and Ended from timestamps until `settled` is true. `[startTime, endTime)` is the only bidding interval; settlement is allowed from `endTime` onward. Settlement sets the clearing price once and walks the bounded winner list to assign token IDs 1 through the winner count in final rank order. These assignments cannot change, regardless of the order in which winners claim. No transaction can reopen the auction.
 
 Each bid is a fully funded one-unit offer. IDs are monotonic checked `uint256` counters. Bid amounts are explicitly bounded to `uint128.max` **before** narrowing. All aggregates and percentages use `uint256`, leaving ample room for 90 maximum-size bids. Percentage increments round upward, including at a reserve of 1 wei. If a theoretical floor plus its increment exceeds the maximum bid, new bids become impossible but settlement remains available.
 
@@ -32,7 +32,7 @@ A descending doubly linked list contains at most 90 active bids after every tran
 
 Equal amounts favor smaller original bid IDs, including after an increase. Eviction removes the lowest-ranked bid, retains its history, and credits its entire escrow to its original bidder. Removed bids cannot be increased, win, or receive a second refund. A bidder cannot cancel an active offer.
 
-New bids extend the auction inside the final five minutes. An increase extends it only when its predecessor changes, which is equivalent to its rank changing because amounts only increase. An increase that retains its rank, including an increase in the clearing floor, does not extend the auction. This is an explicit reference-compatible rule. Every qualifying extension sets the deadline to five minutes after that bid, with no fixed limit on total extension. The current deadline uses uint256, so extensions do not narrow back into the uint64 initial configuration range. Timestamp checks do not assume ordering within an Ethereum slot, and transactions submitted near a boundary may be included after it.
+New bids extend the auction inside the final ten minutes. An increase extends it only when its predecessor changes, which is equivalent to its rank changing because amounts only increase. An increase that retains its rank, including an increase in the clearing floor, does not extend the auction. This is an explicit reference-compatible rule. Every qualifying extension sets the deadline to ten minutes after that bid, with no fixed limit on total extension. The current deadline uses uint256, so extensions do not narrow back into the uint64 initial configuration range. Timestamp checks do not assume ordering within an Ethereum slot, and transactions submitted near a boundary may be included after it.
 
 ## ETH invariants
 

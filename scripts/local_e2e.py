@@ -123,7 +123,7 @@ def main():
             assert edition.functions.ownerOf(91).call() == payout
             assert edition.functions.ownerOf(94).call() == payout
             assert auction.functions.activeCount().call() == 0
-            assert auction.functions.initialEndTime().call() == start + 86400
+            assert auction.functions.initialEndTime().call() == start + 172800
             gas["worst_bid"] = 0
             for index in range(90):
                 gas["worst_bid"] = max(gas["worst_bid"], transact(auction.functions.createBid(), alice, 2*10**16,
@@ -135,17 +135,18 @@ def main():
                 transact(auction.functions.createBid(), bob, amount)
             assert auction.functions.refunds(alice).call() == 4*10**16
             transact(auction.functions.withdrawRefund(alice), alice)
-            # Keep swapping the two top ranks with late increases, continuing beyond the former two-hour limit.
-            for index in range(30):
+            # Keep swapping the two top ranks with late increases, continuing beyond 24 hours of extensions.
+            for index in range(146):
                 bid_id = 91 + index % 2
                 other_id = 92 if bid_id == 91 else 91
                 old_amount = auction.functions.bids(bid_id).call()[1]
-                new_amount = auction.functions.bids(other_id).call()[1] + 10**16
+                new_amount = max(auction.functions.bids(other_id).call()[1] + 10**16,
+                                 old_amount + (old_amount * 250 + 9999) // 10000)
                 bid_timestamp = auction.functions.endTime().call() - 1
                 transact(auction.functions.increaseBid(bid_id), bob, new_amount - old_amount, timestamp=bid_timestamp)
-                assert auction.functions.endTime().call() == bid_timestamp + 300
+                assert auction.functions.endTime().call() == bid_timestamp + 600
             extension_seconds = auction.functions.endTime().call() - auction.functions.initialEndTime().call()
-            assert extension_seconds > 7200
+            assert extension_seconds > 86400
             transact(auction.functions.settle(), carol, succeeds=False, timestamp=auction.functions.endTime().call() - 1)
             top_price = auction.functions.bids(92).call()[1]
             bob_refund = auction.functions.bids(91).call()[1] - 2*10**16
@@ -245,9 +246,9 @@ def main():
                       "tokenStandard": "ERC-721", "tokenIds": "1-90 by final rank; 91-100 reserved",
                       "metadata": "Fixed per-token off-chain endpoints; reveal policy belongs to the metadata service",
                       "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
-                      "initialDurationSeconds": 86400, "auctionedSupply": 90, "reservedSupply": 10,
+                      "initialDurationSeconds": 172800, "auctionedSupply": 90, "reservedSupply": 10,
                       "outbidBps": 500, "increaseBps": 250, "extensionLimit": None,
-                      "lateRankChangingIncreases": 30, "extensionSecondsAfterOriginalClose": extension_seconds,
+                      "extensionWindowSeconds": 600, "lateRankChangingIncreases": 146, "extensionSecondsAfterOriginalClose": extension_seconds,
                       "timedTransactions": timed_transactions,
                       "deploymentCheckerNegativeCases": ["incorrect royalty configuration rejected", "unexpected current payout wallet rejected", "unexpected pending payout wallet rejected", "inconsistent immutable bytecode rejected"],
                       "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully"}

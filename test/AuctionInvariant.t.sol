@@ -25,7 +25,7 @@ contract AuctionHandler is Test {
 
     constructor(RankedAuction auction_) {
         auction = auction_;
-        modelEndTime = uint256(auction_.startTime()) + 1 days;
+        modelEndTime = uint256(auction_.startTime()) + 2 days;
         modelPayoutWallet = auction_.payoutWallet();
         for (uint256 i; i < 8; ++i) {
             actors[i] = address(uint160(1000 + i));
@@ -86,7 +86,7 @@ contract AuctionHandler is Test {
     }
 
     function _extendModel() private {
-        if (modelEndTime < block.timestamp + 300) modelEndTime = block.timestamp + 300;
+        if (modelEndTime < block.timestamp + 600) modelEndTime = block.timestamp + 600;
     }
 
     function withdraw(uint256 actorSeed) external {

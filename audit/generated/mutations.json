@@ -145,7 +145,7 @@
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testUnapprovedOperatorCannotTransferOrApproveItself()",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()",
-      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()",
@@ -264,7 +264,7 @@
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testUnapprovedOperatorCannotTransferOrApproveItself()": "InvalidMint()",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()": "InvalidMint()",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()": "InvalidMint()",
-      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()": "assertion failed: 91 != 90",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()": "assertion failed: 91 != 90",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()": "InvalidMint()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()": "ERC721NonexistentToken(91)",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()": "InvalidMint()",
@@ -280,17 +280,17 @@
     "killed": true,
     "strengthPassed": true,
     "failedTests": [
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
-      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionWindowContinuesBeyondTwoHours()"
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()"
     ],
     "behavioralFailures": [
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
-      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionWindowContinuesBeyondTwoHours()"
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()"
     ],
     "missingRequiredBehaviors": [],
     "failureReasons": {
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()": "BiddingClosed()",
-      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionWindowContinuesBeyondTwoHours()": "assertion failed: 1097177 != 1097476"
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "BiddingClosed()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()": "assertion failed: 1183589 != 1184188"
     }
   },
   {
@@ -308,7 +308,7 @@
     "missingRequiredBehaviors": [],
     "failureReasons": {
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()": "BiddingClosed()",
-      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionDoesNotTruncateAtUint64Boundary()": "assertion failed: 298 != 18446744073709551914"
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionDoesNotTruncateAtUint64Boundary()": "assertion failed: 598 != 18446744073709552214"
     }
   },
   {
@@ -379,6 +379,7 @@
       "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacementNeverCallsRejectingBidder()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testOneWeiReserveHasStrictPositiveIncrements()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testSoldOutClearingIsLowestWinnerNotHighestLoser()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testWinningCostOnlyExistsForSettledWinners()"
     ],
@@ -389,6 +390,7 @@
       "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacementNeverCallsRejectingBidder()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testOneWeiReserveHasStrictPositiveIncrements()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testSoldOutClearingIsLowestWinnerNotHighestLoser()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testWinningCostOnlyExistsForSettledWinners()"
     ],
@@ -400,6 +402,7 @@
       "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacementNeverCallsRejectingBidder()": "panic: arithmetic underflow or overflow (0x11)",
       "test/RankedAuction.t.sol:RankedAuctionTest::testOneWeiReserveHasStrictPositiveIncrements()": "panic: arithmetic underflow or overflow (0x11)",
       "test/RankedAuction.t.sol:RankedAuctionTest::testSoldOutClearingIsLowestWinnerNotHighestLoser()": "panic: arithmetic underflow or overflow (0x11)",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()": "panic: arithmetic underflow or overflow (0x11)",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()": "panic: arithmetic underflow or overflow (0x11)",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testWinningCostOnlyExistsForSettledWinners()": "panic: arithmetic underflow or overflow (0x11)"
     }
@@ -414,7 +417,7 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testForcedEtherCannotAlterPricingOrBeStolen()",
@@ -432,7 +435,7 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testForcedEtherCannotAlterPricingOrBeStolen()",
@@ -451,11 +454,11 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()": "assertion failed: 3000000000000000000 != 990000000000000000",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()": "assertion failed: 1000000000000000000 != 0",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()": "assertion failed: 7386 != 3693",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()": "assertion failed: 1000000000000000000 != 0",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()": "assertion failed: 1000000000000000000 != 0",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()": "assertion failed: 2010000000000000000 != 0",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()": "assertion failed: 2010000000000000000 != 0",
       "test/RankedAuction.t.sol:RankedAuctionTest::testForcedEtherCannotAlterPricingOrBeStolen()": "assertion failed: 20000000000000000 != 10000000000000000",
-      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)": "assertion failed: 1000620000000000010774 != 0",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)": "assertion failed: 1000610000000000011261 != 0",
       "test/RankedAuction.t.sol:RankedAuctionTest::testMaximumFloorDoesNotOverflowAndCanSettle()": "assertion failed: 61250826045768923423407429337718278061900 != 30625413022884461711703714668859139030950",
       "test/RankedAuction.t.sol:RankedAuctionTest::testOneWalletCanWinAll90()": "assertion failed: 90000000000000000000 != 0",
       "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()": "assertion failed: 100010000000000000000 != 0",
@@ -713,7 +716,7 @@
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()": "NothingToWithdraw()",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()": "assertion failed: 0 != 75000000000000000",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()": "assertion failed: 10000000000000000000 != 0",
-      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzRoyaltyMathNoOverflow(uint256,uint96)": "assertion failed: 0 != 1283",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzRoyaltyMathNoOverflow(uint256,uint96)": "assertion failed: 0 != 1341",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()": "assertion failed: 0 != 225000000000000000",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()": "assertion failed: 0 != 1",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingSellerAndRoyaltyReceiversCannotBlockSale()": "assertion failed: 0 != 75000000000000000",
@@ -788,7 +791,7 @@
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()": "assertion failed: 1000000000000000000 != 925000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()": "assertion failed: 1000000000000000000 != 925000000000000000",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()": "assertion failed: 10000000000000000000 != 0",
-      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)": "assertion failed: 8093 != 7528",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)": "assertion failed: 8176 != 7605",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()": "assertion failed: 3000000000000000000 != 2775000000000000000",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()": "assertion failed: 1 != 0",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()": "assertion failed: 1000000000000000000 != 925000000000000000"
@@ -862,13 +865,13 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()",
@@ -887,13 +890,13 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()",
@@ -913,19 +916,19 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "assertion failed: 1480000000000000000 != 1600000000000000000",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()": "assertion failed: 1859250000000000000 != 2010000000000000000",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()": "assertion failed: 1859250000000000000 != 2010000000000000000",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()": "assertion failed: 925000000000000000 != 1000000000000000000",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()": "assertion failed: 925000000000000000 != 1000000000000000000",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()": "assertion failed: 83273125000000000000 != 90025000000000000000",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()": "assertion failed: 925000000000000000 != 1000000000000000000",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()": "assertion failed: 3417 != 3693",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()": "assertion failed: 46250000000000000 != 50000000000000000",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()": "assertion failed: 268250000000000000 != 290000000000000000",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()": "assertion failed: 925000000000000000 != 1000000000000000000",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "assertion failed: 1722588378233191080 != 1862257706198044410",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()": "assertion failed: 925000000000000000 != 1000000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()": "assertion failed: 1859250000000000000 != 2010000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()": "assertion failed: 0 != 2010000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()": "assertion failed: 9250000000000000 != 10000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRotatingDuringLiveAuctionDoesNotAlterBidsOrAuctionTerms()": "assertion failed: 925000000000000000 != 1000000000000000000",
       "test/RankedAuction.t.sol:RankedAuctionTest::testForcedEtherCannotAlterPricingOrBeStolen()": "assertion failed: 9250000000000000 != 10000000000000000",
-      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)": "assertion failed: 925573500000000009966 != 1000620000000000010774",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)": "assertion failed: 925564250000000010417 != 1000610000000000011261",
       "test/RankedAuction.t.sol:RankedAuctionTest::testMaximumFloorDoesNotOverflowAndCanSettle()": "assertion failed: 28328507046168127083325936068694703603629 != 30625413022884461711703714668859139030950",
       "test/RankedAuction.t.sol:RankedAuctionTest::testOneWalletCanWinAll90()": "assertion failed: 83250000000000000000 != 90000000000000000000",
       "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()": "assertion failed: 97490750000000000000 != 89990000000000000000",
@@ -1286,7 +1289,7 @@
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()": "assertion failed: 150000000000000000 != 75000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()": "assertion failed: 850000000000000000 != 925000000000000000",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()": "assertion failed: 20000000000000000000 != 10000000000000000000",
-      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)": "assertion failed: 8093 != 7528",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)": "assertion failed: 8176 != 7605",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()": "assertion failed: 450000000000000000 != 225000000000000000",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()": "assertion failed: 2 != 1",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingSellerAndRoyaltyReceiversCannotBlockSale()": "assertion failed: 150000000000000000 != 75000000000000000",
@@ -1302,9 +1305,9 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testMintReceiverCannotMintAnUnallocatedAuctionToken()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRefundCreditDoesNotAuthorizeForcedBatchMint()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
@@ -1318,9 +1321,9 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testMintReceiverCannotMintAnUnallocatedAuctionToken()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRefundCreditDoesNotAuthorizeForcedBatchMint()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
@@ -1332,12 +1335,12 @@
     ],
     "missingRequiredBehaviors": [],
     "failureReasons": {
-      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "ERC721NonexistentToken(60)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "ERC721NonexistentToken(40)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()": "ERC721NonexistentToken(1)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()": "ERC721NonexistentToken(1)",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()": "ERC721NonexistentToken(1)",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()": "ERC721NonexistentToken(1)",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testMintReceiverCannotMintAnUnallocatedAuctionToken()": "ERC721NonexistentToken(1)",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()": "ERC721NonexistentToken(1)",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "ERC721NonexistentToken(1)",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRefundCreditDoesNotAuthorizeForcedBatchMint()": "ERC721NonexistentToken(2)",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()": "ERC721NonexistentToken(1)",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()": "ERC721NonexistentToken(1)",
@@ -1354,7 +1357,7 @@
     "strengthPassed": true,
     "failedTests": [
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testFinalRankFixesTokenIdsRegardlessOfClaimOrder()",
@@ -1362,7 +1365,7 @@
     ],
     "behavioralFailures": [
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testFinalRankFixesTokenIdsRegardlessOfClaimOrder()",
@@ -1370,8 +1373,8 @@
     ],
     "missingRequiredBehaviors": [],
     "failureReasons": {
-      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "ERC721NonexistentToken(60)",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()": "ERC721NonexistentToken(1)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "ERC721NonexistentToken(40)",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "ERC721NonexistentToken(1)",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()": "ERC721NonexistentToken(1)",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()": "ERC721NonexistentToken(1)",
       "test/RankedAuction.t.sol:RankedAuctionTest::testFinalRankFixesTokenIdsRegardlessOfClaimOrder()": "assertion failed: 0x00000000000000000000000000000000000A11cE != 0x0000000000000000000000000000000000000B0b",
@@ -1511,7 +1514,7 @@
     "failedTests": [
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testMintAuthorityUniqueIdsAndLifetimeCap()",
-      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()"
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()"
     ],
     "behavioralFailures": [
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
@@ -1521,7 +1524,7 @@
     "failureReasons": {
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()": "assertion failed: 75000000000000000 != 0",
       "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testMintAuthorityUniqueIdsAndLifetimeCap()": "next call did not revert as expected",
-      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()": "assertion failed: 101 != 100"
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()": "assertion failed: 101 != 100"
     }
   },
   {
@@ -1601,7 +1604,7 @@
     ],
     "missingRequiredBehaviors": [],
     "failureReasons": {
-      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "assertion failed: 1230000000000000000 != 430000000000000000",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "assertion failed: 1670000000000000000 != 870000000000000000",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()": "panic: arithmetic underflow or overflow (0x11)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()": "panic: arithmetic underflow or overflow (0x11)",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()": "assertion failed: 1000000000000000000 != 1025000000000000000",
@@ -1655,14 +1658,14 @@
     ],
     "missingRequiredBehaviors": [],
     "failureReasons": {
-      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "assertion failed: 0 != 210000000000000000",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "assertion failed: 0 != 410000000000000000",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()": "NothingToWithdraw()",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()": "NothingToWithdraw()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRefundCreditDoesNotAuthorizeForcedBatchMint()": "NothingToWithdraw()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()": "assertion failed: 0 != 990000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()": "assertion failed: 0 != 990000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()": "assertion failed: 0 != 990000000000000000",
-      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)": "assertion failed: 62998740000000000675094 != 0",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)": "assertion failed: 61998760000000000694207 != 0",
       "test/RankedAuction.t.sol:RankedAuctionTest::testRefundCallbackCannotDoubleWithdraw()": "NothingToWithdraw()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testRejectingBidderCannotBlockBiddingSettlementOrRefunds()": "Error != expected error: NothingToWithdraw() != TransferFailed()",
       "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()": "NothingToWithdraw()",
@@ -1679,13 +1682,13 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()",
@@ -1700,13 +1703,13 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()",
@@ -1722,18 +1725,18 @@
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)": "assertion failed: 800000000000000000 != 1600000000000000000",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()": "assertion failed: 2980000000000000000 != 990000000000000000",
       "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()": "assertion failed: 2980000000000000000 != 990000000000000000",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()": "assertion failed: 10000000000000000 != 1000000000000000000",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()": "assertion failed: 10000000000000000 != 1000000000000000000",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()": "assertion failed: 90000000000000000000 != 90025000000000000000",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()": "assertion failed: 10000000000000000 != 1000000000000000000",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()": "assertion failed: 3690 != 3693",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()": "assertion failed: 20000000000000000 != 50000000000000000",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()": "assertion failed: 20000000000000000 != 290000000000000000",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()": "assertion failed: 10000000000000000 != 1000000000000000000",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "assertion failed: 20000000000000000 != 1862257706198044410",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()": "assertion failed: 10000000000000000 != 1000000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()": "assertion failed: 20000000000000000 != 2010000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()": "assertion failed: 1990000000000000000 != 0",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()": "assertion failed: 20000000000000000 != 2010000000000000000",
       "test/PayoutWallet.t.sol:PayoutWalletTest::testRotatingDuringLiveAuctionDoesNotAlterBidsOrAuctionTerms()": "assertion failed: 10000000000000000 != 1000000000000000000",
-      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)": "assertion failed: 999980000000000010774 != 0",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)": "assertion failed: 999980000000000011261 != 0",
       "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()": "assertion failed: 189980000000000000000 != 89990000000000000000",
       "test/RankedAuction.t.sol:RankedAuctionTest::testUnderSubscribedTieredReserveAndIndependentRefunds()": "assertion failed: 20000000000000000 != 3010000000000000000",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds()": "assertion failed: 10000000000000000 != 7000000000000000000",
@@ -1859,30 +1862,106 @@
     "killed": true,
     "strengthPassed": true,
     "failedTests": [
-      "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed24HourDuration()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed48HourDuration()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()",
-      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()"
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()"
     ],
     "behavioralFailures": [
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()"
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()"
     ],
     "missingRequiredBehaviors": [],
     "failureReasons": {
-      "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed24HourDuration()": "assertion failed: 1004200 != 1087000",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()": "BiddingClosed()",
+      "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed48HourDuration()": "assertion failed: 1004200 != 1173400",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()": "BiddingClosed()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()": "Error != expected error: BiddingClosed() != BidTooLow()",
       "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()": "BiddingClosed()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()": "BiddingClosed()",
-      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()": "next call did not revert as expected",
-      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()": "assertion failed: 3600 != 86400"
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "BiddingClosed()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()": "next call did not revert as expected",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()": "assertion failed: 3600 != 172800"
+    }
+  },
+  {
+    "mutation": "old 24-hour duration restored",
+    "killed": true,
+    "strengthPassed": true,
+    "failedTests": [
+      "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed48HourDuration()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()"
+    ],
+    "behavioralFailures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()"
+    ],
+    "missingRequiredBehaviors": [],
+    "failureReasons": {
+      "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed48HourDuration()": "assertion failed: 1087000 != 1173400",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour47()": "BiddingClosed()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()": "Error != expected error: BiddingClosed() != BidTooLow()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()": "BiddingClosed()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "BiddingClosed()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHour24()": "next call did not revert as expected",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()": "assertion failed: 86400 != 172800"
+    }
+  },
+  {
+    "mutation": "old five-minute extension restored",
+    "killed": true,
+    "strengthPassed": true,
+    "failedTests": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionDoesNotTruncateAtUint64Boundary()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOnlyRankChangingIncreaseExtends()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()"
+    ],
+    "behavioralFailures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionDoesNotTruncateAtUint64Boundary()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOnlyRankChangingIncreaseExtends()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()"
+    ],
+    "missingRequiredBehaviors": [],
+    "failureReasons": {
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()": "next call did not revert as expected",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "BiddingClosed()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionDoesNotTruncateAtUint64Boundary()": "assertion failed: 18446744073709551914 != 18446744073709552214",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOnlyRankChangingIncreaseExtends()": "assertion failed: 1176400 != 1176401",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()": "assertion failed: 1176400 != 1176401"
+    }
+  },
+  {
+    "mutation": "24-hour extension cap introduced",
+    "killed": true,
+    "strengthPassed": true,
+    "failedTests": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()"
+    ],
+    "behavioralFailures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()"
+    ],
+    "missingRequiredBehaviors": [],
+    "failureReasons": {
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyond24HourExtension()": "BiddingClosed()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTenMinuteExtensionsContinueBeyond24Hours()": "assertion failed: 1262657 != 1263256"
     }
   },
   {
@@ -1890,7 +1969,7 @@
     "killed": true,
     "strengthPassed": true,
     "failedTests": [
-      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()",
@@ -1906,7 +1985,7 @@
     ],
     "missingRequiredBehaviors": [],
     "failureReasons": {
-      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()": "assertion failed: 11 != 10",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()": "assertion failed: 11 != 10",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()": "assertion failed: 11 != 10",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()": "assertion failed: 2 != 1",
       "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()": "assertion failed: 10 != 9",

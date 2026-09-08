@@ -39,8 +39,8 @@ contract RankedAuction is ReentrancyGuard {
 
     uint256 public constant SUPPLY = 90;
     uint256 public constant RESERVED_SUPPLY = 10;
-    uint256 public constant AUCTION_DURATION = 24 hours;
-    uint256 public constant EXTENSION_WINDOW = 5 minutes;
+    uint256 public constant AUCTION_DURATION = 48 hours;
+    uint256 public constant EXTENSION_WINDOW = 10 minutes;
     uint256 public constant MAX_BID = type(uint128).max;
     uint256 public constant OUTBID_BPS = 500;
     uint256 public constant INCREASE_BPS = 250;

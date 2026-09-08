@@ -1,5 +1,7 @@
 # Standalone repository verification — 2026-09-08
 
+> Historical snapshot: the subsequent [timing update](TIMING-UPDATE-2026-09-08.md) changes the initial duration and extension window. Its results supersede this snapshot for current source. Original consolidated results and hashes are retained in `history/2026-09-08-pre-timing-*`.
+
 The complete audit passed in the extracted contracts repository using Node
 22.23.1 and `AUDIT_FUZZ_SEED=0x20260908 npm run audit`. All three production
 source hashes match the pre-split checkpoint exactly. No Solidity code, test

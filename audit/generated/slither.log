@@ -1,6 +1,6 @@
-'forge clean' running (wd: /private/tmp/lntv-repo-split-20260908-sjox4009/contracts)
+'forge clean' running (wd: /Users/aaa/Desktop/dev/LNTV-contracts)
 'forge config --json' running
-'forge build --build-info --skip ./test/** ./script/** --force' running (wd: /private/tmp/lntv-repo-split-20260908-sjox4009/contracts)
+'forge build --build-info --skip ./test/** ./script/** --force' running (wd: /Users/aaa/Desktop/dev/LNTV-contracts)
 
 Detector: arbitrary-send-eth
 RankedAuction._send(address,uint256) (src/RankedAuction.sol#397-402) sends eth to arbitrary user

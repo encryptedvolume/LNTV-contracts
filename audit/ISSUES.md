@@ -1,6 +1,6 @@
 # Current issue register
 
-Last reconciled: 2026-09-08, including [Fable's second independent review](INDEPENDENT-AUDIT-2026-09-07-fable-2.md). This is the current status list for the contract package and the related integration work discussed with the creator. Historical audits retain their original findings, measurements and source snapshots.
+Last reconciled: 2026-09-08 after the [timing update](TIMING-UPDATE-2026-09-08.md), including [Fable's second independent review](INDEPENDENT-AUDIT-2026-09-07-fable-2.md). This is the current status list for the contract package and the related integration work discussed with the creator. Historical audits retain their original findings, measurements and source snapshots.
 
 There are **six open work items (two optional)**, **two accepted design findings**, **five resolved findings/work items** and disclosed informational findings. Integration tasks are work still to build; they are not production-contract vulnerabilities. Accepted means the creator explicitly chose to retain the behavior. Resolved means a corrective change was verified.
 
@@ -15,7 +15,7 @@ There are **six open work items (two optional)**, **two accepted design findings
 | Fable second pass N-04 | Extra-mutant redundancy (optional) | Fifteen additional mutants outside the package campaign have only one behavioral test failure. | Strengthen independent behavioral coverage for these additional boundaries if adopted into the campaign. |
 | Fable second pass N-05 | Deployment operator guidance (optional) | Post-broadcast binding checks cannot roll back a mined deployment; hardware-wallet approval can consume the ten-minute minimum lead time. | Document post-check recovery and recommend at least one hour of start-time lead for hardware-wallet deployment. |
 
-The second review supplies a complete passing audit of the current production source on an isolated copy (N-03). A fresh complete standalone-repository run and consolidated attestation on 2026-09-08 now close A-01. Its N-02 refines the economics of the already accepted extension policy; that policy is unchanged. N-06 is addressed by `.nvmrc` pinning Node 22.23.1, `engine-strict=true`, and Node 22 in CI; the split verification used Node 22.23.1.
+The second review supplies a complete passing audit of the pre-timing-update production source on an isolated copy (N-03). A fresh complete standalone-repository run and consolidated attestation on 2026-09-08 now close A-01. Its N-02 refines the economics of the accepted uncapped extension policy. On 2026-09-08 the creator changed the initial duration to 48 hours and the rolling window to ten minutes while retaining no cumulative extension cap and the rank-based trigger; the earlier numerical examples describe the five-minute version. N-06 is addressed by `.nvmrc` pinning Node 22.23.1, `engine-strict=true`, and Node 22 in CI; the split verification used Node 22.23.1.
 
 The integration items are supported by [the package README](../README.md), [the frontend README](https://github.com/fxckcomputer/LNTV/blob/main/site/README.md), and [operations guidance](../docs/OPERATIONS.md).
 
@@ -43,7 +43,7 @@ P-03 is closed by the version-control checkpoint above. Accepted findings retain
 
 ## Evidence status
 
-- Current complete evidence: [split verification](REPOSITORY-SPLIT-2026-09-08.md), [results.json](results.json), and [SHA256SUMS](SHA256SUMS). The full run passed 127 tests, 57 two-behavioral-test mutation gates, full instrumented production coverage, and the deployment lifecycle.
+- Current complete evidence: [timing update verification](TIMING-UPDATE-2026-09-08.md), [results.json](results.json), and [SHA256SUMS](SHA256SUMS). The full run passed 127 tests, 60 two-behavioral-test mutation gates, full instrumented production coverage, and the deployment lifecycle.
 - Both Fable reviews and their proof-of-concept/mutation evidence are retained. The new N-01, optional N-04 and optional N-05 remain open above; automated PASS does not close those findings.
 - Historical 0.5% reports remain explicitly historical. Their original results and manifest are preserved in `history/`; source history and the catch-up commit retain the original file layout.
 - The earlier M-01 numerical correction and the second review's N-02 describe the accepted extension economics. They do not change the creator's accepted design policy.

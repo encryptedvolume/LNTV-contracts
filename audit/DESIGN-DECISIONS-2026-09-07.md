@@ -1,5 +1,7 @@
 # Accepted auction design decisions — 2026-09-07
 
+> Timing update on 2026-09-08: the creator changed the initial auction to 48 hours and the rolling extension window to ten minutes, retaining uncapped extensions and the rank-based trigger. The five-minute values below describe the original decision. See [current timing](TIMING-UPDATE-2026-09-08.md).
+
 The creator explicitly confirmed both auction behaviors below after reviewing Fable's findings and the change to a 2.5% minimum increase for existing bids. Their current disposition is **accepted design; no corrective contract change requested**. The original audit retains the reviewer's findings and severity ratings as review history.
 
 | Finding | Creator decision | Intended behavior |

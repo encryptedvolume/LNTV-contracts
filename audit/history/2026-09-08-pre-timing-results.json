@@ -1,0 +1,310 @@
+{
+  "date": "2026-09-08",
+  "status": "PASS",
+  "scope": "Standalone repository audit after history-preserving extraction; production source unchanged",
+  "sourceSha256": {
+    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
+    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85",
+    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9"
+  },
+  "solidityTests": {
+    "passed": 127,
+    "failed": 0,
+    "skipped": 0
+  },
+  "statelessFuzz": {
+    "tests": 4,
+    "runsPerTest": 10000
+  },
+  "invariants": {
+    "campaigns": 3,
+    "runsPerCampaign": 1000,
+    "depth": 256,
+    "totalHandlerCalls": 768000,
+    "unexpectedReverts": 0,
+    "seed": "0x20260908"
+  },
+  "productionCoverage": {
+    "lines": "100%",
+    "statements": "100%",
+    "branches": "100%",
+    "functions": "100%"
+  },
+  "mutations": {
+    "killed": 57,
+    "survived": 0,
+    "minimumBehavioralFailures": 2,
+    "baselineTests": 124
+  },
+  "nativeRunnerTests": 2,
+  "auditGateTests": 7,
+  "mutationRunnerTests": 12,
+  "slither": {
+    "reviewedWarnings": 14,
+    "unreviewed": 0
+  },
+  "localDeployment": {
+    "chainId": 31337,
+    "result": "PASS",
+    "auction": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "edition": "0xa16E02E87b7454126E5E10d957A927A7F5B5d2be",
+    "marketplace": "0x8Ff3801288a85ea261E4277d44E1131Ea736F77B",
+    "gasUsed": {
+      "atomic_deployment": 4826220,
+      "reserve_4": 187705,
+      "worst_bid": 590731,
+      "settle": 772183,
+      "claim_88": 3303806,
+      "secondary_sale": 182611,
+      "payout_rotation_accept": 30723,
+      "reserve_6": 218657
+    },
+    "bids": 92,
+    "minted": 100,
+    "auctionEndingLiabilities": 0,
+    "marketEndingLiabilities": 0,
+    "auctionRoyalties": 0,
+    "initialPayoutWallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "finalPayoutWallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "walletRotation": "Two-step acceptance, old-wallet revocation, accrued and future revenue",
+    "secondarySales": 2,
+    "tokenStandard": "ERC-721",
+    "tokenIds": "1-90 by final rank; 91-100 reserved",
+    "metadata": "Fixed per-token off-chain endpoints; reveal policy belongs to the metadata service",
+    "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
+    "initialDurationSeconds": 86400,
+    "auctionedSupply": 90,
+    "reservedSupply": 10,
+    "outbidBps": 500,
+    "increaseBps": 250,
+    "extensionLimit": null,
+    "lateRankChangingIncreases": 30,
+    "extensionSecondsAfterOriginalClose": 8970,
+    "timedTransactions": [
+      {
+        "function": "createBid",
+        "timestamp": 1788851315,
+        "blockNumber": 6,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788937714,
+        "blockNumber": 101,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788938013,
+        "blockNumber": 102,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788938312,
+        "blockNumber": 103,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788938611,
+        "blockNumber": 104,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788938910,
+        "blockNumber": 105,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788939209,
+        "blockNumber": 106,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788939508,
+        "blockNumber": 107,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788939807,
+        "blockNumber": 108,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788940106,
+        "blockNumber": 109,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788940405,
+        "blockNumber": 110,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788940704,
+        "blockNumber": 111,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788941003,
+        "blockNumber": 112,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788941302,
+        "blockNumber": 113,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788941601,
+        "blockNumber": 114,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788941900,
+        "blockNumber": 115,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788942199,
+        "blockNumber": 116,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788942498,
+        "blockNumber": 117,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788942797,
+        "blockNumber": 118,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788943096,
+        "blockNumber": 119,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788943395,
+        "blockNumber": 120,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788943694,
+        "blockNumber": 121,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788943993,
+        "blockNumber": 122,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788944292,
+        "blockNumber": 123,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788944591,
+        "blockNumber": 124,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788944890,
+        "blockNumber": 125,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788945189,
+        "blockNumber": 126,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788945488,
+        "blockNumber": 127,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788945787,
+        "blockNumber": 128,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788946086,
+        "blockNumber": 129,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1788946385,
+        "blockNumber": 130,
+        "status": 1
+      },
+      {
+        "function": "settle",
+        "timestamp": 1788946684,
+        "blockNumber": 131,
+        "status": 0
+      },
+      {
+        "function": "settle",
+        "timestamp": 1788946685,
+        "blockNumber": 132,
+        "status": 1
+      }
+    ],
+    "deploymentCheckerNegativeCases": [
+      "incorrect royalty configuration rejected",
+      "unexpected current payout wallet rejected",
+      "unexpected pending payout wallet rejected",
+      "inconsistent immutable bytecode rejected"
+    ],
+    "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully"
+  },
+  "frontendInterface": {
+    "version": "1.0.0",
+    "freshBuildMatchesExports": true,
+    "publicDeployments": 0
+  },
+  "limitations": [
+    "N-01 list back-pointer mutation coverage gap remains open",
+    "N-04 extra-mutant redundancy and N-05 deployment guidance remain optional open findings",
+    "Accepted uncapped extensions and floor increases without rank-change extension remain unchanged",
+    "No public deployment, live auction wallet integration, or off-chain reveal backend",
+    "Passing tests are not a proof of absence of defects"
+  ],
+  "repositoryPublication": {
+    "repository": "https://github.com/encryptedvolume/LNTV-contracts",
+    "visibility": "private",
+    "approvedByCreator": "2026-09-08",
+    "changesSinceFullAudit": "Repository URL, interface manifest and CI timeout only; Solidity and audit tests/scripts unchanged",
+    "interfaceCheck": "PASS"
+  }
+}

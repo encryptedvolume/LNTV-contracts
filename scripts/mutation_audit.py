@@ -61,7 +61,10 @@ MUTANTS = [
     ("regular winner pays full bid", "RankedAuction", "return id == head ? bids[id].amount : clearingPrice;", "return bids[id].amount;"),
     ("uniform primary proceeds restored", "RankedAuction", "uint256(bids[head].amount) + clearingPrice * (activeCount - 1)", "clearingPrice * activeCount"),
     ("empty auction settlement underflows", "RankedAuction", "activeCount == 0 ? 0 : uint256(bids[head].amount)", "uint256(bids[head].amount)"),
-    ("wrong initial duration", "RankedAuction", "AUCTION_DURATION = 24 hours", "AUCTION_DURATION = 1 hours"),
+    ("wrong initial duration", "RankedAuction", "AUCTION_DURATION = 48 hours", "AUCTION_DURATION = 1 hours"),
+    ("old 24-hour duration restored", "RankedAuction", "AUCTION_DURATION = 48 hours", "AUCTION_DURATION = 24 hours"),
+    ("old five-minute extension restored", "RankedAuction", "EXTENSION_WINDOW = 10 minutes", "EXTENSION_WINDOW = 5 minutes"),
+    ("24-hour extension cap introduced", "RankedAuction", "endTime = block.timestamp + EXTENSION_WINDOW;", "if (block.timestamp + EXTENSION_WINDOW > uint256(initialEndTime) + 24 hours) return; endTime = block.timestamp + EXTENSION_WINDOW;"),
     ("wrong reserved allocation", "RankedAuction", "RESERVED_SUPPLY = 10", "RESERVED_SUPPLY = 11"),
     ("reserved IDs overlap auction", "RankedAuction", "SUPPLY + RESERVED_SUPPLY - reservedRemaining + 1", "RESERVED_SUPPLY - reservedRemaining + 1"),
     ("reserved batch ignores quantity", "RankedAuction", "reservedRemaining -= quantity;", "reservedRemaining -= 1;"),
@@ -73,15 +76,15 @@ MUTANTS = [
 # These tests primarily assert configuration values; they cannot establish behavioral kill redundancy.
 CONFIGURATION_TESTS = {
     "test/RankedAuction.t.sol:RankedAuctionTest::testConfigurationAndBindings()",
-    "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()",
-    "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed24HourDuration()",
+    "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()",
+    "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed48HourDuration()",
 }
 BEHAVIOR_SUITE = "test/MutationBehavior.t.sol:MutationBehaviorTest"
 # Pin the separately reviewed scenarios so removing one cannot silently weaken a previously flagged case.
 REQUIRED_BEHAVIORS = {
     "old 2.5 percent outbid increment restored": ["testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail"],
     "old 0.5 percent increase increment restored": ["testInsufficientTopUpCannotChangeRankOrDelayClosing"],
-    "two-hour extension cap restored": ["testRankIncreasesKeepAuctionLiveBeyondFormerCap"],
+    "two-hour extension cap restored": ["testRankIncreasesKeepAuctionLiveBeyond24HourExtension"],
     "extension timestamp narrowed": ["testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement"],
     "royalty transfer bypass": ["testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain"],
     "free purchase": ["testFreePurchaseCannotSpendExistingSellerProceeds"],
@@ -92,7 +95,10 @@ REQUIRED_BEHAVIORS = {
     "unauthorized ERC721 mint": ["testMintReceiverCannotMintAnUnallocatedAuctionToken"],
     "ERC721 token approval bypass": ["testPurchasedNftRejectsTokenApprovalToFormerSeller"],
     "metadata slash validation bypassed": ["testStandaloneEditionRequiresSeparatorForMintedTokenEndpoints"],
-    "wrong initial duration": ["testBiddingRemainsOpenAtHour23", "testSettlementCannotReleaseFundsAtHourTwo"],
+    "old 24-hour duration restored": ["testBiddingRemainsOpenAtHour47", "testSettlementCannotReleaseFundsAtHour24"],
+    "24-hour extension cap introduced": ["testRankIncreasesKeepAuctionLiveBeyond24HourExtension"],
+    "old five-minute extension restored": ["testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement"],
+    "wrong initial duration": ["testBiddingRemainsOpenAtHour47", "testSettlementCannotReleaseFundsAtHour24"],
 }
 
 

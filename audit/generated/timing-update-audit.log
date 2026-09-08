@@ -1,3 +1,111 @@
+
+> @lntv/contracts@1.1.0 audit
+> bash scripts/audit.sh
+
+
+> @lntv/contracts@1.1.0 format:check
+> node scripts/foundry.mjs forge fmt --check
+
+TAP version 13
+# Subtest: the audit runner propagates native tool failures
+ok 1 - the audit runner propagates native tool failures
+  ---
+  duration_ms: 25.2075
+  type: 'test'
+  ...
+# Subtest: the audit runner propagates success
+ok 2 - the audit runner propagates success
+  ---
+  duration_ms: 24.058708
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 77.865667
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.207s
+
+OK
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.000s
+
+OK
+PASS: 14 individually reviewed Slither findings; no unreviewed findings or source drift.
+PASS: all production contracts have 100% instrumented line, branch and function coverage.
+Extended audit fuzz seed: 0x2026090810
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 376.55s (376.54s CPU time)
+
+Ran 11 test suites in 376.55s (854.49s CPU time): 127 tests passed, 0 failed, 0 skipped (127 total tests)
+Clean baseline: 124 tests passed; required behavioral scenarios present.
+KILLED: zero outbid increment (4 behavioral tests)
+KILLED: old 2.5 percent outbid increment restored (2 behavioral tests)
+KILLED: zero increase increment (4 behavioral tests)
+KILLED: old 0.5 percent increase increment restored (2 behavioral tests)
+KILLED: wrong supply (56 behavioral tests)
+KILLED: two-hour extension cap restored (2 behavioral tests)
+KILLED: extension timestamp narrowed (2 behavioral tests)
+KILLED: reversed tie priority (8 behavioral tests)
+KILLED: loser refund shortfall (3 behavioral tests)
+KILLED: wrong clearing price (9 behavioral tests)
+KILLED: settlement double liability (16 behavioral tests)
+KILLED: stealable claims (4 behavioral tests)
+KILLED: repeatable refund credit (4 behavioral tests)
+KILLED: repeatable token claim (2 behavioral tests)
+KILLED: stolen payout funds (6 behavioral tests)
+KILLED: auction reentrancy guard removed (4 behavioral tests)
+KILLED: royalty transfer bypass (2 behavioral tests)
+KILLED: missing supply accounting (12 behavioral tests)
+KILLED: zeroed royalties (20 behavioral tests)
+KILLED: free purchase (2 behavioral tests)
+KILLED: royalty double credit (14 behavioral tests)
+KILLED: unauthorized cancellation (2 behavioral tests)
+KILLED: repeatable marketplace withdrawal (2 behavioral tests)
+KILLED: marketplace reentrancy guard removed (4 behavioral tests)
+KILLED: primary auction royalty deduction (23 behavioral tests)
+KILLED: unauthorized wallet acceptance (3 behavioral tests)
+KILLED: wallet nomination takes immediate control (7 behavioral tests)
+KILLED: accepted wallet not applied (12 behavioral tests)
+KILLED: stale pending wallet retained (6 behavioral tests)
+KILLED: unsafe payout wallet allowed (2 behavioral tests)
+KILLED: rotation erases accrued auction proceeds (4 behavioral tests)
+KILLED: royalty recipient ignores shared wallet (15 behavioral tests)
+KILLED: stealable trading royalties (4 behavioral tests)
+KILLED: repeatable royalty withdrawal (4 behavioral tests)
+KILLED: forced third-party mint delivery (2 behavioral tests)
+KILLED: royalty pool double credit (16 behavioral tests)
+KILLED: rank-to-token assignment reversed (14 behavioral tests)
+KILLED: bid ID used instead of awarded token ID (6 behavioral tests)
+KILLED: unsold mint consumes winning token IDs (4 behavioral tests)
+KILLED: unauthorized ERC721 mint (2 behavioral tests)
+KILLED: ERC721 token approval bypass (2 behavioral tests)
+KILLED: missing transfer nonce (5 behavioral tests)
+KILLED: stale listing nonce ignored (2 behavioral tests)
+KILLED: ERC721 listing stays active after sale (3 behavioral tests)
+KILLED: ERC721 supply exceeds 100 (2 behavioral tests)
+KILLED: ERC721 receiver check bypassed (9 behavioral tests)
+KILLED: top winner gets cutoff discount (14 behavioral tests)
+KILLED: regular winner pays full bid (14 behavioral tests)
+KILLED: uniform primary proceeds restored (19 behavioral tests)
+KILLED: empty auction settlement underflows (34 behavioral tests)
+KILLED: wrong initial duration (5 behavioral tests)
+KILLED: old 24-hour duration restored (5 behavioral tests)
+KILLED: old five-minute extension restored (5 behavioral tests)
+KILLED: 24-hour extension cap introduced (2 behavioral tests)
+KILLED: wrong reserved allocation (5 behavioral tests)
+KILLED: reserved IDs overlap auction (38 behavioral tests)
+KILLED: reserved batch ignores quantity (3 behavioral tests)
+KILLED: reserved batch starts at wrong ID (40 behavioral tests)
+KILLED: metadata ignores token ID (4 behavioral tests)
+KILLED: metadata slash validation bypassed (2 behavioral tests)
+All 60 intentional regressions were detected by at least two behavioral tests.
 {
   "chainId": 31337,
   "result": "PASS",
@@ -940,3 +1048,4 @@
   ],
   "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully"
 }
+PASS: all audit gates completed. Reports: audit/generated/

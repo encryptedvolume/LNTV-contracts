@@ -45,14 +45,14 @@ def check(w3, auction_address, config):
     assert edition.functions.royaltyBps().call(block_identifier=snapshot) == int(config["ROYALTY_BPS"])
     assert auction.functions.reservePrice().call(block_identifier=snapshot) == int(config["RESERVE_WEI"])
     assert auction.functions.startTime().call(block_identifier=snapshot) == int(config["START_TIME"])
-    assert auction.functions.initialEndTime().call(block_identifier=snapshot) == (int(config["START_TIME"]) + 86400)
+    assert auction.functions.initialEndTime().call(block_identifier=snapshot) == (int(config["START_TIME"]) + 172800)
     assert auction.functions.OUTBID_BPS().call(block_identifier=snapshot) == 500
     assert auction.functions.INCREASE_BPS().call(block_identifier=snapshot) == 250
-    assert auction.functions.EXTENSION_WINDOW().call(block_identifier=snapshot) == 300
+    assert auction.functions.EXTENSION_WINDOW().call(block_identifier=snapshot) == 600
     assert edition.functions.metadataURI().call(block_identifier=snapshot) == config["METADATA_URI"]
     assert edition.functions.name().call(block_identifier=snapshot) == config["COLLECTION_NAME"]
     assert edition.functions.symbol().call(block_identifier=snapshot) == config["COLLECTION_SYMBOL"]
-    assert auction.functions.AUCTION_DURATION().call(block_identifier=snapshot) == 86400
+    assert auction.functions.AUCTION_DURATION().call(block_identifier=snapshot) == 172800
     assert auction.functions.SUPPLY().call(block_identifier=snapshot) == 90
     assert auction.functions.RESERVED_SUPPLY().call(block_identifier=snapshot) == 10
     assert auction.functions.reservedRemaining().call(block_identifier=snapshot) <= 10
@@ -61,7 +61,7 @@ def check(w3, auction_address, config):
     assert edition.functions.supportsInterface(bytes.fromhex("5b5e139f")).call(block_identifier=snapshot)
     assert not edition.functions.supportsInterface(bytes.fromhex("49064906")).call(block_identifier=snapshot)
     assert not edition.functions.supportsInterface(bytes.fromhex("d9b67a26")).call(block_identifier=snapshot)
-    assert (int(config["START_TIME"]) + 86400) <= auction.functions.endTime().call(block_identifier=snapshot)
+    assert (int(config["START_TIME"]) + 172800) <= auction.functions.endTime().call(block_identifier=snapshot)
     assert auction.functions.activeCount().call(block_identifier=snapshot) <= 90
     assert edition.functions.totalSupply().call(block_identifier=snapshot) <= 100
     assert auction.functions.liabilities().call(block_identifier=snapshot) <= w3.eth.get_balance(auction.address, block_identifier=snapshot)

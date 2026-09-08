@@ -19,7 +19,7 @@ Copy `.env.example` to `.env` and replace every example value. Foundry automatic
 | `START_TIME` | Unix seconds, at least ten minutes after deployment |
 | `METADATA_URI` | Fixed off-chain base ending `/`; token URI is `<base><id>.json` |
 
-There is no `END_TIME` input: the contract sets the initial close to `START_TIME + 86400` seconds. The 90 auction/10 reserved split is also fixed.
+There is no `END_TIME` input: the contract sets the initial close to `START_TIME + 172800` seconds. The 90 auction/10 reserved split is also fixed.
 
 Supported deployment networks are Ethereum mainnet (`1`), Sepolia (`11155111`), and local Anvil (`31337`). The RPC must support the Cancun EVM. No live RPC or private key is embedded in the repository. Use a Foundry encrypted keystore or hardware wallet; keep RPC and explorer API credentials in environment variables through your normal credential mechanism. Do not put private keys into shell commands or source files.
 
@@ -68,7 +68,7 @@ The collection contains 100 individual ERC-721 NFTs with IDs 1–90 auctioned an
 
 Use the compiled ABIs from `out/`. Read `phase`, `startTime`, `endTime`, and `minimumBid` immediately before constructing a bid. These views describe current chain state and can change before transaction inclusion. A stale or insufficient bid reverts and does not create a bid or retain its ETH (transaction gas is still spent).
 
-At capacity, the minimum new bid is the current floor plus 5%, rounded up to a wei. Existing active bids can still be raised by adding at least 2.5%. Qualifying new bids and rank-changing increases inside the final five minutes reset the deadline to five minutes after the bid. There is no fixed extension limit. The auction closes only when the current deadline passes without another qualifying extension.
+At capacity, the minimum new bid is the current floor plus 5%, rounded up to a wei. Existing active bids can still be raised by adding at least 2.5%. Qualifying new bids and rank-changing increases inside the final ten minutes reset the deadline to ten minutes after the bid. There is no fixed extension limit. The auction closes only when the current deadline passes without another qualifying extension.
 
 | Intent | Call |
 |---|---|
@@ -132,8 +132,14 @@ Monitor `liabilities() <= auction.balance`, `market.totalCredits() <= market.bal
 
 ## Migration from earlier local prototypes
 
-This is a new deployment and requires regenerated ABIs. `Config.endTime` and the `END_TIME` environment input are removed. The remaining tuple is `(payoutWallet, royaltyBps, reservePrice, startTime, metadataURI, collectionName, collectionSymbol)`. Start is uint64; initial/current end times are uint256. `SUPPLY()` is now 90; `RESERVED_SUPPLY()` is 10; `AUCTION_DURATION()` is 86400. New calls include `claimReserved`, `reservedRemaining`, and `winningBidCost`.
+This is a new deployment and requires regenerated ABIs. `Config.endTime` and the `END_TIME` environment input are removed. The remaining tuple is `(payoutWallet, royaltyBps, reservePrice, startTime, metadataURI, collectionName, collectionSymbol)`. Start is uint64; initial/current end times are uint256. `SUPPLY()` is now 90; `RESERVED_SUPPLY()` is 10; `AUCTION_DURATION()` is 172800. New calls include `claimReserved`, `reservedRemaining`, and `winningBidCost`.
 
 `METADATA_URI` is now a base ending `/`, not a shared JSON file. `enableReveals`, `reveal`, `revealsEnabled`, `revealedMetadataURI`, `revealed`, their events and ERC-4906 support are removed. Transfer nonces advance only on transfers. Frontends must obtain reveal state from the metadata service and stop sending the removed calls.
 
 ERC-721 claims take bid IDs and return the NFTs assigned to those bids at settlement. Listings take `(tokenId, price, expiry)`; buys take `(listingId, recipient)`. The single two-step payout wallet and trading-only royalty policy remain in place. The old hard-end cap and its getters remain removed. No public deployment has been migrated or modified.
+
+## Timing update — 2026-09-08
+
+New auctions run for 48 hours initially (`AUCTION_DURATION() = 172800`). A qualifying new bid or rank-changing increase inside the final ten minutes resets `endTime` to the transaction timestamp plus 600 seconds. Extensions have no cumulative cap, including at 24 hours past the initial close. An increase that preserves rank still does not extend the deadline. The existing code already had no extension cap; this update changes only the two timing constants in production Solidity.
+
+These constants are compiled into the contract. An already deployed auction would retain its original timing and require a new deployment to adopt this version. The external function signatures are unchanged; the generated interface is version 1.1.0 with updated source provenance. No public deployment is recorded.

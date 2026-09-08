@@ -1,9 +1,9 @@
 {
-  "reviewedDate": "2026-09-07",
+  "reviewedDate": "2026-09-08",
   "slitherVersion": "0.11.5",
   "sourceSha256": {
     "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
-    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
+    "src/RankedAuction.sol": "ee85141991790851e711969b3703015b1a00362eb7f15addada31b6dc8f180bb",
     "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
   },
   "findings": [
@@ -39,42 +39,42 @@
       "id": "508f4c47f22ccd5cd1a5561f62323ab976ab86f28e95248acb1c164d476a30bb",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 600 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
       "location": "src/RankedAuction.sol:146"
     },
     {
       "id": "59177f8f25cc8995ea6c6857e36bf745798a1fe8ddae2f524a7181f55f534291",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 600 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
       "location": "src/RoyaltyMarketplace.sol:78"
     },
     {
       "id": "65b33644c492a1621f8d6151a19720b67cf9891ec8190672a3166d93cb61e14c",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 600 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
       "location": "src/RoyaltyMarketplace.sol:58"
     },
     {
       "id": "6d6e0e317ef93202ae2bfe355fe422e6683566d6d105bf98a8a264b2b0f905fb",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 600 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
       "location": "src/RankedAuction.sol:105"
     },
     {
       "id": "c7a440b5c96075d489edcb6ba133e961308f28082dca8e630c047ab7d2afd5f7",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 600 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
       "location": "src/RankedAuction.sol:384"
     },
     {
       "id": "e9eac2fc73bdc0e616287a06d7775a19037fd140b88128917e60e7d9526293b7",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 600 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
       "location": "src/RankedAuction.sol:208"
     },
     {
