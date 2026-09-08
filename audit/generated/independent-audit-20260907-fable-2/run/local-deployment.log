@@ -1,0 +1,43 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+== Return ==
+deployed: contract RankedAuction 0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+== Logs ==
+  Chain ID 31337
+  Shared payout wallet 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+  Royalty BPS 750
+  Reserve (wei) 10000000000000000
+  Start (unix seconds) 1788774734
+  Initial end (unix seconds) 1788861134
+  Fixed off-chain metadata base URI https://metadata.example/local-e2e/
+  ERC-721 collection name Local ERC721 NFTs
+  ERC-721 symbol L721
+  Auction 0x5FbDB2315678afecb367f032d93F642f64180aa3
+  Edition 0xa16E02E87b7454126E5E10d957A927A7F5B5d2be
+  Royalty marketplace 0x8Ff3801288a85ea261E4277d44E1131Ea736F77B
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 31337
+
+Estimated gas price: 2.000000001 gwei
+
+Estimated total gas used for script: 6274086
+
+Estimated amount required: 0.012548172006274086 ETH
+
+==========================
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
+Transactions saved to: /var/folders/z8/l7lwbjk53j32dvfykd8lwg_r0000gn/T/auction-e2e-tmklvyfj/broadcast/Deploy.s.sol/31337/run-latest.json
+
+Sensitive values saved to: /private/tmp/claude-501/-Users-aaa/4a1ddbbe-b8a9-4624-867b-218c8350477b/scratchpad/auction-copy/cache/Deploy.s.sol/31337/run-latest.json
+

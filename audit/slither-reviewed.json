@@ -1,0 +1,109 @@
+{
+  "reviewedDate": "2026-09-07",
+  "slitherVersion": "0.11.5",
+  "sourceSha256": {
+    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
+    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
+    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
+  },
+  "findings": [
+    {
+      "id": "7cc41bc4d3bfbc0af06171de6317405c79c79d3d900282ae2fd3653c243f3b59",
+      "check": "arbitrary-send-eth",
+      "reportedImpact": "High",
+      "reason": "False positive: _send is private. Its nonReentrant callers debit only refunds[msg.sender] or authenticate the current shared payout wallet before debiting pendingProceeds. Zero/self recipients and zero withdrawals revert; a failed send restores the entitlement. NFT rank assignment and minting cannot access refunds or create additional business proceeds. Authorization, rotation, refund isolation and theft mutations exercise these boundaries.",
+      "location": "src/RankedAuction.sol:397"
+    },
+    {
+      "id": "34692b64f08f40f032e0f0f6fcc1603e183b9e65ff5a8c892538e901db06a4e1",
+      "check": "uninitialized-local",
+      "reportedImpact": "Medium",
+      "reason": "False positive: credited is a Solidity zero-initialized local uint256 accumulator, not a storage pointer. It sums validated overpayments and moves exactly that amount from escrow into the original bidders\u2019 pull credits. Duplicate credits and empty-overpayment/full-batch cases are tested.",
+      "location": "src/RankedAuction.sol:236"
+    },
+    {
+      "id": "31b2355ffb9110add8ebb1107050856090ca4c3a0ffa809c0397854ccd998030",
+      "check": "unused-return",
+      "reportedImpact": "Medium",
+      "reason": "Intentional: buy computes the royalty for the particular listed ERC-721 token ID and accrues it in a separate royalty pool. The returned wallet is not assigned personal seller credit, so accrued royalties follow accepted payout rotation. Seller ownership, approval, transfer nonce and exact consideration are checked; all sale effects precede safeTransferFrom and revert on rejection.",
+      "location": "src/RoyaltyMarketplace.sol:78"
+    },
+    {
+      "id": "e96b4a8c96ab6a8ea297faf6f601369aeff13ac6b08e4fd96e30e04051a04e23",
+      "check": "unused-return",
+      "reportedImpact": "Medium",
+      "reason": "Intentional: royaltyInfo(1, 0) resolves the current shared payout wallet for authorization; the zero amount is unused because withdrawal uses the accounted pendingRoyalties pool. IDs 1\u2013100 share the fixed rate and payout controller. Rotation, accrued funds, unauthorized access and repeated-withdraw tests cover this flow.",
+      "location": "src/RoyaltyMarketplace.sol:115"
+    },
+    {
+      "id": "508f4c47f22ccd5cd1a5561f62323ab976ab86f28e95248acb1c164d476a30bb",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "location": "src/RankedAuction.sol:146"
+    },
+    {
+      "id": "59177f8f25cc8995ea6c6857e36bf745798a1fe8ddae2f524a7181f55f534291",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "location": "src/RoyaltyMarketplace.sol:78"
+    },
+    {
+      "id": "65b33644c492a1621f8d6151a19720b67cf9891ec8190672a3166d93cb61e14c",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "location": "src/RoyaltyMarketplace.sol:58"
+    },
+    {
+      "id": "6d6e0e317ef93202ae2bfe355fe422e6683566d6d105bf98a8a264b2b0f905fb",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "location": "src/RankedAuction.sol:105"
+    },
+    {
+      "id": "c7a440b5c96075d489edcb6ba133e961308f28082dca8e630c047ab7d2afd5f7",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "location": "src/RankedAuction.sol:384"
+    },
+    {
+      "id": "e9eac2fc73bdc0e616287a06d7775a19037fd140b88128917e60e7d9526293b7",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "location": "src/RankedAuction.sol:208"
+    },
+    {
+      "id": "900972bf68b6afd527836f08858255058c95bb8af277294f9a1dece11e1c8a9f",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded mint loop: lifetime mint cap is 100; auction batches are at most 90 and reserved batches at most 10. The supply count advances before each safe-mint callback. Only the immutable auction may mint and all claim entry points are nonReentrant. Rejected later callbacks roll back the whole batch including allocation counters and ownership. Unit tests cover reserved/unsold/winner partitioning, failed deliveries, reentry and rotation; lifecycle receipt gas bounds batch costs.",
+      "location": "src/AuctionEdition.sol:51"
+    },
+    {
+      "id": "2126db9fb0123dfeb2a58df0b29b603641a419b1059e647464a33a196c5d8659",
+      "check": "low-level-calls",
+      "reportedImpact": "Informational",
+      "reason": "Intentional private pull-payment helper: only the original bidder can debit its own refund; only the current payout wallet can debit proceeds. Both callers update liabilities before interaction, are nonReentrant and revert on failure. Bidding and settlement call no untrusted receivers. Reserved mint claims cannot create or withdraw proceeds.",
+      "location": "src/RankedAuction.sol:397"
+    },
+    {
+      "id": "51942ec9f72b29e37355c539e94a527faf6ef7437ae3e69b63ff72bc03fffb4d",
+      "check": "low-level-calls",
+      "reportedImpact": "Informational",
+      "reason": "Intentional royalty pull payment: only the current shared payout wallet can debit the accrued pool; pendingRoyalties and totalCredits are reduced before interaction. nonReentrant and revert-on-failure prevent duplicate/cross-function withdrawal and preserve credits for rejecting recipients.",
+      "location": "src/RoyaltyMarketplace.sol:115"
+    },
+    {
+      "id": "da0c9ed25c90d6a89c610ffa7c66cfd28af96bcff926ef10ee480e40b130f302",
+      "check": "low-level-calls",
+      "reportedImpact": "Informational",
+      "reason": "Intentional seller pull payment: withdraw debits only credits[msg.sender] and totalCredits before interaction, under nonReentrant. Failed delivery rolls back all effects. NFT ownership changes and payout rotation never reassign personal seller credits.",
+      "location": "src/RoyaltyMarketplace.sol:103"
+    }
+  ]
+}

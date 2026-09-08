@@ -1,0 +1,10 @@
+node_modules/
+out/
+cache/
+broadcast/
+lcov.info
+.env
+.venv/
+.tools/
+# Audit evidence is versioned with the source it verifies.
+__pycache__/

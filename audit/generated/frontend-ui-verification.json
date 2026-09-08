@@ -1,0 +1,23 @@
+{
+  "date": "2026-09-06",
+  "result": "PASS",
+  "url": "http://localhost:4321/auction.html",
+  "method": "Local browser accessibility walkthrough and visual inspection",
+  "checks": [
+    "90 auction places, 10 reserves, 100 total shown",
+    "24-hour model starts one hour into the auction (23 hours remaining)",
+    "2 ETH bid shows rarest NFT #1 full-payment warning before submission",
+    "Same wallet bids 2 ETH and 0.5 ETH; wins NFT #1 and NFT #28",
+    "Settlement regular price 0.132 ETH; final wallet cost 2.132 ETH",
+    "Both NFT claims show UNREVEALED with no on-chain reveal buttons",
+    "Overpayment credit is 0.368 ETH and can be withdrawn separately",
+    "Final demo wallet balance is 7.868 ETH with zero available refund",
+    "Position rows and rules render without overlap at the existing desktop viewport",
+    "Temporary verification tab closed"
+  ],
+  "limitations": [
+    "Simulation only; no wallet/RPC connection",
+    "Off-chain metadata/reveal backend is not implemented by this contract package",
+    "No new mobile viewport validation in this revision"
+  ]
+}

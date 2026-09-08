@@ -1,0 +1,55 @@
+'forge clean' running (wd: /private/tmp/claude-501/-Users-aaa/4a1ddbbe-b8a9-4624-867b-218c8350477b/scratchpad/auction-copy)
+'forge config --json' running
+'forge build --build-info --skip ./test/** ./script/** --force' running (wd: /private/tmp/claude-501/-Users-aaa/4a1ddbbe-b8a9-4624-867b-218c8350477b/scratchpad/auction-copy)
+
+Detector: arbitrary-send-eth
+RankedAuction._send(address,uint256) (src/RankedAuction.sol#397-402) sends eth to arbitrary user
+	Dangerous calls:
+	- (success,None) = recipient.call{value: amount}() (src/RankedAuction.sol#400)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations
+
+Detector: uninitialized-local
+RankedAuction.creditRefunds(uint256[]).credited (src/RankedAuction.sol#236) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+
+Detector: unused-return
+RoyaltyMarketplace.buy(uint256,address) (src/RoyaltyMarketplace.sol#78-95) ignores return value by (None,royalty) = IERC2981(edition).royaltyInfo(item.tokenId,price) (src/RoyaltyMarketplace.sol#86)
+RoyaltyMarketplace.withdrawRoyalties(address) (src/RoyaltyMarketplace.sol#115-126) ignores return value by (wallet,None) = IERC2981(edition).royaltyInfo(1,0) (src/RoyaltyMarketplace.sol#116)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+
+Detector: timestamp
+RankedAuction.constructor(RankedAuction.Config) (src/RankedAuction.sol#105-115) uses timestamp for comparisons
+	Dangerous comparisons:
+	- config.reservePrice == 0 || config.startTime <= block.timestamp (src/RankedAuction.sol#106)
+RankedAuction.phase() (src/RankedAuction.sol#146-151) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < startTime (src/RankedAuction.sol#148)
+	- block.timestamp < endTime (src/RankedAuction.sol#149)
+RankedAuction.settle() (src/RankedAuction.sol#208-223) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < endTime (src/RankedAuction.sol#210)
+RankedAuction._extend() (src/RankedAuction.sol#384-388) uses timestamp for comparisons
+	Dangerous comparisons:
+	- endTime - block.timestamp >= EXTENSION_WINDOW (src/RankedAuction.sol#385)
+RoyaltyMarketplace.list(uint256,uint128,uint64) (src/RoyaltyMarketplace.sol#58-67) uses timestamp for comparisons
+	Dangerous comparisons:
+	- price == 0 || expiry <= block.timestamp (src/RoyaltyMarketplace.sol#60)
+RoyaltyMarketplace.buy(uint256,address) (src/RoyaltyMarketplace.sol#78-95) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ! item.active || block.timestamp >= item.expiry (src/RoyaltyMarketplace.sol#80)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+
+Detector: costly-loop
+AuctionEdition.mint(address,uint256[]) (src/AuctionEdition.sol#51-60) has costly operations inside a loop:
+	- ++ totalSupply (src/AuctionEdition.sol#57)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop
+
+Detector: low-level-calls
+Low level call in RankedAuction._send(address,uint256) (src/RankedAuction.sol#397-402):
+	- (success,None) = recipient.call{value: amount}() (src/RankedAuction.sol#400)
+Low level call in RoyaltyMarketplace.withdraw(address) (src/RoyaltyMarketplace.sol#103-112):
+	- (success,None) = recipient.call{value: amount}() (src/RoyaltyMarketplace.sol#109)
+Low level call in RoyaltyMarketplace.withdrawRoyalties(address) (src/RoyaltyMarketplace.sol#115-126):
+	- (success,None) = recipient.call{value: amount}() (src/RoyaltyMarketplace.sol#123)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+. analyzed (25 contracts with 101 detectors), 14 result(s) found

@@ -1,0 +1,24 @@
+{
+  "name": "ranked-edition-auction",
+  "version": "1.0.0",
+  "private": true,
+  "description": "100 ERC-721 NFTs: 90-place tiered ranked auction, 10 creator reserves and enforced trading royalties",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/foundry.mjs forge build --sizes",
+    "test": "node scripts/foundry.mjs forge test",
+    "test:audit": "FOUNDRY_PROFILE=audit node scripts/foundry.mjs forge test",
+    "coverage": "node scripts/foundry.mjs forge coverage --report summary --report lcov",
+    "format": "node scripts/foundry.mjs forge fmt",
+    "format:check": "node scripts/foundry.mjs forge fmt --check",
+    "deploy:dry": "node scripts/foundry.mjs forge script script/Deploy.s.sol:Deploy --sig 'run()'",
+    "audit": "bash scripts/audit.sh"
+  },
+  "devDependencies": {
+    "@foundry-rs/forge": "1.7.1",
+    "@foundry-rs/anvil": "1.7.1",
+    "@foundry-rs/cast": "1.7.1"
+  }
+}

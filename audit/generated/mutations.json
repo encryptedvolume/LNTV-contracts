@@ -1,0 +1,226 @@
+[
+  {
+    "mutation": "zero outbid increment",
+    "killed": true
+  },
+  {
+    "mutation": "old 2.5 percent outbid increment restored",
+    "killed": true
+  },
+  {
+    "mutation": "zero increase increment",
+    "killed": true
+  },
+  {
+    "mutation": "wrong supply",
+    "killed": true
+  },
+  {
+    "mutation": "two-hour extension cap restored",
+    "killed": true
+  },
+  {
+    "mutation": "extension timestamp narrowed",
+    "killed": true
+  },
+  {
+    "mutation": "reversed tie priority",
+    "killed": true
+  },
+  {
+    "mutation": "loser refund shortfall",
+    "killed": true
+  },
+  {
+    "mutation": "wrong clearing price",
+    "killed": true
+  },
+  {
+    "mutation": "settlement double liability",
+    "killed": true
+  },
+  {
+    "mutation": "stealable claims",
+    "killed": true
+  },
+  {
+    "mutation": "repeatable refund credit",
+    "killed": true
+  },
+  {
+    "mutation": "repeatable token claim",
+    "killed": true
+  },
+  {
+    "mutation": "stolen payout funds",
+    "killed": true
+  },
+  {
+    "mutation": "auction reentrancy guard removed",
+    "killed": true
+  },
+  {
+    "mutation": "royalty transfer bypass",
+    "killed": true
+  },
+  {
+    "mutation": "missing supply accounting",
+    "killed": true
+  },
+  {
+    "mutation": "zeroed royalties",
+    "killed": true
+  },
+  {
+    "mutation": "free purchase",
+    "killed": true
+  },
+  {
+    "mutation": "royalty double credit",
+    "killed": true
+  },
+  {
+    "mutation": "unauthorized cancellation",
+    "killed": true
+  },
+  {
+    "mutation": "repeatable marketplace withdrawal",
+    "killed": true
+  },
+  {
+    "mutation": "marketplace reentrancy guard removed",
+    "killed": true
+  },
+  {
+    "mutation": "primary auction royalty deduction",
+    "killed": true
+  },
+  {
+    "mutation": "unauthorized wallet acceptance",
+    "killed": true
+  },
+  {
+    "mutation": "wallet nomination takes immediate control",
+    "killed": true
+  },
+  {
+    "mutation": "accepted wallet not applied",
+    "killed": true
+  },
+  {
+    "mutation": "stale pending wallet retained",
+    "killed": true
+  },
+  {
+    "mutation": "unsafe payout wallet allowed",
+    "killed": true
+  },
+  {
+    "mutation": "rotation erases accrued auction proceeds",
+    "killed": true
+  },
+  {
+    "mutation": "royalty recipient ignores shared wallet",
+    "killed": true
+  },
+  {
+    "mutation": "stealable trading royalties",
+    "killed": true
+  },
+  {
+    "mutation": "repeatable royalty withdrawal",
+    "killed": true
+  },
+  {
+    "mutation": "forced third-party mint delivery",
+    "killed": true
+  },
+  {
+    "mutation": "royalty pool double credit",
+    "killed": true
+  },
+  {
+    "mutation": "rank-to-token assignment reversed",
+    "killed": true
+  },
+  {
+    "mutation": "bid ID used instead of awarded token ID",
+    "killed": true
+  },
+  {
+    "mutation": "unsold mint consumes winning token IDs",
+    "killed": true
+  },
+  {
+    "mutation": "unauthorized ERC721 mint",
+    "killed": true
+  },
+  {
+    "mutation": "ERC721 token approval bypass",
+    "killed": true
+  },
+  {
+    "mutation": "missing transfer nonce",
+    "killed": true
+  },
+  {
+    "mutation": "stale listing nonce ignored",
+    "killed": true
+  },
+  {
+    "mutation": "ERC721 listing stays active after sale",
+    "killed": true
+  },
+  {
+    "mutation": "ERC721 supply exceeds 100",
+    "killed": true
+  },
+  {
+    "mutation": "ERC721 receiver check bypassed",
+    "killed": true
+  },
+  {
+    "mutation": "top winner gets cutoff discount",
+    "killed": true
+  },
+  {
+    "mutation": "regular winner pays full bid",
+    "killed": true
+  },
+  {
+    "mutation": "uniform primary proceeds restored",
+    "killed": true
+  },
+  {
+    "mutation": "empty auction settlement underflows",
+    "killed": true
+  },
+  {
+    "mutation": "wrong initial duration",
+    "killed": true
+  },
+  {
+    "mutation": "wrong reserved allocation",
+    "killed": true
+  },
+  {
+    "mutation": "reserved IDs overlap auction",
+    "killed": true
+  },
+  {
+    "mutation": "reserved batch ignores quantity",
+    "killed": true
+  },
+  {
+    "mutation": "reserved batch starts at wrong ID",
+    "killed": true
+  },
+  {
+    "mutation": "metadata ignores token ID",
+    "killed": true
+  },
+  {
+    "mutation": "metadata slash validation bypassed",
+    "killed": true
+  }
+]

@@ -1,0 +1,59 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+== Return ==
+deployed: contract RankedAuction 0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+== Logs ==
+  Chain ID 31337
+  Shared payout wallet 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+  Royalty BPS 750
+  Reserve (wei) 10000000000000000
+  Start (unix seconds) 1788771685
+  Initial end (unix seconds) 1788858085
+  Fixed off-chain metadata base URI https://metadata.example/local-e2e/
+  ERC-721 collection name Local ERC721 NFTs
+  ERC-721 symbol L721
+  Auction 0x5FbDB2315678afecb367f032d93F642f64180aa3
+  Edition 0xa16E02E87b7454126E5E10d957A927A7F5B5d2be
+  Royalty marketplace 0x8Ff3801288a85ea261E4277d44E1131Ea736F77B
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 31337
+
+Estimated gas price: 2.000000001 gwei
+
+Estimated total gas used for script: 6274086
+
+Estimated amount required: 0.012548172006274086 ETH
+
+==========================
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
+Transactions saved to: /var/folders/z8/l7lwbjk53j32dvfykd8lwg_r0000gn/T/auction-e2e-fn4m1yf0/broadcast/Deploy.s.sol/31337/run-latest.json
+
+Sensitive values saved to: /Users/aaa/Desktop/dev/lntv/auction/cache/Deploy.s.sol/31337/run-latest.json
+
+2026-09-07T08:01:25.794647Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdAssertions.sol
+2026-09-07T08:01:25.794757Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdError.sol
+2026-09-07T08:01:25.794817Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdInvariant.sol
+2026-09-07T08:01:25.795000Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdToml.sol
+2026-09-07T08:01:25.795042Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/Test.sol
+2026-09-07T08:01:25.795392Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/AuctionInvariant.t.sol
+2026-09-07T08:01:25.795419Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/CrossContractAudit.t.sol
+2026-09-07T08:01:25.795442Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/Deployment.t.sol
+2026-09-07T08:01:25.795462Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/MarketInvariant.t.sol
+2026-09-07T08:01:25.795487Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/Metadata.t.sol
+2026-09-07T08:01:25.795525Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/PayoutWallet.t.sol
+2026-09-07T08:01:25.795545Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RankedAuction.t.sol
+2026-09-07T08:01:25.795574Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RoyaltyMarketplace.t.sol
+2026-09-07T08:01:25.795594Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestBase.sol
+2026-09-07T08:01:25.795615Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TieredAllocation.t.sol
+2026-09-07T08:01:25.800804Z  WARN evm::traces::external: etherscan config not found

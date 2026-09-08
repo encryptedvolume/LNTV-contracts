@@ -1,0 +1,57 @@
+KILLED: zero outbid increment
+KILLED: old 2.5 percent outbid increment restored
+KILLED: zero increase increment
+KILLED: wrong supply
+KILLED: two-hour extension cap restored
+KILLED: extension timestamp narrowed
+KILLED: reversed tie priority
+KILLED: loser refund shortfall
+KILLED: wrong clearing price
+KILLED: settlement double liability
+KILLED: stealable claims
+KILLED: repeatable refund credit
+KILLED: repeatable token claim
+KILLED: stolen payout funds
+KILLED: auction reentrancy guard removed
+KILLED: royalty transfer bypass
+KILLED: missing supply accounting
+KILLED: zeroed royalties
+KILLED: free purchase
+KILLED: royalty double credit
+KILLED: unauthorized cancellation
+KILLED: repeatable marketplace withdrawal
+KILLED: marketplace reentrancy guard removed
+KILLED: primary auction royalty deduction
+KILLED: unauthorized wallet acceptance
+KILLED: wallet nomination takes immediate control
+KILLED: accepted wallet not applied
+KILLED: stale pending wallet retained
+KILLED: unsafe payout wallet allowed
+KILLED: rotation erases accrued auction proceeds
+KILLED: royalty recipient ignores shared wallet
+KILLED: stealable trading royalties
+KILLED: repeatable royalty withdrawal
+KILLED: forced third-party mint delivery
+KILLED: royalty pool double credit
+KILLED: rank-to-token assignment reversed
+KILLED: bid ID used instead of awarded token ID
+KILLED: unsold mint consumes winning token IDs
+KILLED: unauthorized ERC721 mint
+KILLED: ERC721 token approval bypass
+KILLED: missing transfer nonce
+KILLED: stale listing nonce ignored
+KILLED: ERC721 listing stays active after sale
+KILLED: ERC721 supply exceeds 100
+KILLED: ERC721 receiver check bypassed
+KILLED: top winner gets cutoff discount
+KILLED: regular winner pays full bid
+KILLED: uniform primary proceeds restored
+KILLED: empty auction settlement underflows
+KILLED: wrong initial duration
+KILLED: wrong reserved allocation
+KILLED: reserved IDs overlap auction
+KILLED: reserved batch ignores quantity
+KILLED: reserved batch starts at wrong ID
+KILLED: metadata ignores token ID
+KILLED: metadata slash validation bypassed
+All 56 intentional regressions were detected by tests.

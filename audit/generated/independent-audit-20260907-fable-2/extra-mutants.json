@@ -1,0 +1,536 @@
+[
+  {
+    "mutant": "RA extend boundary (>= -> >)",
+    "file": "RankedAuction",
+    "status": "SURVIVED",
+    "behavioralFailures": 0,
+    "failures": [],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA always extend on increase",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOnlyRankChangingIncreaseExtends()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA minimum bid boundary (< -> <=)",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 24,
+    "failures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testMintReceiverCannotMintAnUnallocatedAuctionToken()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testProceedsCallbackCannotRotateOrDoubleWithdraw()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacedBidCannotBeIncreasedOrClaimed()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacementNeverCallsRejectingBidder()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDuplicateTokenClaimRevertsWholeBatch()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExactTimeBoundaries()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionDoesNotTruncateAtUint64Boundary()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionWindowContinuesBeyondTwoHours()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA settle boundary (< -> <=)",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 80,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/Metadata.t.sol:MetadataTest::testDistinctOffchainEndpointsForAuctionAndReservedNfts()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testFreePurchaseCannotSpendExistingSellerProceeds()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testMintReceiverCannotMintAnUnallocatedAuctionToken()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA phase boundary (< -> <=)",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExactTimeBoundaries()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA unsold quantity boundary",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 34,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/Metadata.t.sol:MetadataTest::testDistinctOffchainEndpointsForAuctionAndReservedNfts()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testFreePurchaseCannotSpendExistingSellerProceeds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testEmptyAuctionAndUnsoldClaim()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnsoldIdsCannotConsumeUnclaimedWinningNfts()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testAllERC721TransferEntrypointsRequireRoyaltyMarket()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA reserved quantity boundary",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 35,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/Metadata.t.sol:MetadataTest::testDistinctOffchainEndpointsForAuctionAndReservedNfts()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testFreePurchaseCannotSpendExistingSellerProceeds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testAllERC721TransferEntrypointsRequireRoyaltyMarket()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyRejectsInvalidPaymentAndRecipient()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyerMayChooseDifferentReceiver()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testCancellingAnotherListingPreservesCompletedSale()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA creditRefunds not idempotent",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 4,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDuplicateTokenClaimRevertsWholeBatch()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnderSubscribedTieredReserveAndIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA withdrawRefund keeps totalRefunds",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 7,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFullyAllocatedOutbidAndFullLoserRefund()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA auction address allowed as payout wallet",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 2,
+    "failures": [
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testConstructorRejectsSystemAddressesAsPayoutWallet()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testUnsafePayoutWalletsAreRejected()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA anyone accepts pending wallet",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 2,
+    "failures": [
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationCanBeReplacedOrCancelledAndStaleAcceptanceFails()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testOutsidersCannotProposeAcceptOrCancel()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA capacity off by one in minimumBid",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 4,
+    "failures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFullyAllocatedOutbidAndFullLoserRefund()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testMaximumFloorDoesNotOverflowAndCanSettle()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWeiReserveHasStrictPositiveIncrements()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA anyone can increase another bid",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testInvalidAndUnauthorizedIncrease()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA tokensClaimed counter dropped",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 2,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA _send to auction itself allowed",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRefundRecipientAndFailedProceedsValidation()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA pendingProceeds not zeroed",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 8,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testProceedsCallbackCannotRotateOrDoubleWithdraw()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA _unlink drops successor prev",
+    "file": "RankedAuction",
+    "status": "SURVIVED",
+    "behavioralFailures": 0,
+    "failures": [],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA _insert drops successor prev",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 4,
+    "failures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testIncreaseMaintainsSizeAndOriginalTiePriority()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOnlyRankChangingIncreaseExtends()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA displacement escrow not debited",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 2,
+    "failures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFullyAllocatedOutbidAndFullLoserRefund()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA gross overcharges one clearing",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 45,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testInsufficientTopUpCannotChangeRankOrDelayClosing()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testInvalidNomineeCannotEraseUsablePayoutReplacement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testMintReceiverCannotMintAnUnallocatedAuctionToken()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRefundCreditDoesNotAuthorizeForcedBatchMint()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSettlementCannotReleaseFundsAtHourTwo()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA extension window 4 minutes",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 5,
+    "failures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRankIncreasesKeepAuctionLiveBeyondFormerCap()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionDoesNotTruncateAtUint64Boundary()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionWindowContinuesBeyondTwoHours()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOnlyRankChangingIncreaseExtends()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA last rank left unassigned",
+    "file": "RankedAuction",
+    "status": "KILLED",
+    "behavioralFailures": 17,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testBiddingRemainsOpenAtHour23()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testMintReceiverCannotMintAnUnallocatedAuctionToken()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testRefundCreditDoesNotAuthorizeForcedBatchMint()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFinalRankFixesTokenIdsRegardlessOfClaimOrder()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWalletCanWinAll90()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRejectedLaterNftRollsBackEntireBatchAndCanBeRedirected()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRejectingBidderCannotBlockBiddingSettlementOrRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testThirdPartyCannotForceDeliveryBeforeWinnerRedirects()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTokenCallbackCannotReenterClaims()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RA head/tail swap on unlink of head",
+    "file": "RankedAuction",
+    "status": "COMPILE-ERROR",
+    "stderr": "Error: Compilation failed\n"
+  },
+  {
+    "mutant": "AE mint upper bound 101",
+    "file": "AuctionEdition",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testMintAuthorityUniqueIdsAndLifetimeCap()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "AE royalty for any token id",
+    "file": "AuctionEdition",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "AE revocation of foreign operator blocked",
+    "file": "AuctionEdition",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testUnapprovedOperatorCannotTransferOrApproveItself()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "AE tokenURI for unminted id",
+    "file": "AuctionEdition",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "AE nonce advances on mint",
+    "file": "AuctionEdition",
+    "status": "KILLED",
+    "behavioralFailures": 8,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testAllERC721TransferEntrypointsRequireRoyaltyMarket()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "AE royalty rounds down",
+    "file": "AuctionEdition",
+    "status": "KILLED",
+    "behavioralFailures": 2,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzRoyaltyMathNoOverflow(uint256,uint96)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM buy expiry inclusive",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testExpiryExclusive()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM list expiry inclusive",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testListingRequirements()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM buy skips approval precheck",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testTokenApprovalAllowsMarketAndClearsOnTransfer()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM credits buyer instead of seller",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 11,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testFormerSellerCannotCancelCurrentOwnersResale()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testFreePurchaseCannotSpendExistingSellerProceeds()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSellerCannotWithdrawTwiceUsingAnotherSellersBalance()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM withdraw keeps totalCredits",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 4,
+    "failures": [
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSellerCannotWithdrawTwiceUsingAnotherSellersBalance()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM unsafe transferFrom",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 4,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC721CallbackCannotReenterBuyOrCancel()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingNFTReceiverCannotConsumeBuyerFunds()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM anyone can list",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 2,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testListingRequirements()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testTokenApprovalAllowsMarketAndClearsOnTransfer()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM cancel twice allowed",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOnlySellerCanCancelAndListingIdNeverReused()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM edition allowed as recipient",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyRejectsInvalidPaymentAndRecipient()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM overpayment accepted",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyRejectsInvalidPaymentAndRecipient()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM token id 101 listable",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 1,
+    "failures": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testListingRequirements()"
+    ],
+    "inventoryMatches": true
+  },
+  {
+    "mutant": "RM listing nonce recorded stale (+1)",
+    "file": "RoyaltyMarketplace",
+    "status": "KILLED",
+    "behavioralFailures": 29,
+    "failures": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testFormerSellerCannotCancelCurrentOwnersResale()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testFreePurchaseCannotSpendExistingSellerProceeds()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testPurchasedNftRejectsTokenApprovalToFormerSeller()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain()",
+      "test/MutationBehavior.t.sol:MutationBehaviorTest::testSellerCannotWithdrawTwiceUsingAnotherSellersBalance()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()"
+    ],
+    "inventoryMatches": true
+  }
+]

@@ -1,0 +1,718 @@
+[
+  {
+    "mutation": "zero outbid increment",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testConfigurationAndBindings()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFullyAllocatedOutbidAndFullLoserRefund()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testMaximumFloorDoesNotOverflowAndCanSettle()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWeiReserveHasStrictPositiveIncrements()"
+    ]
+  },
+  {
+    "mutation": "old 2.5 percent outbid increment restored",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testConfigurationAndBindings()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFullyAllocatedOutbidAndFullLoserRefund()"
+    ]
+  },
+  {
+    "mutation": "zero increase increment",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testConfigurationAndBindings()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExistingBidRequiresTwoPointFivePercentRoundedUpAndCompounds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testInvalidAndUnauthorizedIncrease()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWeiReserveHasStrictPositiveIncrements()"
+    ]
+  },
+  {
+    "mutation": "old 0.5 percent increase increment restored",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testConfigurationAndBindings()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExistingBidRequiresTwoPointFivePercentRoundedUpAndCompounds()"
+    ]
+  },
+  {
+    "mutation": "wrong supply",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/Metadata.t.sol:MetadataTest::testDistinctOffchainEndpointsForAuctionAndReservedNfts()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testClaimsRequireSettlementAndValidBatches()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testConfigurationAndBindings()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacedBidCannotBeIncreasedOrClaimed()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacementNeverCallsRejectingBidder()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testEmptyAuctionAndUnsoldClaim()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFullyAllocatedOutbidAndFullLoserRefund()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testMaximumFloorDoesNotOverflowAndCanSettle()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWalletCanWinAll90()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWeiReserveHasStrictPositiveIncrements()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testPagination()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testSoldOutClearingIsLowestWinnerNotHighestLoser()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnsoldIdsCannotConsumeUnclaimedWinningNfts()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testAllERC721TransferEntrypointsRequireRoyaltyMarket()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyRejectsInvalidPaymentAndRecipient()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyerMayChooseDifferentReceiver()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testCancellingAnotherListingPreservesCompletedSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC721CallbackCannotReenterBuyOrCancel()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testExpiryExclusive()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testForcedEtherDoesNotCreateCredits()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testListingRequirements()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOnlySellerCanCancelAndListingIdNeverReused()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingNFTReceiverCannotConsumeBuyerFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRevokedApprovalRollsBackFillAndCredit()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testTokenApprovalAllowsMarketAndClearsOnTransfer()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testUnapprovedOperatorCannotTransferOrApproveItself()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedValidationAndLifetimeLimit()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRotationTransfersOnlyUnclaimedReservedEntitlements()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testWinningCostOnlyExistsForSettledWinners()"
+    ]
+  },
+  {
+    "mutation": "two-hour extension cap restored",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionWindowContinuesBeyondTwoHours()"
+    ]
+  },
+  {
+    "mutation": "extension timestamp narrowed",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testExtensionDoesNotTruncateAtUint64Boundary()"
+    ]
+  },
+  {
+    "mutation": "reversed tie priority",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacedBidCannotBeIncreasedOrClaimed()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFullyAllocatedOutbidAndFullLoserRefund()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testIncreaseMaintainsSizeAndOriginalTiePriority()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRankHeadMiddleTailAndStableTies()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTiedTopBidsUseOriginalBidPriorityAndDifferentCosts()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testWinningCostOnlyExistsForSettledWinners()"
+    ]
+  },
+  {
+    "mutation": "loser refund shortfall",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacementNeverCallsRejectingBidder()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFullyAllocatedOutbidAndFullLoserRefund()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testSoldOutClearingIsLowestWinnerNotHighestLoser()"
+    ]
+  },
+  {
+    "mutation": "wrong clearing price",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacedBidCannotBeIncreasedOrClaimed()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDisplacementNeverCallsRejectingBidder()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWeiReserveHasStrictPositiveIncrements()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testSoldOutClearingIsLowestWinnerNotHighestLoser()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testWinningCostOnlyExistsForSettledWinners()"
+    ]
+  },
+  {
+    "mutation": "settlement double liability",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testForcedEtherCannotAlterPricingOrBeStolen()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testMaximumFloorDoesNotOverflowAndCanSettle()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWalletCanWinAll90()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnderSubscribedTieredReserveAndIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()"
+    ]
+  },
+  {
+    "mutation": "stealable claims",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testMixedOwnerBatchCannotBeStolen()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testThirdPartyCannotForceDeliveryBeforeWinnerRedirects()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnauthorisedClaimRedirectionAndPayouts()"
+    ]
+  },
+  {
+    "mutation": "repeatable refund credit",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDuplicateTokenClaimRevertsWholeBatch()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnderSubscribedTieredReserveAndIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()"
+    ]
+  },
+  {
+    "mutation": "repeatable token claim",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testDuplicateTokenClaimRevertsWholeBatch()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWalletCanWinAll90()"
+    ]
+  },
+  {
+    "mutation": "stolen payout funds",
+    "failedTests": [
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testOutsidersCannotProposeAcceptOrCancel()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRepeatedRotationsRevokeFormerWallets()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnauthorisedClaimRedirectionAndPayouts()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedValidationAndLifetimeLimit()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRotationTransfersOnlyUnclaimedReservedEntitlements()"
+    ]
+  },
+  {
+    "mutation": "auction reentrancy guard removed",
+    "failedTests": [
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testProceedsCallbackCannotRotateOrDoubleWithdraw()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRefundCallbackCannotDoubleWithdraw()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTokenCallbackCannotReenterClaims()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()"
+    ]
+  },
+  {
+    "mutation": "royalty transfer bypass",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testAllERC721TransferEntrypointsRequireRoyaltyMarket()"
+    ]
+  },
+  {
+    "mutation": "missing supply accounting",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testEmptyAuctionAndUnsoldClaim()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFinalRankFixesTokenIdsRegardlessOfClaimOrder()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWalletCanWinAll90()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTokenCallbackCannotReenterClaims()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnsoldIdsCannotConsumeUnclaimedWinningNfts()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testMintAuthorityUniqueIdsAndLifetimeCap()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedValidationAndLifetimeLimit()"
+    ]
+  },
+  {
+    "mutation": "zeroed royalties",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationRequiresAcceptanceAndEmitsBothEvents()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzRoyaltyMathNoOverflow(uint256,uint96)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingSellerAndRoyaltyReceiversCannotBlockSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()"
+    ]
+  },
+  {
+    "mutation": "free purchase",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyRejectsInvalidPaymentAndRecipient()"
+    ]
+  },
+  {
+    "mutation": "royalty double credit",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()"
+    ]
+  },
+  {
+    "mutation": "unauthorized cancellation",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOnlySellerCanCancelAndListingIdNeverReused()"
+    ]
+  },
+  {
+    "mutation": "repeatable marketplace withdrawal",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()"
+    ]
+  },
+  {
+    "mutation": "marketplace reentrancy guard removed",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC721CallbackCannotReenterBuyOrCancel()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()"
+    ]
+  },
+  {
+    "mutation": "primary auction royalty deduction",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRotatingDuringLiveAuctionDoesNotAlterBidsOrAuctionTerms()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testForcedEtherCannotAlterPricingOrBeStolen()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testMaximumFloorDoesNotOverflowAndCanSettle()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testOneWalletCanWinAll90()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnderSubscribedTieredReserveAndIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()"
+    ]
+  },
+  {
+    "mutation": "unauthorized wallet acceptance",
+    "failedTests": [
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationCanBeReplacedOrCancelledAndStaleAcceptanceFails()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testOutsidersCannotProposeAcceptOrCancel()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRepeatedRotationsRevokeFormerWallets()"
+    ]
+  },
+  {
+    "mutation": "wallet nomination takes immediate control",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationCanBeReplacedOrCancelledAndStaleAcceptanceFails()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationRequiresAcceptanceAndEmitsBothEvents()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testOutsidersCannotProposeAcceptOrCancel()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRotationTransfersOnlyUnclaimedReservedEntitlements()"
+    ]
+  },
+  {
+    "mutation": "accepted wallet not applied",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationRequiresAcceptanceAndEmitsBothEvents()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testProceedsCallbackCannotRotateOrDoubleWithdraw()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRepeatedRotationsRevokeFormerWallets()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRotatingDuringLiveAuctionDoesNotAlterBidsOrAuctionTerms()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRotationTransfersOnlyUnclaimedReservedEntitlements()"
+    ]
+  },
+  {
+    "mutation": "stale pending wallet retained",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationCanBeReplacedOrCancelledAndStaleAcceptanceFails()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationRequiresAcceptanceAndEmitsBothEvents()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testProceedsCallbackCannotRotateOrDoubleWithdraw()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRepeatedRotationsRevokeFormerWallets()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()"
+    ]
+  },
+  {
+    "mutation": "unsafe payout wallet allowed",
+    "failedTests": [
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testUnsafePayoutWalletsAreRejected()"
+    ]
+  },
+  {
+    "mutation": "rotation erases accrued auction proceeds",
+    "failedTests": [
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()"
+    ]
+  },
+  {
+    "mutation": "royalty recipient ignores shared wallet",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testNominationRequiresAcceptanceAndEmitsBothEvents()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRejectingContractWalletCanAcceptAndRedirectPayments()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRepeatedRotationsRevokeFormerWallets()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testConfigurationAndBindings()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingSellerAndRoyaltyReceiversCannotBlockSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()"
+    ]
+  },
+  {
+    "mutation": "stealable trading royalties",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()"
+    ]
+  },
+  {
+    "mutation": "repeatable royalty withdrawal",
+    "failedTests": [
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingSellerAndRoyaltyReceiversCannotBlockSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()"
+    ]
+  },
+  {
+    "mutation": "forced third-party mint delivery",
+    "failedTests": [
+      "test/RankedAuction.t.sol:RankedAuctionTest::testThirdPartyCannotForceDeliveryBeforeWinnerRedirects()"
+    ]
+  },
+  {
+    "mutation": "royalty pool double credit",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingSellerAndRoyaltyReceiversCannotBlockSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()"
+    ]
+  },
+  {
+    "mutation": "rank-to-token assignment reversed",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFinalRankFixesTokenIdsRegardlessOfClaimOrder()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRejectedLaterNftRollsBackEntireBatchAndCanBeRedirected()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnsoldIdsCannotConsumeUnclaimedWinningNfts()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTiedTopBidsUseOriginalBidPriorityAndDifferentCosts()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()"
+    ]
+  },
+  {
+    "mutation": "bid ID used instead of awarded token ID",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFinalRankFixesTokenIdsRegardlessOfClaimOrder()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnsoldIdsCannotConsumeUnclaimedWinningNfts()"
+    ]
+  },
+  {
+    "mutation": "unsold mint consumes winning token IDs",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testEmptyAuctionAndUnsoldClaim()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnsoldIdsCannotConsumeUnclaimedWinningNfts()"
+    ]
+  },
+  {
+    "mutation": "unauthorized ERC721 mint",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testMintAuthorityUniqueIdsAndLifetimeCap()"
+    ]
+  },
+  {
+    "mutation": "ERC721 token approval bypass",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testTokenApprovalAllowsMarketAndClearsOnTransfer()"
+    ]
+  },
+  {
+    "mutation": "missing transfer nonce",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()"
+    ]
+  },
+  {
+    "mutation": "stale listing nonce ignored",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()"
+    ]
+  },
+  {
+    "mutation": "ERC721 listing stays active after sale",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC721CallbackCannotReenterBuyOrCancel()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOnlySellerCanCancelAndListingIdNeverReused()"
+    ]
+  },
+  {
+    "mutation": "ERC721 supply exceeds 100",
+    "failedTests": [
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testMintAuthorityUniqueIdsAndLifetimeCap()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()"
+    ]
+  },
+  {
+    "mutation": "ERC721 receiver check bypassed",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRejectedLaterNftRollsBackEntireBatchAndCanBeRedirected()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRejectingBidderCannotBlockBiddingSettlementOrRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTokenCallbackCannotReenterClaims()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectedMintRollsBackSupply()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()"
+    ]
+  },
+  {
+    "mutation": "top winner gets cutoff discount",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRefundRecipientAndFailedProceedsValidation()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testSoldOutClearingIsLowestWinnerNotHighestLoser()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnderSubscribedTieredReserveAndIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTiedTopBidsUseOriginalBidPriorityAndDifferentCosts()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testWinningCostOnlyExistsForSettledWinners()"
+    ]
+  },
+  {
+    "mutation": "regular winner pays full bid",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRefundCallbackCannotDoubleWithdraw()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testRejectingBidderCannotBlockBiddingSettlementOrRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnderSubscribedTieredReserveAndIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTiedTopBidsUseOriginalBidPriorityAndDifferentCosts()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()"
+    ]
+  },
+  {
+    "mutation": "uniform primary proceeds restored",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testLaterMintRejectionRollsBackEarlierCallbackSaleAndPayment()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testMintCallbackSalePreservesSeparateAuctionAndMarketAccounting()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testAccruedAndFutureBusinessRevenueMovesWhileBidderAndSellerFundsStayOwned()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testFormerWalletKeepsItsOwnSellerCreditsAndBidderRefunds()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testPrimaryAuctionHasNoRoyaltiesEvenAt100PercentTradingRate()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRotatingDuringLiveAuctionDoesNotAlterBidsOrAuctionTerms()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testFuzzTieredSettlement(uint128,uint128,uint8)",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testTreasuryCannotConsumeRefunds()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testUnderSubscribedTieredReserveAndIndependentRefunds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testTopPaysFullAndOthersPay90thWithIndependentRefunds()"
+    ]
+  },
+  {
+    "mutation": "empty auction settlement underflows",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/Metadata.t.sol:MetadataTest::testDistinctOffchainEndpointsForAuctionAndReservedNfts()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testClaimsRequireSettlementAndValidBatches()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testEmptyAuctionAndUnsoldClaim()",
+      "test/RankedAuction.t.sol:RankedAuctionTest::testSettlementTimingAndSingleUse()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testAllERC721TransferEntrypointsRequireRoyaltyMarket()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyRejectsInvalidPaymentAndRecipient()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyerMayChooseDifferentReceiver()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testCancellingAnotherListingPreservesCompletedSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC721CallbackCannotReenterBuyOrCancel()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testExpiryExclusive()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testForcedEtherDoesNotCreateCredits()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testListingRequirements()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOnlySellerCanCancelAndListingIdNeverReused()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingNFTReceiverCannotConsumeBuyerFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingSellerAndRoyaltyReceiversCannotBlockSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRevokedApprovalRollsBackFillAndCredit()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testTokenApprovalAllowsMarketAndClearsOnTransfer()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testUnapprovedOperatorCannotTransferOrApproveItself()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testSingleWinnerPaysFullAndEmptyAuctionHasNoProceeds()"
+    ]
+  },
+  {
+    "mutation": "wrong initial duration",
+    "failedTests": [
+      "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed24HourDuration()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()"
+    ]
+  },
+  {
+    "mutation": "wrong reserved allocation",
+    "failedTests": [
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedValidationAndLifetimeLimit()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRotationTransfersOnlyUnclaimedReservedEntitlements()"
+    ]
+  },
+  {
+    "mutation": "reserved IDs overlap auction",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/Metadata.t.sol:MetadataTest::testDistinctOffchainEndpointsForAuctionAndReservedNfts()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testAllERC721TransferEntrypointsRequireRoyaltyMarket()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyRejectsInvalidPaymentAndRecipient()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyerMayChooseDifferentReceiver()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testCancellingAnotherListingPreservesCompletedSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC721CallbackCannotReenterBuyOrCancel()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testExpiryExclusive()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testForcedEtherDoesNotCreateCredits()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testListingRequirements()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOnlySellerCanCancelAndListingIdNeverReused()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingNFTReceiverCannotConsumeBuyerFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRevokedApprovalRollsBackFillAndCredit()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testTokenApprovalAllowsMarketAndClearsOnTransfer()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testUnapprovedOperatorCannotTransferOrApproveItself()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRotationTransfersOnlyUnclaimedReservedEntitlements()"
+    ]
+  },
+  {
+    "mutation": "reserved batch ignores quantity",
+    "failedTests": [
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedValidationAndLifetimeLimit()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRotationTransfersOnlyUnclaimedReservedEntitlements()"
+    ]
+  },
+  {
+    "mutation": "reserved batch starts at wrong ID",
+    "failedTests": [
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testFuzzClaimsCreditsAndWithdrawalsInDifferentOrders(uint256,uint8)",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testPayoutAcceptanceDuringSaleKeepsRoyaltiesAndBlocksNestedWithdrawal()",
+      "test/CrossContractAudit.t.sol:CrossContractAuditTest::testRejectedSaleRollsBackPayoutAcceptanceAndEveryCredit()",
+      "test/Metadata.t.sol:MetadataTest::testDistinctOffchainEndpointsForAuctionAndReservedNfts()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltiesWithdrawalValidationAndDoubleWithdrawal()",
+      "test/PayoutWallet.t.sol:PayoutWalletTest::testRoyaltyWithdrawalCannotReenterSellerWithdrawal()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testAllERC721TransferEntrypointsRequireRoyaltyMarket()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyRejectsInvalidPaymentAndRecipient()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testBuyerMayChooseDifferentReceiver()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testCancellingAnotherListingPreservesCompletedSale()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC721CallbackCannotReenterBuyOrCancel()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testExpiryExclusive()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testForcedEtherDoesNotCreateCredits()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFullRoyaltyAndSameSellerReceiverDoNotLoseFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testFuzzTokenSaleConservesValue(uint128,uint16)",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testIndividualSalesPayRoyaltyAndSellerExactly()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testListingRequirements()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOneWeiSaleCannotRoundRoyaltyToZero()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOnlySellerCanCancelAndListingIdNeverReused()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testOverlappingListingsCannotSellAnNftTwiceOrReviveOnReturn()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRejectingNFTReceiverCannotConsumeBuyerFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testRevokedApprovalRollsBackFillAndCredit()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testSelfPurchasePaysRoyaltyAndInvalidatesOtherListings()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testTokenApprovalAllowsMarketAndClearsOnTransfer()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testUnapprovedOperatorCannotTransferOrApproveItself()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawAccessValidationAndRevertsPreserveFunds()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testWithdrawalCallbackCannotReenter()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRejectedReservedBatchRollsBackAndCanBeRedirected()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedAllocationIndependentOfAuctionAndClaimOrder()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedReceiverCannotReenterClaimsOrRotateWallet()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testReservedValidationAndLifetimeLimit()",
+      "test/TieredAllocation.t.sol:TieredAllocationTest::testRotationTransfersOnlyUnclaimedReservedEntitlements()"
+    ]
+  },
+  {
+    "mutation": "metadata ignores token ID",
+    "failedTests": [
+      "test/Metadata.t.sol:MetadataTest::testDistinctOffchainEndpointsForAuctionAndReservedNfts()",
+      "test/Metadata.t.sol:MetadataTest::testNoOnchainRevealOrMetadataReplacementAuthority()",
+      "test/RoyaltyMarketplace.t.sol:RoyaltyMarketplaceTest::testERC165AndERC2981AndMetadata()"
+    ]
+  },
+  {
+    "mutation": "metadata slash validation bypassed",
+    "failedTests": [
+      "test/Metadata.t.sol:MetadataTest::testBaseEndpointMustEndWithSlash()"
+    ]
+  }
+]

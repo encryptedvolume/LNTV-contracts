@@ -1,0 +1,103 @@
+
+> ranked-edition-auction@1.0.0 audit
+> bash scripts/audit.sh
+
+
+> ranked-edition-auction@1.0.0 format:check
+> node scripts/foundry.mjs forge fmt --check
+
+TAP version 13
+# Subtest: the audit runner propagates native tool failures
+ok 1 - the audit runner propagates native tool failures
+  ---
+  duration_ms: 39.733292
+  ...
+# Subtest: the audit runner propagates success
+ok 2 - the audit runner propagates success
+  ---
+  duration_ms: 35.461458
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 117.697208
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.273s
+
+OK
+PASS: 14 individually reviewed Slither findings; no unreviewed findings or source drift.
+PASS: all production contracts have 100% instrumented line, branch and function coverage.
+
+Ran 9 test suites in 417.93s (966.92s CPU time): 106 tests passed, 0 failed, 0 skipped (106 total tests)
+2026-09-07T04:52:41.845734Z  WARN evm::traces: failed to flush signature cache err=failed to create file "/Users/aaa/.foundry/cache/signatures": Operation not permitted (os error 1)
+KILLED: zero outbid increment
+KILLED: old 2.5 percent outbid increment restored
+KILLED: zero increase increment
+KILLED: wrong supply
+KILLED: two-hour extension cap restored
+KILLED: extension timestamp narrowed
+KILLED: reversed tie priority
+KILLED: loser refund shortfall
+KILLED: wrong clearing price
+KILLED: settlement double liability
+KILLED: stealable claims
+KILLED: repeatable refund credit
+KILLED: repeatable token claim
+KILLED: stolen payout funds
+KILLED: auction reentrancy guard removed
+KILLED: royalty transfer bypass
+KILLED: missing supply accounting
+KILLED: zeroed royalties
+KILLED: free purchase
+KILLED: royalty double credit
+KILLED: unauthorized cancellation
+KILLED: repeatable marketplace withdrawal
+KILLED: marketplace reentrancy guard removed
+KILLED: primary auction royalty deduction
+KILLED: unauthorized wallet acceptance
+KILLED: wallet nomination takes immediate control
+KILLED: accepted wallet not applied
+KILLED: stale pending wallet retained
+KILLED: unsafe payout wallet allowed
+KILLED: rotation erases accrued auction proceeds
+KILLED: royalty recipient ignores shared wallet
+KILLED: stealable trading royalties
+KILLED: repeatable royalty withdrawal
+KILLED: forced third-party mint delivery
+KILLED: royalty pool double credit
+KILLED: rank-to-token assignment reversed
+KILLED: bid ID used instead of awarded token ID
+KILLED: unsold mint consumes winning token IDs
+KILLED: unauthorized ERC721 mint
+KILLED: ERC721 token approval bypass
+KILLED: missing transfer nonce
+KILLED: stale listing nonce ignored
+KILLED: ERC721 listing stays active after sale
+KILLED: ERC721 supply exceeds 100
+KILLED: ERC721 receiver check bypassed
+KILLED: top winner gets cutoff discount
+KILLED: regular winner pays full bid
+KILLED: uniform primary proceeds restored
+KILLED: empty auction settlement underflows
+KILLED: wrong initial duration
+KILLED: wrong reserved allocation
+KILLED: reserved IDs overlap auction
+KILLED: reserved batch ignores quantity
+KILLED: reserved batch starts at wrong ID
+KILLED: metadata ignores token ID
+KILLED: metadata slash validation bypassed
+All 56 intentional regressions were detected by tests.
+Traceback (most recent call last):
+  File "/Users/aaa/Desktop/dev/lntv/auction/scripts/local_e2e.py", line 261, in <module>
+    main()
+    ~~~~^^
+  File "/Users/aaa/Desktop/dev/lntv/auction/scripts/local_e2e.py", line 29, in main
+    listener.bind(("127.0.0.1", 0))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted

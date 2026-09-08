@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+AUCTION_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+exec node "$AUCTION_ROOT/scripts/foundry.mjs" forge "$@"

@@ -1,0 +1,88 @@
+{
+  "result": "PASS",
+  "mutations": 57,
+  "previouslyBelowTwoBehavioralFailures": 14,
+  "minimumBehavioralFailures": 2,
+  "newBehavioralTests": 15,
+  "contractTestsPassed": 127,
+  "mutationBaselineTestsPassed": 124,
+  "mutationRunnerTestsPassed": 12,
+  "existingAuditGateTestsPassed": 7,
+  "comparisons": [
+    {
+      "mutation": "old 2.5 percent outbid increment restored",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "old 0.5 percent increase increment restored",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "two-hour extension cap restored",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "extension timestamp narrowed",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "royalty transfer bypass",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "free purchase",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "unauthorized cancellation",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "repeatable marketplace withdrawal",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "unsafe payout wallet allowed",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "forced third-party mint delivery",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "unauthorized ERC721 mint",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "ERC721 token approval bypass",
+      "before": 1,
+      "after": 2
+    },
+    {
+      "mutation": "wrong initial duration",
+      "before": 0,
+      "after": 5
+    },
+    {
+      "mutation": "metadata slash validation bypassed",
+      "before": 1,
+      "after": 2
+    }
+  ],
+  "sourceSha256": {
+    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
+    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
+    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
+  }
+}

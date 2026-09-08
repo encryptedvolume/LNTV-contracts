@@ -1,0 +1,37 @@
+{
+  "result": "PASS",
+  "submissionDelaySeconds": 1.2,
+  "runs": [
+    {
+      "name": "fresh-1",
+      "result": "PASS",
+      "timedTransactions": 33,
+      "lateBidIncreases": 30
+    },
+    {
+      "name": "fresh-2",
+      "result": "PASS",
+      "timedTransactions": 33,
+      "lateBidIncreases": 30
+    },
+    {
+      "name": "fresh-3",
+      "result": "PASS",
+      "timedTransactions": 33,
+      "lateBidIncreases": 30
+    },
+    {
+      "name": "delayed",
+      "result": "PASS",
+      "timedTransactions": 33,
+      "lateBidIncreases": 30
+    }
+  ],
+  "sourceSha256": {
+    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
+    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85",
+    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9"
+  },
+  "harnessSha256": "64677498a1c1a8722b5557d80a7f4906870535779645a8e8aaec8d82e918933b",
+  "oldHarnessDelayedResult": "Unexpected transaction status: increaseBid"
+}

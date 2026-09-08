@@ -1,0 +1,110 @@
+TAP version 13
+# Subtest: decimal ETH round-trips exactly without floating point
+ok 1 - decimal ETH round-trips exactly without floating point
+  ---
+  duration_ms: 1.209958
+  ...
+# Subtest: the next bid only needs to clear the cutoff, not beat the top bid
+ok 2 - the next bid only needs to clear the cutoff, not beat the top bid
+  ---
+  duration_ms: 1.370708
+  ...
+# Subtest: minimum and increase percentages round up to the next wei
+ok 3 - minimum and increase percentages round up to the next wei
+  ---
+  duration_ms: 4.058333
+  ...
+# Subtest: one wallet can win several separate NFTs and escrows every bid
+ok 4 - one wallet can win several separate NFTs and escrows every bid
+  ---
+  duration_ms: 0.294209
+  ...
+# Subtest: displacement immediately credits the full amount and withdrawal cannot repeat
+ok 5 - displacement immediately credits the full amount and withdrawal cannot repeat
+  ---
+  duration_ms: 0.375458
+  ...
+# Subtest: reserve is enough before all 90 places are filled
+ok 6 - reserve is enough before all 90 places are filled
+  ---
+  duration_ms: 0.245208
+  ...
+# Subtest: a full auction settles at the lowest winning bid for regular winners
+ok 7 - a full auction settles at the lowest winning bid for regular winners
+  ---
+  duration_ms: 1.190333
+  ...
+# Subtest: claims and overpayment refunds work in either order, once each
+ok 8 - claims and overpayment refunds work in either order, once each
+  ---
+  duration_ms: 1.086458
+  ...
+# Subtest: increase charges only the difference, enforces ownership, and preserves original tie priority
+ok 9 - increase charges only the difference, enforces ownership, and preserves original tie priority
+  ---
+  duration_ms: 0.177792
+  ...
+# Subtest: original IDs break equal new bids in favor of the earlier bid
+ok 10 - original IDs break equal new bids in favor of the earlier bid
+  ---
+  duration_ms: 0.712375
+  ...
+# Subtest: insufficient wallet funds and invalid values leave all balances and bids unchanged
+ok 11 - insufficient wallet funds and invalid values leave all balances and bids unchanged
+  ---
+  duration_ms: 0.153125
+  ...
+# Subtest: late bids keep extending beyond two hours and settlement waits for the current deadline
+ok 12 - late bids keep extending beyond two hours and settlement waits for the current deadline
+  ---
+  duration_ms: 0.455125
+  ...
+# Subtest: an increase only extends the auction if the bid changes rank
+ok 13 - an increase only extends the auction if the bid changes rank
+  ---
+  duration_ms: 0.075875
+  ...
+# Subtest: end is exclusive for bidding and inclusive for settlement
+ok 14 - end is exclusive for bidding and inclusive for settlement
+  ---
+  duration_ms: 0.279458
+  ...
+# Subtest: sample scenarios use valid illustrative addresses and reset state completely
+ok 15 - sample scenarios use valid illustrative addresses and reset state completely
+  ---
+  duration_ms: 0.48375
+  ...
+# Subtest: repeated competitive bidding conserves user funds through displacement and settlement
+ok 16 - repeated competitive bidding conserves user funds through displacement and settlement
+  ---
+  duration_ms: 24.963083
+  ...
+# Subtest: ERC-721 IDs match final ranks and remain fixed after claims
+ok 17 - ERC-721 IDs match final ranks and remain fixed after claims
+  ---
+  duration_ms: 0.2945
+  ...
+# Subtest: fixed allocation is 90 auction NFTs plus 10 reserved over 24 hours
+ok 18 - fixed allocation is 90 auction NFTs plus 10 reserved over 24 hours
+  ---
+  duration_ms: 0.163708
+  ...
+# Subtest: top winner pays full while other wins from the same wallet pay the cutoff
+ok 19 - top winner pays full while other wins from the same wallet pay the cutoff
+  ---
+  duration_ms: 0.404875
+  ...
+# Subtest: single winner pays full and earlier equal bid gets the rarest ID
+ok 20 - single winner pays full and earlier equal bid gets the rarest ID
+  ---
+  duration_ms: 0.077708
+  ...
+1..20
+# tests 20
+# suites 0
+# pass 20
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 100.187125
