@@ -54,6 +54,7 @@ contract RankedAuction is ReentrancyGuard {
     uint64 public immutable startTime;
     uint256 public immutable initialEndTime;
     uint256 public endTime;
+    uint256 public settledAt;
     bool public settled;
     bool public refundsClosed;
     uint256 public clearingPrice;
@@ -214,6 +215,7 @@ contract RankedAuction is ReentrancyGuard {
         if (settled) revert AlreadySettled();
         if (block.timestamp < endTime) revert AuctionNotEnded();
         settled = true;
+        settledAt = block.timestamp;
         clearingPrice = activeCount < SUPPLY ? reservePrice : bids[tail].amount;
         uint256 gross = activeCount == 0 ? 0 : uint256(bids[head].amount) + clearingPrice * (activeCount - 1);
         pendingProceeds = gross;
@@ -304,10 +306,10 @@ contract RankedAuction is ReentrancyGuard {
         emit ReservedClaimed(recipient, firstTokenId, quantity);
     }
 
-    /// @notice The payout wallet may recover remaining ETH 28 days after the final extended end.
-    /// @dev This eligibility time moves with endTime while bidding remains live; it is not a refund deadline.
+    /// @notice The payout wallet may recover remaining ETH 28 days after settlement.
+    /// @dev Before settlement this is only an earliest estimate based on endTime. Refunds do not expire automatically.
     function recoveryAvailableAt() public view returns (uint256) {
-        return endTime + RECOVERY_DELAY;
+        return (settled ? settledAt : endTime) + RECOVERY_DELAY;
     }
 
     /// @notice Currently withdrawable credit; returns zero after a successful recovery closes refunds.

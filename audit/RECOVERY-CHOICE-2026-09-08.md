@@ -1,3 +1,5 @@
+> **Historical 3.0.0 snapshot:** optional recovery still requires a successful transaction, but the creator subsequently moved its 28-day delay from auction end to settlement. See [the current settlement-clock fix](SETTLEMENT-CLOCK-2026-09-08.md).
+
 # Refunds close only on successful recovery — 2026-09-08
 
 The creator clarified: “Refunds should't expire though? It should just be an

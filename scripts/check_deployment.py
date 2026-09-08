@@ -50,7 +50,14 @@ def check(w3, auction_address, config):
     assert auction.functions.INCREASE_BPS().call(block_identifier=snapshot) == 250
     assert auction.functions.EXTENSION_WINDOW().call(block_identifier=snapshot) == 600
     assert auction.functions.RECOVERY_DELAY().call(block_identifier=snapshot) == 28 * 86400
-    assert auction.functions.recoveryAvailableAt().call(block_identifier=snapshot) == auction.functions.endTime().call(block_identifier=snapshot) + 28 * 86400
+    settled = auction.functions.settled().call(block_identifier=snapshot)
+    settled_at = auction.functions.settledAt().call(block_identifier=snapshot)
+    end_time = auction.functions.endTime().call(block_identifier=snapshot)
+    if settled:
+        assert end_time <= settled_at <= w3.eth.get_block(snapshot).timestamp, "Invalid settlement timestamp"
+    else:
+        assert settled_at == 0, "Unsettled auction has a settlement timestamp"
+    assert auction.functions.recoveryAvailableAt().call(block_identifier=snapshot) == (settled_at if settled else end_time) + 28 * 86400
     assert edition.functions.metadataURI().call(block_identifier=snapshot) == config["METADATA_URI"]
     assert edition.functions.name().call(block_identifier=snapshot) == config["COLLECTION_NAME"]
     assert edition.functions.symbol().call(block_identifier=snapshot) == config["COLLECTION_SYMBOL"]

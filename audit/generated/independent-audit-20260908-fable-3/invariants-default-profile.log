@@ -1,0 +1,73 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/AuctionInvariant.t.sol:GrowingAuctionInvariantTest
+[PASS] invariant_matchesIndependentRankingAndConservesEveryWei() (runs: 256, calls: 32768, reverts: 0)
+
+╭----------------+----------+-------+---------+----------╮
+| Contract       | Selector | Calls | Reverts | Discards |
++========================================================+
+| AuctionHandler | advance  | 5486  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | create   | 5362  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | increase | 5436  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | reserve  | 5447  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | rotate   | 5509  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | withdraw | 5528  | 0       | 0        |
+╰----------------+----------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 20.94s (20.94s CPU time)
+
+Ran 1 test for test/AuctionInvariant.t.sol:FullAuctionInvariantTest
+[PASS] invariant_matchesIndependentRankingAndConservesEveryWei() (runs: 256, calls: 32768, reverts: 0)
+
+╭----------------+----------+-------+---------+----------╮
+| Contract       | Selector | Calls | Reverts | Discards |
++========================================================+
+| AuctionHandler | advance  | 5486  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | create   | 5362  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | increase | 5436  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | reserve  | 5447  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | rotate   | 5509  | 0       | 0        |
+|----------------+----------+-------+---------+----------|
+| AuctionHandler | withdraw | 5528  | 0       | 0        |
+╰----------------+----------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 63.69s (63.66s CPU time)
+
+Ran 1 test for test/MarketInvariant.t.sol:MarketInvariantTest
+[PASS] invariant_marketConservesTokensAndEthAndPaysRoyalties() (runs: 256, calls: 32768, reverts: 0)
+
+╭---------------+-------------------+-------+---------+----------╮
+| Contract      | Selector          | Calls | Reverts | Discards |
++================================================================+
+| MarketHandler | advance           | 3649  | 0       | 0        |
+|---------------+-------------------+-------+---------+----------|
+| MarketHandler | approval          | 3573  | 0       | 0        |
+|---------------+-------------------+-------+---------+----------|
+| MarketHandler | approveToken      | 3571  | 0       | 0        |
+|---------------+-------------------+-------+---------+----------|
+| MarketHandler | buy               | 3649  | 0       | 0        |
+|---------------+-------------------+-------+---------+----------|
+| MarketHandler | cancel            | 3627  | 0       | 0        |
+|---------------+-------------------+-------+---------+----------|
+| MarketHandler | list              | 3695  | 0       | 0        |
+|---------------+-------------------+-------+---------+----------|
+| MarketHandler | rotate            | 3743  | 0       | 0        |
+|---------------+-------------------+-------+---------+----------|
+| MarketHandler | withdraw          | 3606  | 0       | 0        |
+|---------------+-------------------+-------+---------+----------|
+| MarketHandler | withdrawRoyalties | 3655  | 0       | 0        |
+╰---------------+-------------------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 73.91s (73.91s CPU time)
+
+Ran 3 test suites in 73.92s (158.55s CPU time): 3 tests passed, 0 failed, 0 skipped (3 total tests)
+EXIT 0

@@ -6,7 +6,7 @@ Prepare a stable metadata base URL ending in `/` and serve initially unrevealed 
 
 Set one `PAYOUT_WALLET` able to execute contract calls, such as a multisig. It receives all auction proceeds and trading royalties and owns the ten reserved NFT entitlements. To reserve them for the deployer, use the deployer's address here. The deployer has no independent role. Set a positive reserve acceptable for the regular tier if fewer than 90 bids win; the top winner always pays its full bid. The payout wallet can later be replaced through the two-step flow below.
 
-Copy `.env.example` to `.env` and replace every example value. Foundry automatically reads the package's `.env`. Times are Unix **seconds**, amounts are **wei**, and 100 basis points is 1%. The deployment script rejects wrong RPC chain IDs, unsupported chains, less than ten minutes of lead time, a zero payout wallet, zero reserve, zero/over-100% royalty rates, empty metadata/name/symbol, metadata base missing its trailing slash, and numeric overflow before narrowing.
+Copy `.env.example` to `.env`, retain the confirmed `ROYALTY_BPS=1000` (10%), and replace the other example values for the target deployment. Foundry automatically reads the package's `.env`. Times are Unix **seconds**, amounts are **wei**, and 100 basis points is 1%. The deployment script rejects wrong RPC chain IDs, unsupported chains, less than ten minutes of lead time, a zero payout wallet, zero reserve, zero/over-100% royalty rates, empty metadata/name/symbol, metadata base missing its trailing slash, and numeric overflow before narrowing.
 
 | Variable | Meaning |
 |---|---|
@@ -14,7 +14,7 @@ Copy `.env.example` to `.env` and replace every example value. Foundry automatic
 | `PAYOUT_WALLET` | Initial shared wallet for all auction proceeds and trading royalties |
 | `COLLECTION_NAME` | Nonempty, fixed ERC-721 collection name |
 | `COLLECTION_SYMBOL` | Nonempty, fixed ERC-721 symbol |
-| `ROYALTY_BPS` | Fixed secondary-trading royalty only; 750 = 7.5% |
+| `ROYALTY_BPS` | Fixed secondary-trading royalty only; **1000 = 10%, confirmed for future deployments** |
 | `RESERVE_WEI` | Positive starting auction minimum in wei |
 | `START_TIME` | Unix seconds, at least ten minutes after deployment |
 | `METADATA_URI` | Fixed off-chain base ending `/`; token URI is `<base><id>.json` |
@@ -121,7 +121,7 @@ Metadata changes do not invalidate active sale listings or emit ERC-4906 events.
 
 The current wallet can replace an unaccepted nomination or cancel it with `cancelPayoutWalletChange()`. No arbitrary caller or deployer can rotate it. Both EOAs and contract wallets must be able to make these calls. Zero, the current wallet, and the three system contract addresses are rejected as nominees.
 
-Acceptance applies to unwithdrawn auction proceeds, accrued and future trading royalties, control of unclaimed reserved and unsold NFTs. Unrecovered bidder refunds, winning NFTs, seller credits, and already withdrawn funds keep their existing owners. Optional recovery after 28 days follows the current payout wallet and closes outstanding auction refunds only when successful. If the old payout wallet also sold NFTs, its seller credits stay withdrawable by that old wallet. No separate royalty-recipient update is necessary.
+Acceptance applies to unwithdrawn auction proceeds, accrued and future trading royalties, control of unclaimed reserved and unsold NFTs. Unrecovered bidder refunds, winning NFTs, seller credits, and already withdrawn funds keep their existing owners. Optional recovery 28 days after settlement follows the current payout wallet and closes outstanding auction refunds only when successful. If the old payout wallet also sold NFTs, its seller credits stay withdrawable by that old wallet. No separate royalty-recipient update is necessary.
 
 ## Recovery and operational limits
 
@@ -143,14 +143,18 @@ ERC-721 claims take bid IDs and return the NFTs assigned to those bids at settle
 
 New auctions run for 48 hours initially (`AUCTION_DURATION() = 172800`). A qualifying new bid or rank-changing increase inside the final ten minutes resets `endTime` to the transaction timestamp plus 600 seconds. Extensions have no cumulative cap, including at 24 hours past the initial close. An increase that preserves rank still does not extend the deadline. The existing code already had no extension cap; this update changes only the two timing constants in production Solidity.
 
-These constants are compiled into the contract. An already deployed auction would retain its original timing and require a new deployment to adopt this version. The timing-only release retained its external function signatures and exported interface version 1.1.0. The corrected refund-recovery release below exports version 3.0.0 with recovery eligibility and an explicit refund-closure state. No public deployment is recorded.
+These constants are compiled into the contract. An already deployed auction would retain its original timing and require a new deployment to adopt this version. The timing-only release retained its external function signatures and exported interface version 1.1.0. The corrected refund-recovery release below exports version 3.1.0 with recovery eligibility and an explicit refund-closure state. No public deployment is recorded.
 
 ## Optional recovery of unclaimed auction ETH after 28 days
 
 The creator can choose to recover unclaimed ETH starting at
-`recoveryAvailableAt()`: exactly 28 days (2,419,200 seconds) after the final
-extended `endTime`. The auction must also be settled. Late settlement does not
-postpone eligibility. Bidders may still credit and withdraw refunds at day 28
+`recoveryAvailableAt()`: exactly 28 days (2,419,200 seconds) after the first
+successful settlement transaction, recorded in `settledAt()`. Late settlement
+starts the full delay; settling on day 27 after bidding ends makes recovery
+available on day 55. Settlement and immediate recovery cannot succeed together.
+Before settlement the getter is only an earliest estimate from the auction end;
+check `settled()` before treating it as the actual recovery date. Bidders may
+still credit and withdraw refunds at day 28 after settlement
 or any later date **until recovery succeeds**. Displaced bidders may withdraw
 during bidding. Normal `withdrawProceeds` never closes refunds.
 
@@ -169,8 +173,8 @@ royalties are separate and unaffected. After recovery becomes available,
 transaction ordering determines whether a particular refund or recovery executes
 first; a pending recovery transaction does not itself close refunds.
 
-Interface 3.0.0 replaces the unreleased 2.0.0 time-expiry API with
-`RECOVERY_DELAY()`, `recoveryAvailableAt()` and `refundsClosed()`. There is no new
+Interface 3.1.0 replaces the unreleased 2.0.0 time-expiry API with
+`RECOVERY_DELAY()`, `recoveryAvailableAt()`, `settledAt()` and `refundsClosed()`. There is no new
 deployment parameter. Existing deployed bytecode would keep its original rules;
 no public deployment is recorded. Frontend wording, behavior and copied
 interface remain deferred at the creator's request. When integrating, disclose
@@ -178,3 +182,5 @@ the optional recovery policy before real bids and use the live closure flag,
 not elapsed time, to enable refund actions. Reconcile historical credit events
 with `refunds(wallet)` and `refundsClosed()`. Index `UnclaimedETHWithdrawn` for
 successful recovery transactions.
+
+Version 3.1.0 supersedes the auction-end anchor in 3.0.0 and resolves F3-02. The settlement timestamp adds one storage write paid by the settlement caller; ordinary bidder actions gain no new state write. The creator can submit settlement after close.

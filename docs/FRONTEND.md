@@ -33,11 +33,14 @@ been verified. After deployment, record the chain ID and verified `auction`,
 frontend. An empty mapping must leave transaction controls unavailable. ABI
 exports alone do not implement wallet integration or the reveal service.
 
-## Refund policy in interface 3.0.0
+## Refund policy in interface 3.1.0
 
-`RECOVERY_DELAY()` is 28 days and `recoveryAvailableAt()` is the final extended
-`endTime + 28 days`. These replace the misleading deadline/claim-period getters
-from unreleased version 2.0.0. Neither crediting nor withdrawal has an automatic
+`RECOVERY_DELAY()` is 28 days. Once `settled()` is true, `recoveryAvailableAt()`
+is `settledAt() + 28 days`; `settledAt()` records the first successful settlement.
+Before settlement, `settledAt()` is zero and the recovery getter returns only an
+earliest estimate from `endTime + 28 days`. Do not show that estimate as a running
+refund/recovery timer. Late settlement moves the actual eligibility date later.
+This supersedes the auction-end anchor in 3.0.0. Neither crediting nor withdrawal has an automatic
 expiry: enable them while `refundsClosed()` is false, even after day 28.
 `refunds(wallet)` reports credited amounts until successful recovery and zero
 afterwards. NFT claims and marketplace credits remain independent.
@@ -51,6 +54,8 @@ Use confirmed state to reconcile simultaneous refund/recovery transactions.
 
 Frontend wording, behavior and the copied interface have deliberately not been
 updated in this request. The frontend snapshot remains pinned to 1.1.0.
-When integrating, synchronize the interface to the published 3.0.0 commit and
+When integrating, synchronize the interface to the published 3.1.0 commit and
 disclose the optional recovery policy before real bids. Keep refund actions
 available until the live closure flag changes, and retain NFT claim actions.
+
+`UnclaimedETHWithdrawn.amount` includes unwithdrawn primary proceeds, remaining refunds and surplus. For separate bookkeeping, reconcile `AuctionSettled.proceeds` with prior `ProceedsWithdrawn` events; do not classify the entire recovery as forfeited refunds.

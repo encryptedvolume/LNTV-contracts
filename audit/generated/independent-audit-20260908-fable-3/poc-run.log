@@ -1,0 +1,44 @@
+No files changed, compilation skipped
+
+Ran 8 tests for test/AuditFable3.t.sol:AuditFable3Test
+[PASS] testPoCA2_LateSettlementShrinksCreditWindow() (gas: 424076)
+[PASS] testPoCA_SettleAndRecoverAtomicallyLeavesNoPostSettlementWindow() (gas: 901471)
+Logs:
+  overpayment swept from bob (wei): 2990000000000000000
+
+[PASS] testPoCB_StallOneDayTenTailBids() (gas: 28047593)
+Logs:
+  k rotating tail bids: 10
+  windows (x10min): 144
+  seconds held open past initial end: 86256
+  griefer wei added: 42710355918350548
+  griefer total commitment wei: 142710355918350548
+  final tail (= clearing price) wei: 14129738209737678
+  gas used by griefer: 17484718
+
+[PASS] testPoCB_StallOneDayTwoTailBids() (gas: 29316013)
+Logs:
+  k rotating tail bids: 2
+  windows (x10min): 144
+  seconds held open past initial end: 86256
+  griefer wei added: 98344561244295882
+  griefer total commitment wei: 118344561244295882
+  final tail (= clearing price) wei: 59172280622147941
+  gas used by griefer: 18362368
+
+[PASS] testPoCB_StallTwoHoursTwoTailBids() (gas: 15655947)
+Logs:
+  k rotating tail bids: 2
+  windows (x10min): 12
+  seconds held open past initial end: 7188
+  griefer wei added: 3193868364257814
+  griefer total commitment wei: 23193868364257814
+  final tail (= clearing price) wei: 11596934182128907
+  gas used by griefer: 1532764
+
+[PASS] testPoCC_ExtensionBoundaryTenMinutes() (gas: 330068)
+[PASS] testPoCD_DisplacedRefundWithdrawableDuringLiveAndSweptAfterRecovery() (gas: 14742329)
+[PASS] testPoCE_RecoverySweepsProceedsWithoutProceedsEvent() (gas: 298352)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 21.45ms (44.50ms CPU time)
+
+Ran 1 test suite in 30.14ms (21.45ms CPU time): 8 tests passed, 0 failed, 0 skipped (8 total tests)

@@ -48,7 +48,7 @@ Without forced ETH, both inequalities are equalities. Forced ETH does not influe
 
 Before settlement, `escrow` is the sum of all active bids. Each eviction moves its payment from `escrow` to `refunds` and `totalRefunds`. Settlement computes `gross = topBid + clearingPrice * (activeCount - 1)` for a nonempty auction, or zero for an empty auction, removes exactly `gross` from `escrow`, and credits all of it to `pendingProceeds`. There is no primary-auction royalty. The head bid pays its full amount; all other winners pay the lowest winning bid at 90 occupied places, or reserve below capacity. A sole winner pays its full bid. Afterwards `escrow` contains only uncredited winner overpayments. `creditRefunds` moves each winner's `bid.amount - winningBidCost(id)` into that bidder's refund credit exactly once; duplicate credit requests are idempotent. While `refundsClosed` is false, withdrawal zeros the caller's entitlement before the ETH interaction. A failure reverts the entire withdrawal, preserving the entitlement.
 
-Auction revenue can be withdrawn before any NFT claim. Refund entitlements remain available until a successful recovery, which is only allowed after 28 days; mint entitlements have no expiry. There is no dependence on the payout wallet, other bidders or any recipient callback to finish settlement. A rejecting ETH recipient can be changed by the entitled caller.
+Auction revenue can be withdrawn before any NFT claim. Refund entitlements remain available until a successful recovery, which is only allowed 28 days after settlement; mint entitlements have no expiry. There is no dependence on the payout wallet, other bidders or any recipient callback to finish settlement. A rejecting ETH recipient can be changed by the entitled caller.
 
 ## NFT invariants
 
@@ -107,9 +107,17 @@ The reference source is preserved as `.sol.txt` for review and is not compiled o
 
 ## Optional recovery of unclaimed ETH
 
-`RECOVERY_DELAY` is fixed at 28 days. `recoveryAvailableAt()` returns the current
-`endTime + 28 days`, so extensions also move recovery eligibility. Settlement
-cannot restart the delay. This timestamp does not expire any refund.
+`RECOVERY_DELAY` is fixed at 28 days. The first successful `settle()` records
+the transaction timestamp in `settledAt`; `recoveryAvailableAt()` then returns
+`settledAt + 28 days`. Repeated settlement reverts and cannot reset the timer.
+Before settlement the getter returns only an earliest estimate, `endTime + 28
+days`, which moves with extensions. It is not an active recovery timer; settlement
+is required and may move eligibility later. This timestamp does not expire refunds.
+
+Late settlement therefore leaves winners a full 28 days in which recovery cannot
+take their overpayments. A payout contract attempting settlement and immediate
+recovery in one transaction reverts the whole transaction. Anyone may settle
+after bidding ends; no creator signature is needed to open winner refunds.
 
 `refundsClosed` starts false. Both `creditRefunds` and `withdrawRefund` remain
 available regardless of elapsed time until a successful recovery sets it true.

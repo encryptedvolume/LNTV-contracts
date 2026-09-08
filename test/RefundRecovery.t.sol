@@ -25,7 +25,7 @@ contract RefundRecoveryTest is TestBase {
     }
 
     function _availableAt() internal view returns (uint256) {
-        return auction.endTime() + 28 days;
+        return (auction.settled() ? auction.settledAt() : auction.endTime()) + 28 days;
     }
 
     function _recover(address recipient) internal {
@@ -211,19 +211,132 @@ contract RefundRecoveryTest is TestBase {
         assertEq(auction.totalRefunds(), 3 ether);
     }
 
-    function testLateSettlementDoesNotRestartTheRecoveryDelay() public {
+    function testLateSettlementStartsFullRecoveryDelay() public {
         _book();
-        vm.warp(_availableAt());
+        uint256 settlementTime = auction.endTime() + 28 days;
+        vm.warp(settlementTime);
         vm.prank(payoutWallet);
         vm.expectRevert(RankedAuction.NotSettled.selector);
         auction.withdrawUnclaimedETH(payable(payoutWallet));
         auction.settle();
-        auction.creditRefunds(one(92));
-        assertEq(auction.refunds(carol), 2 ether);
+        assertEq(auction.settledAt(), settlementTime);
+        assertEq(auction.recoveryAvailableAt(), settlementTime + 28 days);
+        vm.prank(payoutWallet);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
+        auction.withdrawUnclaimedETH(payable(payoutWallet));
         assertFalse(auction.refundsClosed());
+        auction.creditRefunds(one(92));
+        vm.prank(carol);
+        auction.withdrawRefund(payable(carol));
+        vm.warp(settlementTime + 28 days - 1);
+        vm.prank(payoutWallet);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
+        auction.withdrawUnclaimedETH(payable(payoutWallet));
+        vm.warp(settlementTime + 28 days);
         uint256 before = payoutWallet.balance;
         _recover(payoutWallet);
-        assertEq(payoutWallet.balance - before, 100 ether);
+        assertEq(payoutWallet.balance - before, 98 ether);
+        _assertDrained();
+    }
+
+    function testAtomicLateSettlementAndRecoveryCannotCloseRefunds() public {
+        _book();
+        SettlementRecoveryCaller caller = new SettlementRecoveryCaller(auction);
+        vm.prank(payoutWallet);
+        auction.proposePayoutWallet(address(caller));
+        caller.accept();
+        uint256 settlementTime = auction.endTime() + 365 days;
+        vm.warp(settlementTime);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
+        caller.settleAndRecover();
+        assertFalse(auction.settled());
+        assertEq(auction.settledAt(), 0);
+        assertFalse(auction.refundsClosed());
+        assertEq(address(auction).balance, 100 ether);
+        auction.settle();
+        assertEq(auction.recoveryAvailableAt(), settlementTime + 28 days);
+        auction.creditRefunds(one(93));
+        vm.prank(bob);
+        auction.withdrawRefund(payable(bob));
+        vm.prank(bob);
+        auction.claimTokens(one(93), bob);
+        assertEq(edition.ownerOf(3), bob);
+        vm.warp(settlementTime + 28 days);
+        _recover(payoutWallet);
+        _assertDrained();
+    }
+
+    function testSettlementOnDay27GivesFull28Days() public {
+        _book();
+        uint256 auctionEnd = auction.endTime();
+        uint256 settlementTime = auctionEnd + 27 days;
+        vm.warp(settlementTime);
+        auction.settle();
+        vm.warp(auctionEnd + 28 days);
+        vm.prank(payoutWallet);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
+        auction.withdrawUnclaimedETH(payable(payoutWallet));
+        assertEq(auction.recoveryAvailableAt(), settlementTime + 28 days);
+        vm.warp(settlementTime + 28 days - 1);
+        auction.creditRefunds(one(92));
+        vm.prank(carol);
+        auction.withdrawRefund(payable(carol));
+        vm.warp(settlementTime + 28 days);
+        _recover(payoutWallet);
+        _assertDrained();
+    }
+
+    function testRepeatedSettlementCannotResetRecoveryDate() public {
+        _fund();
+        uint256 settledAt = auction.settledAt();
+        uint256 availableAt = settledAt + 28 days;
+        vm.warp(availableAt - 1);
+        vm.expectRevert(RankedAuction.AlreadySettled.selector);
+        auction.settle();
+        assertEq(auction.settledAt(), settledAt);
+        assertEq(auction.recoveryAvailableAt(), availableAt);
+        vm.warp(availableAt);
+        _recover(payoutWallet);
+        vm.warp(availableAt + 365 days);
+        vm.expectRevert(RankedAuction.AlreadySettled.selector);
+        auction.settle();
+        assertTrue(auction.refundsClosed());
+        assertEq(auction.recoveryAvailableAt(), availableAt);
+        _assertDrained();
+    }
+
+    function testRecoveryPreviewTracksExtensionsUntilSettlement() public {
+        _book();
+        uint256 originalEnd = auction.endTime();
+        assertEq(auction.settledAt(), 0);
+        assertEq(auction.recoveryAvailableAt(), originalEnd + 28 days);
+        vm.warp(originalEnd - 1);
+        place(bob, auction.minimumBid());
+        assertEq(auction.recoveryAvailableAt(), originalEnd + 599 + 28 days);
+        uint256 settlementTime = originalEnd + 599 + 3 days;
+        vm.warp(settlementTime);
+        auction.settle();
+        assertEq(auction.recoveryAvailableAt(), settlementTime + 28 days);
+        vm.warp(settlementTime + 28 days);
+        _recover(payoutWallet);
+        _assertDrained();
+    }
+
+    function testLateSettlementPastUint64PreservesRecoveryDelay() public {
+        _book();
+        uint256 settlementTime = uint256(type(uint64).max) + 1;
+        vm.warp(settlementTime);
+        auction.settle();
+        assertEq(auction.settledAt(), settlementTime);
+        assertEq(auction.recoveryAvailableAt(), settlementTime + 28 days);
+        vm.prank(payoutWallet);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
+        auction.withdrawUnclaimedETH(payable(payoutWallet));
+        auction.creditRefunds(one(93));
+        vm.prank(bob);
+        auction.withdrawRefund(payable(bob));
+        vm.warp(settlementTime + 28 days);
+        _recover(payoutWallet);
         _assertDrained();
     }
 
@@ -276,6 +389,7 @@ contract RefundRecoveryTest is TestBase {
         assertEq(auction.escrow(), 3 ether);
         assertEq(bid(1).tokenId, 0);
         auction.settle();
+        vm.warp(block.timestamp + 28 days);
         _recover(payoutWallet);
         vm.prank(alice);
         auction.claimTokens(one(1), alice);
@@ -451,10 +565,19 @@ contract RefundRecoveryTest is TestBase {
         _assertDrained();
     }
 
-    function testFuzzRecoveryConservesClaimedRefundsAndRemainingETH(uint96 forcedSeed, uint8 claims, uint32 delay)
-        public
-    {
-        _fund();
+    function testFuzzRecoveryConservesClaimedRefundsAndRemainingETH(
+        uint96 forcedSeed,
+        uint8 claims,
+        uint32 delay,
+        uint32 settlementDelay
+    ) public {
+        _book();
+        uint256 settlementTime = auction.endTime() + uint256(settlementDelay);
+        vm.warp(settlementTime);
+        auction.settle();
+        assertEq(auction.settledAt(), settlementTime);
+        assertEq(auction.recoveryAvailableAt(), settlementTime + 28 days);
+        auction.creditRefunds(one(92));
         uint256 forced = bound(uint256(forcedSeed), 0, 1 ether);
         vm.deal(address(this), forced);
         new ForceEther{ value: forced }(payable(address(auction)));
@@ -514,4 +637,23 @@ contract RefundStateObserver {
         seenCredit = auction.refunds(bidder);
         seenLiabilities = auction.liabilities();
     }
+}
+
+contract SettlementRecoveryCaller {
+    RankedAuction private immutable auction;
+
+    constructor(RankedAuction auction_) {
+        auction = auction_;
+    }
+
+    function accept() external {
+        auction.acceptPayoutWallet();
+    }
+
+    function settleAndRecover() external {
+        auction.settle();
+        auction.withdrawUnclaimedETH(payable(address(this)));
+    }
+
+    receive() external payable { }
 }
