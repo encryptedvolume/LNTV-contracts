@@ -1,8 +1,8 @@
 {
-  "name": "ranked-edition-auction",
+  "name": "@lntv/contracts",
   "version": "1.0.0",
   "private": true,
-  "description": "100 ERC-721 NFTs: 90-place tiered ranked auction, 10 creator reserves and enforced trading royalties",
+  "description": "LNTV ERC-721 ranked auction contracts, audit suite, and frontend interface",
   "engines": {
     "node": ">=22"
   },
@@ -14,11 +14,27 @@
     "format": "node scripts/foundry.mjs forge fmt",
     "format:check": "node scripts/foundry.mjs forge fmt --check",
     "deploy:dry": "node scripts/foundry.mjs forge script script/Deploy.s.sol:Deploy --sig 'run()'",
-    "audit": "bash scripts/audit.sh"
+    "audit": "bash scripts/audit.sh",
+    "interface:export": "node scripts/export-interface.mjs",
+    "interface:check": "node scripts/export-interface.mjs --check"
   },
   "devDependencies": {
     "@foundry-rs/forge": "1.7.1",
     "@foundry-rs/anvil": "1.7.1",
     "@foundry-rs/cast": "1.7.1"
+  },
+  "exports": {
+    ".": {
+      "types": "./interface/index.d.ts",
+      "import": "./interface/index.js"
+    },
+    "./deployments.json": "./interface/deployments.json"
+  },
+  "files": [
+    "interface"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fxckcomputer/LNTV-contracts.git"
   }
 }

@@ -1,0 +1,213 @@
+{
+  "date": "2026-09-07",
+  "status": "PASS",
+  "solidityTests": {
+    "passed": 111,
+    "failed": 0,
+    "skipped": 0
+  },
+  "statelessFuzz": {
+    "tests": 4,
+    "runsPerTest": 10000
+  },
+  "invariants": {
+    "campaigns": 3,
+    "runsPerCampaign": 1000,
+    "depth": 256,
+    "totalHandlerCalls": 768000,
+    "unexpectedReverts": 0,
+    "seed": "0x20260907",
+    "timeAdvanceHandlerCalls": 113299,
+    "clockModel": "Auction deadline and minimum bid independently modeled; market time advances through listing expiry"
+  },
+  "productionCoverage": {
+    "lines": "100%",
+    "statements": "100%",
+    "branches": "100%",
+    "functions": "100%"
+  },
+  "mutations": {
+    "killed": 56,
+    "survived": 0,
+    "compilationFailuresCountAsDetection": false
+  },
+  "nativeRunnerTests": 2,
+  "auditGateTests": 7,
+  "slither": {
+    "version": "0.11.5",
+    "detectors": 101,
+    "reviewedWarnings": 14,
+    "unreviewed": 0
+  },
+  "localDeployment": {
+    "chainId": 31337,
+    "result": "PASS",
+    "auction": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "edition": "0xa16E02E87b7454126E5E10d957A927A7F5B5d2be",
+    "marketplace": "0x8Ff3801288a85ea261E4277d44E1131Ea736F77B",
+    "gasUsed": {
+      "atomic_deployment": 4826220,
+      "reserve_4": 187705,
+      "worst_bid": 590731,
+      "settle": 772183,
+      "claim_88": 3303806,
+      "secondary_sale": 182611,
+      "payout_rotation_accept": 30723,
+      "reserve_6": 218657
+    },
+    "bids": 92,
+    "minted": 100,
+    "auctionEndingLiabilities": 0,
+    "marketEndingLiabilities": 0,
+    "auctionRoyalties": 0,
+    "initialPayoutWallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+    "finalPayoutWallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+    "walletRotation": "Two-step acceptance, old-wallet revocation, accrued and future revenue",
+    "secondarySales": 2,
+    "tokenStandard": "ERC-721",
+    "tokenIds": "1-90 by final rank; 91-100 reserved",
+    "metadata": "Fixed per-token off-chain endpoints; reveal policy belongs to the metadata service",
+    "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
+    "initialDurationSeconds": 86400,
+    "auctionedSupply": 90,
+    "reservedSupply": 10,
+    "outbidBps": 500,
+    "extensionLimit": null,
+    "lateRankChangingIncreases": 30,
+    "extensionSecondsAfterOriginalClose": 8970,
+    "deploymentCheckerNegativeCases": [
+      "incorrect royalty configuration rejected",
+      "unexpected current payout wallet rejected",
+      "unexpected pending payout wallet rejected",
+      "inconsistent immutable bytecode rejected"
+    ],
+    "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully",
+    "inspectionSnapshot": "One block number with a verified unchanged block hash"
+  },
+  "sourceSha256": {
+    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
+    "src/RankedAuction.sol": "de04bd090c4268b587ce0a37ca180c3d181aa23b0b9b9d89bc750be56554a720",
+    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
+  },
+  "limitations": [
+    "Self-review, not an independent external audit or formal proof",
+    "Strict market transfers and declared-price royalties only",
+    "Metadata/reveal backend is separate and not implemented in this contract package",
+    "No public-chain deployment"
+  ],
+  "evidenceSha256": {
+    "audit/generated/audit-gate-tests.log": "3dbb9f0d8a27ee7828863141e74fe6cd09f4a28a67227e147d5ac67b92c699d6",
+    "audit/generated/build.log": "3b01321d3d24454a4fe89bfdbf39fcc31df479875c3a0b6298356522ea0719bd",
+    "audit/generated/coverage.log": "8025f62c38ee6216f0653a6fdb09e709ab5f29781425c757dd5973df4aa74540",
+    "audit/generated/extended-tests.log": "841f6a7ad8dd17f3bf1456417187457a6d810f78d1c02d964d2099fb60c69c57",
+    "audit/generated/final-audit.log": "d97a14e1c3ce8e5ae0413a81529074254064bf1224294c5db4a5aa483629db4b",
+    "audit/generated/format.log": "1f119bc4ac8b29911ed746b617e6fe895e5af12066c5380b973412c766b04abf",
+    "audit/generated/frontend-tests.log": "fc74d0e45f7534dd934bccf8c375129d3064a0bb60314194415496b67fd66a84",
+    "audit/generated/frontend-ui-verification.json": "aaff5f64131660387da8eb5f5aa77f1f4eebb31c91fee185ae5c9fbb490b1ae1",
+    "audit/generated/local-deployment.log": "2bb40af95642932d5a4568cf083ced0336b201906887fa3913497b53b3e7de12",
+    "audit/generated/local-e2e.json": "d4586a074f0d36e1630f58c397ea38e29efce5eaab230e6db2e69bbc6d9a9b8b",
+    "audit/generated/mutations.json": "e7cc619819abf45e3314f7476b4ee90d8f9273c95ebb670b75bf86d37407e5a8",
+    "audit/generated/mutations.log": "8160df95bae0f8c46e38e3b7171f087fce0d3dd21b66f417f4b1074bb937957a",
+    "audit/generated/native-runner-tests.log": "679a2cf0b53c9699096d7400b4b4af1a5ad625aa299d583ca1f7597779d65b0f",
+    "audit/generated/slither.final.json": "0f1ca778ed03872ef03d01373bcef35127033c3ef36b979c3bccd3dd8172041d",
+    "audit/generated/slither.log": "1dcc2c7ce72ee864b3cc276d4d4be9f4dea55b98dc1663d8df8adc9696ff0c7f",
+    "lcov.info": "b61e77468e63ad5dc751236f5dfd41c119c5a1f9e8d8d890f7be0e10454ca1ae",
+    "audit/generated/baseline-audit.log": "e9026d7a59f311a12246f121d319c89c309ed32cc35e84a8c24ba8c203cd6c27"
+  },
+  "revision": "100 ERC-721 NFTs: 90 tiered ranked auction places and 10 reserved; fixed 24-hour initial duration; per-token off-chain metadata; 5% cutoff; uncapped five-minute close; rotatable payout; trading-only royalties",
+  "bytecodeBytes": {
+    "RankedAuction": {
+      "runtime": 9706,
+      "initcode": 23107
+    },
+    "AuctionEdition": {
+      "runtime": 6129,
+      "initcode": 11952
+    },
+    "RoyaltyMarketplace": {
+      "runtime": 4507,
+      "initcode": 4654
+    }
+  },
+  "payoutPolicy": {
+    "configuration": "PAYOUT_WALLET",
+    "rotation": "Current wallet nominates; nominated wallet accepts; current wallet can replace or cancel an unaccepted nomination",
+    "auctionRoyaltyBps": 0,
+    "tradingRoyaltyRate": "Immutable deployment parameter",
+    "acceptedRotationControls": [
+      "Unwithdrawn auction proceeds",
+      "Accrued and future trading royalties",
+      "Unclaimed reserved NFTs",
+      "Unsold auction NFT entitlement"
+    ],
+    "personalEntitlementsStayOwned": [
+      "Bidder refunds",
+      "Winning NFT claims",
+      "Marketplace seller credits"
+    ]
+  },
+  "biddingPolicy": {
+    "newBidOutbidBps": 500,
+    "activeBidIncreaseBps": 50,
+    "extensionWindowSeconds": 300,
+    "totalExtensionLimitSeconds": null,
+    "currentDeadlineType": "uint256",
+    "extensionTriggers": "New bids and rank-changing increases inside the final five minutes",
+    "initialDurationSeconds": 86400,
+    "pricing": "Highest-ranked bid pays full; other winners pay 90th winning bid or reserve if fewer than 90 wins",
+    "singleWinner": "Pays full bid",
+    "tiePriority": "Earlier original bid ID"
+  },
+  "frontendTests": {
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "command": "node --test site/test/auction-model.test.mjs",
+    "scope": "Local simulation; 90+10 allocation, 24h duration, top/regular tier refunds, final-rank IDs, 5% cutoff, increases and uncapped extensions"
+  },
+  "frontendSourceSha256": {
+    "../site/public/auction.html": "bbcc9b831058de80c7921315572bd0a8d7ef235ba03dddf8bed592cd5350deb1",
+    "../site/public/auction-demo.js": "c2f4cdd21a189780f949a204aa2d286c3f3775e95171fa0884a89287d92cd602",
+    "../site/public/auction-model.js": "df720ec57127860b25723468427589f79f2bf812b45fc918e69f7be22b6d33bb",
+    "../site/public/auction.css": "e0350456697f47e1fa73a1e7538947485c09ab5cdaed2928521bc5a2f18599d1",
+    "../site/test/auction-model.test.mjs": "fa0781c1cabc6575268dad686dbed41168bb9fdaf27893a61ce7712218baed5b",
+    "../site/README.md": "91ccf5383923c047d4e810b141cb378a54a4642a2fbd15449102a46cadd4a03f"
+  },
+  "collectionPolicy": {
+    "tokenStandard": "ERC-721",
+    "lifetimeSupply": 100,
+    "auctionedSupply": 90,
+    "reservedSupply": 10,
+    "tokenIds": "Auction 1-90; reserved 91-100",
+    "assignment": "Final rank fixes auction ID at settlement; reserved NFTs claimed independently by current payout wallet",
+    "metadata": "Fixed per-token off-chain base URL ending /; tokenURI appends decimal ID and .json",
+    "unsold": "Only IDs after the last winning rank through #90",
+    "marketplace": "Individual-token listings; transfers invalidate earlier listings through per-token nonces; off-chain metadata changes do not"
+  },
+  "revealPolicy": {
+    "storage": "Off-chain only",
+    "contractControls": false,
+    "metadataEndpoint": "Fixed base + tokenId + .json",
+    "initialContent": "Metadata service must serve unrevealed JSON for all 100 IDs",
+    "futureReveal": "Creator-enabled owner requests belong to a separate metadata backend",
+    "backendImplemented": false,
+    "listings": "Off-chain metadata updates do not invalidate listings; sellers should cancel affected listings before changes",
+    "randomness": "None",
+    "preAuctionContentCommitment": false,
+    "rarity": "Rarest NFT #1 is supplied by metadata; final rank-to-ID assignment is enforced on-chain"
+  },
+  "reaudit": {
+    "date": "2026-09-07",
+    "reviewType": "Repeat implementation self-review; not an independent external audit",
+    "newProductionDefectsIdentified": 0,
+    "productionSourcesUnchanged": true,
+    "documentationFindingsCorrected": 2,
+    "newTests": 5,
+    "timeProgressionAddedToAllInvariantCampaigns": true,
+    "command": "AUDIT_FUZZ_SEED=0x20260907 npm run audit",
+    "fullAuditCompleted": true,
+    "report": "audit/REAUDIT-2026-09-07.md",
+    "initialBaselineReplay": "106 tests and 56 mutations passed; local Anvil bind blocked by sandbox. Final complete run had localhost access.",
+    "frontendBrowserWalkthrough": "Previous evidence retained; this re-audit reran the 20 model tests, not the browser walkthrough"
+  }
+}

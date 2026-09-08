@@ -1,4 +1,4 @@
 
-> ranked-edition-auction@1.0.0 format:check
+> @lntv/contracts@1.0.0 format:check
 > node scripts/foundry.mjs forge fmt --check
 

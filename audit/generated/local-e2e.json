@@ -31,9 +31,210 @@
   "auctionedSupply": 90,
   "reservedSupply": 10,
   "outbidBps": 500,
+  "increaseBps": 250,
   "extensionLimit": null,
   "lateRankChangingIncreases": 30,
   "extensionSecondsAfterOriginalClose": 8970,
+  "timedTransactions": [
+    {
+      "function": "createBid",
+      "timestamp": 1788851315,
+      "blockNumber": 6,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788937714,
+      "blockNumber": 101,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788938013,
+      "blockNumber": 102,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788938312,
+      "blockNumber": 103,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788938611,
+      "blockNumber": 104,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788938910,
+      "blockNumber": 105,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788939209,
+      "blockNumber": 106,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788939508,
+      "blockNumber": 107,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788939807,
+      "blockNumber": 108,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788940106,
+      "blockNumber": 109,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788940405,
+      "blockNumber": 110,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788940704,
+      "blockNumber": 111,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788941003,
+      "blockNumber": 112,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788941302,
+      "blockNumber": 113,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788941601,
+      "blockNumber": 114,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788941900,
+      "blockNumber": 115,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788942199,
+      "blockNumber": 116,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788942498,
+      "blockNumber": 117,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788942797,
+      "blockNumber": 118,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788943096,
+      "blockNumber": 119,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788943395,
+      "blockNumber": 120,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788943694,
+      "blockNumber": 121,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788943993,
+      "blockNumber": 122,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788944292,
+      "blockNumber": 123,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788944591,
+      "blockNumber": 124,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788944890,
+      "blockNumber": 125,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788945189,
+      "blockNumber": 126,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788945488,
+      "blockNumber": 127,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788945787,
+      "blockNumber": 128,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788946086,
+      "blockNumber": 129,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788946385,
+      "blockNumber": 130,
+      "status": 1
+    },
+    {
+      "function": "settle",
+      "timestamp": 1788946684,
+      "blockNumber": 131,
+      "status": 0
+    },
+    {
+      "function": "settle",
+      "timestamp": 1788946685,
+      "blockNumber": 132,
+      "status": 1
+    }
+  ],
   "deploymentCheckerNegativeCases": [
     "incorrect royalty configuration rejected",
     "unexpected current payout wallet rejected",

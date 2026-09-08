@@ -57,6 +57,14 @@ No files changed, compilation skipped
 ╰--------------------+------------------+-------------------+--------------------+---------------------╯
 
 warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/RankedAuction.sol:106:41
+    │
+106 │         if (config.reservePrice == 0 || config.startTime <= block.timestamp) revert InvalidConfiguration();
+    │                                         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
    ╭▸ src/RoyaltyMarketplace.sol:60:27
    │
 60 │         if (price == 0 || expiry <= block.timestamp) revert InvalidListing();
@@ -64,13 +72,29 @@ warning[block-timestamp]: usage of `block.timestamp` in a comparison may be mani
    │
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
 
+warning[divide-before-multiply]: multiplication should occur before division to avoid loss of precision
+    ╭▸ test/RoyaltyMarketplace.t.sol:450:28
+    │
+450 │         uint256 expected = (price / 10000) * bps + ((price % 10000) * bps + 9999) / 10000;
+    │                            ━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#divide-before-multiply
+
 warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
-    ╭▸ src/RankedAuction.sol:106:41
-    │
-106 │         if (config.reservePrice == 0 || config.startTime <= block.timestamp) revert InvalidConfiguration();
-    │                                         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    │
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+   ╭▸ script/Deploy.s.sol:38:17
+   │
+38 │         require(input.start >= block.timestamp + 10 minutes, "Allow at least 10 minutes before bidding");
+   │                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/RoyaltyMarketplace.sol:80:29
+   │
+80 │         if (!item.active || block.timestamp >= item.expiry) revert InvalidListing();
+   │                             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╭▸ test/TestBase.sol:34:13
@@ -86,13 +110,55 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    │       
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
-warning[divide-before-multiply]: multiplication should occur before division to avoid loss of precision
-    ╭▸ test/RoyaltyMarketplace.t.sol:450:28
-    │
-450 │         uint256 expected = (price / 10000) * bps + ((price % 10000) * bps + 9999) / 10000;
-    │                            ━━━━━━━━━━━━━━━━━━━━━
-    │
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#divide-before-multiply
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/CrossContractAudit.t.sol:60:48
+   │
+60 │         withdrawalError = result.length >= 4 ? bytes4(result) : bytes4(0);
+   │                                                ━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes4' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ script/Deploy.s.sol:54:70
+   │
+54 │             bytes(c.metadataURI)[bytes(c.metadataURI).length - 1] == bytes1("/"), "Metadata base must end with slash"
+   │                                                                      ━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes1' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ src/RoyaltyMarketplace.sol:65:48
+   │
+65 │             Listing(msg.sender, price, expiry, uint16(tokenId), true, ITransferNonce(edition).transferNonce(tokenId));
+   │                                                ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint16' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ test/AuctionInvariant.t.sol:89:13
+   │
+89 │         if (modelEndTime < block.timestamp + 300) modelEndTime = block.timestamp + 300;
+   │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
 
 warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
    ╭▸ test/MarketInvariant.t.sol:72:29
@@ -116,34 +182,6 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    │       
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/CrossContractAudit.t.sol:60:48
-   │
-60 │         withdrawalError = result.length >= 4 ? bytes4(result) : bytes4(0);
-   │                                                ━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes4' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-    ╭▸ test/TestBase.sol:130:42
-    │
-130 │         lastError = result.length >= 4 ? bytes4(result) : bytes4(0);
-    │                                          ━━━━━━━━━━━━━━
-    │
-    ├ note: consider disabling this lint if you're certain the cast is safe
-    │       
-    │       // casting to 'bytes4' is safe because [explain why]
-    │       // forge-lint: disable-next-line(unsafe-typecast)
-    │       
-    │       
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
 warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
     ╭▸ src/RankedAuction.sol:148:13
     │
@@ -160,27 +198,11 @@ warning[block-timestamp]: usage of `block.timestamp` in a comparison may be mani
     │
     ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
 
-warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
-   ╭▸ script/Deploy.s.sol:38:17
-   │
-38 │         require(input.start >= block.timestamp + 10 minutes, "Allow at least 10 minutes before bidding");
-   │                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
-
-warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
-   ╭▸ test/AuctionInvariant.t.sol:89:13
-   │
-89 │         if (modelEndTime < block.timestamp + 300) modelEndTime = block.timestamp + 300;
-   │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
-
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/MarketInvariant.t.sol:43:37
+   ╭▸ test/AuctionInvariant.t.sol:31:33
    │
-43 │             address actor = address(uint160(3000 + i));
-   │                                     ━━━━━━━━━━━━━━━━━
+31 │             actors[i] = address(uint160(1000 + i));
+   │                                 ━━━━━━━━━━━━━━━━━
    │
    ├ note: consider disabling this lint if you're certain the cast is safe
    │       
@@ -190,47 +212,11 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    │       
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
-warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
-    ╭▸ src/RankedAuction.sol:210:13
-    │
-210 │         if (block.timestamp < endTime) revert AuctionNotEnded();
-    │             ━━━━━━━━━━━━━━━━━━━━━━━━━
-    │
-    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
-
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ script/Deploy.s.sol:54:70
+   ╭▸ test/MarketInvariant.t.sol:43:37
    │
-54 │             bytes(c.metadataURI)[bytes(c.metadataURI).length - 1] == bytes1("/"), "Metadata base must end with slash"
-   │                                                                      ━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'bytes1' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/MarketInvariant.t.sol:57:26
-   │
-57 │         uint16 tokenId = uint16(tokenSeed % 100 + 1);
-   │                          ━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ├ note: consider disabling this lint if you're certain the cast is safe
-   │       
-   │       // casting to 'uint16' is safe because [explain why]
-   │       // forge-lint: disable-next-line(unsafe-typecast)
-   │       
-   │       
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
-
-warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ test/AuctionInvariant.t.sol:31:33
-   │
-31 │             actors[i] = address(uint160(1000 + i));
-   │                                 ━━━━━━━━━━━━━━━━━
+43 │             address actor = address(uint160(3000 + i));
+   │                                     ━━━━━━━━━━━━━━━━━
    │
    ├ note: consider disabling this lint if you're certain the cast is safe
    │       
@@ -255,26 +241,18 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
 
 warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
-   ╭▸ src/RoyaltyMarketplace.sol:80:29
-   │
-80 │         if (!item.active || block.timestamp >= item.expiry) revert InvalidListing();
-   │                             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-   │
-   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
-
-warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
-    ╭▸ src/RankedAuction.sol:385:13
+    ╭▸ src/RankedAuction.sol:210:13
     │
-385 │         if (endTime - block.timestamp >= EXTENSION_WINDOW) return;
-    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+210 │         if (block.timestamp < endTime) revert AuctionNotEnded();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━
     │
     ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
-   ╭▸ src/RoyaltyMarketplace.sol:65:48
+   ╭▸ test/MarketInvariant.t.sol:57:26
    │
-65 │             Listing(msg.sender, price, expiry, uint16(tokenId), true, ITransferNonce(edition).transferNonce(tokenId));
-   │                                                ━━━━━━━━━━━━━━━
+57 │         uint16 tokenId = uint16(tokenSeed % 100 + 1);
+   │                          ━━━━━━━━━━━━━━━━━━━━━━━━━━━
    │
    ├ note: consider disabling this lint if you're certain the cast is safe
    │       
@@ -283,6 +261,28 @@ warning[unsafe-typecast]: typecasts that can truncate values should be checked
    │       
    │       
    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ test/TestBase.sol:130:42
+    │
+130 │         lastError = result.length >= 4 ? bytes4(result) : bytes4(0);
+    │                                          ━━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'bytes4' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/RankedAuction.sol:385:13
+    │
+385 │         if (endTime - block.timestamp >= EXTENSION_WINDOW) return;
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
 
 warning[unsafe-typecast]: typecasts that can truncate values should be checked
     ╭▸ src/RankedAuction.sol:219:32

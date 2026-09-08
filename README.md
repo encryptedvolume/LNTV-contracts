@@ -1,4 +1,4 @@
-# Ranked edition auction
+# LNTV contracts
 
 A self-contained Ethereum system for **100 ERC-721 NFTs: 90 auctioned and 10 reserved**. Final auction rank assigns IDs **1–90**. The top bid receives rarest NFT **#1 and pays its full bid**. Other winners pay the cutoff price and can withdraw their excess. A wallet may win multiple NFTs through separate bids. IDs **91–100** belong to the shared creator payout/royalty wallet's reserved allocation and never occupy auction places.
 
@@ -59,7 +59,7 @@ The host controls metadata contents and availability; on-chain ownership and pay
 Requires Node 22+, Python 3.10+, and a supported Foundry platform. Solidity 0.8.28, Cancun EVM, OpenZeppelin 5.5.0, forge-std 1.11.0, and Foundry 1.7.1 are pinned. Solidity dependencies are vendored; no Git submodules are needed.
 
 ```bash
-cd auction
+cd LNTV-contracts
 npm ci
 npm run build
 npm test
@@ -74,7 +74,7 @@ The mutation campaign first requires the unmodified contracts to pass the same t
 
 The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x20260907 npm run audit` to run the current source with the 2026-09-07 re-audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts and randomized claim/refund ordering.
 
-`audit/REPORT.md`, `audit/REAUDIT-2026-09-07.md`, `audit/results.json` and `audit/SHA256SUMS` describe the earlier 0.5% increase snapshot. The subsequent 2.5% change, timing fix and mutation strengthening have separate verification records linked from [ISSUES.md](audit/ISSUES.md). A combined audit and consolidated evidence refresh for the current tree remains open.
+Historical reports `audit/REPORT.md` and `audit/REAUDIT-2026-09-07.md` describe the earlier 0.5% increase snapshot; its original results and manifest are preserved under `audit/history/`. The current standalone-repository validation and attestation are documented in [the split audit](audit/REPOSITORY-SPLIT-2026-09-08.md), `audit/results.json` and `audit/SHA256SUMS`. See [ISSUES.md](audit/ISSUES.md) for remaining findings.
 
 The native tool runner is also available directly:
 
@@ -103,4 +103,8 @@ The runner deliberately bypasses the upstream npm JavaScript shim to preserve fa
 | `audit/MUTATION-STRENGTHENING-2026-09-07.md` | Stronger behavioral mutation coverage, named failure attribution and verification scope |
 | `NOTICE.md` | Reference revision, dependency provenance and license notices |
 
-This package is independent of the LNTV sample bidding page, which remains an in-memory simulation. No public-chain deployment has been performed.
+The frontend lives in [fxckcomputer/LNTV](https://github.com/fxckcomputer/LNTV). Its sample bidding page remains an in-memory simulation. No public-chain deployment has been performed.
+
+## Frontend interface
+
+Run `npm run interface:export` to compile and generate the versioned `interface/` files: browser-compatible ESM ABIs, TypeScript declarations, deployment addresses and a SHA-256 manifest. `npm run interface:check` checks that committed exports match a fresh build. No npm registry publication is required. See [interface integration](docs/FRONTEND.md) and [repository migration](docs/REPOSITORY-SPLIT.md).

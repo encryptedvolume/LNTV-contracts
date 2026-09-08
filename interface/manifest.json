@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "version": "1.0.0",
+  "repository": "https://github.com/fxckcomputer/LNTV-contracts",
+  "sourceSha256": {
+    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
+    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
+    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
+  },
+  "files": {
+    "index.js": "8f75c5fe90e8dcba4cfc4a6b5b6e7b35f59b6355655c57fca2781a5444597b46",
+    "index.d.ts": "5dfd454405dff7298bef28b45d45026ea853d253a4fe1c72dc23981923049a1c",
+    "deployments.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "package.json": "61395f82d3a7021f092af02c191d6860f5b42febee921ffc077673f8cc06b7d6"
+  }
+}

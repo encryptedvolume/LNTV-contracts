@@ -1,0 +1,351 @@
+
+> @lntv/contracts@1.0.0 audit
+> bash scripts/audit.sh
+
+
+> @lntv/contracts@1.0.0 format:check
+> node scripts/foundry.mjs forge fmt --check
+
+TAP version 13
+# Subtest: the audit runner propagates native tool failures
+ok 1 - the audit runner propagates native tool failures
+  ---
+  duration_ms: 28.626417
+  type: 'test'
+  ...
+# Subtest: the audit runner propagates success
+ok 2 - the audit runner propagates success
+  ---
+  duration_ms: 26.367833
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 87.263041
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.228s
+
+OK
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.000s
+
+OK
+PASS: 14 individually reviewed Slither findings; no unreviewed findings or source drift.
+PASS: all production contracts have 100% instrumented line, branch and function coverage.
+Extended audit fuzz seed: 0x20260908
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 380.67s (380.66s CPU time)
+
+Ran 11 test suites in 380.67s (912.86s CPU time): 127 tests passed, 0 failed, 0 skipped (127 total tests)
+Clean baseline: 124 tests passed; required behavioral scenarios present.
+KILLED: zero outbid increment (4 behavioral tests)
+KILLED: old 2.5 percent outbid increment restored (2 behavioral tests)
+KILLED: zero increase increment (4 behavioral tests)
+KILLED: old 0.5 percent increase increment restored (2 behavioral tests)
+KILLED: wrong supply (56 behavioral tests)
+KILLED: two-hour extension cap restored (2 behavioral tests)
+KILLED: extension timestamp narrowed (2 behavioral tests)
+KILLED: reversed tie priority (8 behavioral tests)
+KILLED: loser refund shortfall (3 behavioral tests)
+KILLED: wrong clearing price (8 behavioral tests)
+KILLED: settlement double liability (16 behavioral tests)
+KILLED: stealable claims (4 behavioral tests)
+KILLED: repeatable refund credit (4 behavioral tests)
+KILLED: repeatable token claim (2 behavioral tests)
+KILLED: stolen payout funds (6 behavioral tests)
+KILLED: auction reentrancy guard removed (4 behavioral tests)
+KILLED: royalty transfer bypass (2 behavioral tests)
+KILLED: missing supply accounting (12 behavioral tests)
+KILLED: zeroed royalties (20 behavioral tests)
+KILLED: free purchase (2 behavioral tests)
+KILLED: royalty double credit (14 behavioral tests)
+KILLED: unauthorized cancellation (2 behavioral tests)
+KILLED: repeatable marketplace withdrawal (2 behavioral tests)
+KILLED: marketplace reentrancy guard removed (4 behavioral tests)
+KILLED: primary auction royalty deduction (23 behavioral tests)
+KILLED: unauthorized wallet acceptance (3 behavioral tests)
+KILLED: wallet nomination takes immediate control (7 behavioral tests)
+KILLED: accepted wallet not applied (12 behavioral tests)
+KILLED: stale pending wallet retained (6 behavioral tests)
+KILLED: unsafe payout wallet allowed (2 behavioral tests)
+KILLED: rotation erases accrued auction proceeds (4 behavioral tests)
+KILLED: royalty recipient ignores shared wallet (15 behavioral tests)
+KILLED: stealable trading royalties (4 behavioral tests)
+KILLED: repeatable royalty withdrawal (4 behavioral tests)
+KILLED: forced third-party mint delivery (2 behavioral tests)
+KILLED: royalty pool double credit (16 behavioral tests)
+KILLED: rank-to-token assignment reversed (14 behavioral tests)
+KILLED: bid ID used instead of awarded token ID (6 behavioral tests)
+KILLED: unsold mint consumes winning token IDs (4 behavioral tests)
+KILLED: unauthorized ERC721 mint (2 behavioral tests)
+KILLED: ERC721 token approval bypass (2 behavioral tests)
+KILLED: missing transfer nonce (5 behavioral tests)
+KILLED: stale listing nonce ignored (2 behavioral tests)
+KILLED: ERC721 listing stays active after sale (3 behavioral tests)
+KILLED: ERC721 supply exceeds 100 (2 behavioral tests)
+KILLED: ERC721 receiver check bypassed (9 behavioral tests)
+KILLED: top winner gets cutoff discount (14 behavioral tests)
+KILLED: regular winner pays full bid (14 behavioral tests)
+KILLED: uniform primary proceeds restored (19 behavioral tests)
+KILLED: empty auction settlement underflows (34 behavioral tests)
+KILLED: wrong initial duration (5 behavioral tests)
+KILLED: wrong reserved allocation (5 behavioral tests)
+KILLED: reserved IDs overlap auction (38 behavioral tests)
+KILLED: reserved batch ignores quantity (3 behavioral tests)
+KILLED: reserved batch starts at wrong ID (40 behavioral tests)
+KILLED: metadata ignores token ID (4 behavioral tests)
+KILLED: metadata slash validation bypassed (2 behavioral tests)
+All 57 intentional regressions were detected by at least two behavioral tests.
+{
+  "chainId": 31337,
+  "result": "PASS",
+  "auction": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "edition": "0xa16E02E87b7454126E5E10d957A927A7F5B5d2be",
+  "marketplace": "0x8Ff3801288a85ea261E4277d44E1131Ea736F77B",
+  "gasUsed": {
+    "atomic_deployment": 4826220,
+    "reserve_4": 187705,
+    "worst_bid": 590731,
+    "settle": 772183,
+    "claim_88": 3303806,
+    "secondary_sale": 182611,
+    "payout_rotation_accept": 30723,
+    "reserve_6": 218657
+  },
+  "bids": 92,
+  "minted": 100,
+  "auctionEndingLiabilities": 0,
+  "marketEndingLiabilities": 0,
+  "auctionRoyalties": 0,
+  "initialPayoutWallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "finalPayoutWallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+  "walletRotation": "Two-step acceptance, old-wallet revocation, accrued and future revenue",
+  "secondarySales": 2,
+  "tokenStandard": "ERC-721",
+  "tokenIds": "1-90 by final rank; 91-100 reserved",
+  "metadata": "Fixed per-token off-chain endpoints; reveal policy belongs to the metadata service",
+  "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
+  "initialDurationSeconds": 86400,
+  "auctionedSupply": 90,
+  "reservedSupply": 10,
+  "outbidBps": 500,
+  "increaseBps": 250,
+  "extensionLimit": null,
+  "lateRankChangingIncreases": 30,
+  "extensionSecondsAfterOriginalClose": 8970,
+  "timedTransactions": [
+    {
+      "function": "createBid",
+      "timestamp": 1788851315,
+      "blockNumber": 6,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788937714,
+      "blockNumber": 101,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788938013,
+      "blockNumber": 102,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788938312,
+      "blockNumber": 103,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788938611,
+      "blockNumber": 104,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788938910,
+      "blockNumber": 105,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788939209,
+      "blockNumber": 106,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788939508,
+      "blockNumber": 107,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788939807,
+      "blockNumber": 108,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788940106,
+      "blockNumber": 109,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788940405,
+      "blockNumber": 110,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788940704,
+      "blockNumber": 111,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788941003,
+      "blockNumber": 112,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788941302,
+      "blockNumber": 113,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788941601,
+      "blockNumber": 114,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788941900,
+      "blockNumber": 115,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788942199,
+      "blockNumber": 116,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788942498,
+      "blockNumber": 117,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788942797,
+      "blockNumber": 118,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788943096,
+      "blockNumber": 119,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788943395,
+      "blockNumber": 120,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788943694,
+      "blockNumber": 121,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788943993,
+      "blockNumber": 122,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788944292,
+      "blockNumber": 123,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788944591,
+      "blockNumber": 124,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788944890,
+      "blockNumber": 125,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788945189,
+      "blockNumber": 126,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788945488,
+      "blockNumber": 127,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788945787,
+      "blockNumber": 128,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788946086,
+      "blockNumber": 129,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1788946385,
+      "blockNumber": 130,
+      "status": 1
+    },
+    {
+      "function": "settle",
+      "timestamp": 1788946684,
+      "blockNumber": 131,
+      "status": 0
+    },
+    {
+      "function": "settle",
+      "timestamp": 1788946685,
+      "blockNumber": 132,
+      "status": 1
+    }
+  ],
+  "deploymentCheckerNegativeCases": [
+    "incorrect royalty configuration rejected",
+    "unexpected current payout wallet rejected",
+    "unexpected pending payout wallet rejected",
+    "inconsistent immutable bytecode rejected"
+  ],
+  "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully"
+}
+PASS: all audit gates completed. Reports: audit/generated/

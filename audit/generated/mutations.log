@@ -1,57 +1,59 @@
-KILLED: zero outbid increment
-KILLED: old 2.5 percent outbid increment restored
-KILLED: zero increase increment
-KILLED: wrong supply
-KILLED: two-hour extension cap restored
-KILLED: extension timestamp narrowed
-KILLED: reversed tie priority
-KILLED: loser refund shortfall
-KILLED: wrong clearing price
-KILLED: settlement double liability
-KILLED: stealable claims
-KILLED: repeatable refund credit
-KILLED: repeatable token claim
-KILLED: stolen payout funds
-KILLED: auction reentrancy guard removed
-KILLED: royalty transfer bypass
-KILLED: missing supply accounting
-KILLED: zeroed royalties
-KILLED: free purchase
-KILLED: royalty double credit
-KILLED: unauthorized cancellation
-KILLED: repeatable marketplace withdrawal
-KILLED: marketplace reentrancy guard removed
-KILLED: primary auction royalty deduction
-KILLED: unauthorized wallet acceptance
-KILLED: wallet nomination takes immediate control
-KILLED: accepted wallet not applied
-KILLED: stale pending wallet retained
-KILLED: unsafe payout wallet allowed
-KILLED: rotation erases accrued auction proceeds
-KILLED: royalty recipient ignores shared wallet
-KILLED: stealable trading royalties
-KILLED: repeatable royalty withdrawal
-KILLED: forced third-party mint delivery
-KILLED: royalty pool double credit
-KILLED: rank-to-token assignment reversed
-KILLED: bid ID used instead of awarded token ID
-KILLED: unsold mint consumes winning token IDs
-KILLED: unauthorized ERC721 mint
-KILLED: ERC721 token approval bypass
-KILLED: missing transfer nonce
-KILLED: stale listing nonce ignored
-KILLED: ERC721 listing stays active after sale
-KILLED: ERC721 supply exceeds 100
-KILLED: ERC721 receiver check bypassed
-KILLED: top winner gets cutoff discount
-KILLED: regular winner pays full bid
-KILLED: uniform primary proceeds restored
-KILLED: empty auction settlement underflows
-KILLED: wrong initial duration
-KILLED: wrong reserved allocation
-KILLED: reserved IDs overlap auction
-KILLED: reserved batch ignores quantity
-KILLED: reserved batch starts at wrong ID
-KILLED: metadata ignores token ID
-KILLED: metadata slash validation bypassed
-All 56 intentional regressions were detected by tests.
+Clean baseline: 124 tests passed; required behavioral scenarios present.
+KILLED: zero outbid increment (4 behavioral tests)
+KILLED: old 2.5 percent outbid increment restored (2 behavioral tests)
+KILLED: zero increase increment (4 behavioral tests)
+KILLED: old 0.5 percent increase increment restored (2 behavioral tests)
+KILLED: wrong supply (56 behavioral tests)
+KILLED: two-hour extension cap restored (2 behavioral tests)
+KILLED: extension timestamp narrowed (2 behavioral tests)
+KILLED: reversed tie priority (8 behavioral tests)
+KILLED: loser refund shortfall (3 behavioral tests)
+KILLED: wrong clearing price (8 behavioral tests)
+KILLED: settlement double liability (16 behavioral tests)
+KILLED: stealable claims (4 behavioral tests)
+KILLED: repeatable refund credit (4 behavioral tests)
+KILLED: repeatable token claim (2 behavioral tests)
+KILLED: stolen payout funds (6 behavioral tests)
+KILLED: auction reentrancy guard removed (4 behavioral tests)
+KILLED: royalty transfer bypass (2 behavioral tests)
+KILLED: missing supply accounting (12 behavioral tests)
+KILLED: zeroed royalties (20 behavioral tests)
+KILLED: free purchase (2 behavioral tests)
+KILLED: royalty double credit (14 behavioral tests)
+KILLED: unauthorized cancellation (2 behavioral tests)
+KILLED: repeatable marketplace withdrawal (2 behavioral tests)
+KILLED: marketplace reentrancy guard removed (4 behavioral tests)
+KILLED: primary auction royalty deduction (23 behavioral tests)
+KILLED: unauthorized wallet acceptance (3 behavioral tests)
+KILLED: wallet nomination takes immediate control (7 behavioral tests)
+KILLED: accepted wallet not applied (12 behavioral tests)
+KILLED: stale pending wallet retained (6 behavioral tests)
+KILLED: unsafe payout wallet allowed (2 behavioral tests)
+KILLED: rotation erases accrued auction proceeds (4 behavioral tests)
+KILLED: royalty recipient ignores shared wallet (15 behavioral tests)
+KILLED: stealable trading royalties (4 behavioral tests)
+KILLED: repeatable royalty withdrawal (4 behavioral tests)
+KILLED: forced third-party mint delivery (2 behavioral tests)
+KILLED: royalty pool double credit (16 behavioral tests)
+KILLED: rank-to-token assignment reversed (14 behavioral tests)
+KILLED: bid ID used instead of awarded token ID (6 behavioral tests)
+KILLED: unsold mint consumes winning token IDs (4 behavioral tests)
+KILLED: unauthorized ERC721 mint (2 behavioral tests)
+KILLED: ERC721 token approval bypass (2 behavioral tests)
+KILLED: missing transfer nonce (5 behavioral tests)
+KILLED: stale listing nonce ignored (2 behavioral tests)
+KILLED: ERC721 listing stays active after sale (3 behavioral tests)
+KILLED: ERC721 supply exceeds 100 (2 behavioral tests)
+KILLED: ERC721 receiver check bypassed (9 behavioral tests)
+KILLED: top winner gets cutoff discount (14 behavioral tests)
+KILLED: regular winner pays full bid (14 behavioral tests)
+KILLED: uniform primary proceeds restored (19 behavioral tests)
+KILLED: empty auction settlement underflows (34 behavioral tests)
+KILLED: wrong initial duration (5 behavioral tests)
+KILLED: wrong reserved allocation (5 behavioral tests)
+KILLED: reserved IDs overlap auction (38 behavioral tests)
+KILLED: reserved batch ignores quantity (3 behavioral tests)
+KILLED: reserved batch starts at wrong ID (40 behavioral tests)
+KILLED: metadata ignores token ID (4 behavioral tests)
+KILLED: metadata slash validation bypassed (2 behavioral tests)
+All 57 intentional regressions were detected by at least two behavioral tests.

@@ -1,6 +1,6 @@
 # Security review and verification report
 
-> **Historical verification snapshot.** The results and PASS statements below describe the source before the 2.5% existing-bid increase and subsequent test-harness changes. See [ISSUES.md](ISSUES.md) for current statuses and follow-up evidence. A combined audit and evidence refresh for the current tree remains open as A-01.
+> **Historical verification snapshot.** The results and PASS statements below describe the source before the 2.5% existing-bid increase and subsequent test-harness changes. See [ISSUES.md](ISSUES.md) for current statuses and follow-up evidence. The current complete run is [the 2026-09-08 split verification](REPOSITORY-SPLIT-2026-09-08.md). References below to `results.json` and `SHA256SUMS` describe the original copies now archived under `history/2026-09-07-*`.
 
 **Review date:** 2026-09-07. **Result:** no unresolved implementation defects identified in the reviewed scope. All completed contract, fuzz, invariant, mutation, static-review, deployment and audit-gate checks pass. This is an implementation self-review and automated audit suite, not an independent third-party audit or a formal proof that no defects exist.
 
