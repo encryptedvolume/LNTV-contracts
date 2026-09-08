@@ -1,3 +1,5 @@
+> **Historical, superseded implementation:** the automatic day-28 expiry described below was an incorrect interpretation of the creator's request. The creator clarified that day 28 only unlocks optional recovery, and refunds close only when recovery succeeds. See [the corrected policy and current evidence](RECOVERY-CHOICE-2026-09-08.md). This report records the prior `66602948` snapshot; its references to creator acceptance of automatic expiry are withdrawn.
+
 # Refund expiry and unclaimed ETH recovery — 2026-09-08
 
 The creator explicitly requested that unclaimed auction ETH become recoverable

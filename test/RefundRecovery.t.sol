@@ -24,7 +24,7 @@ contract RefundRecoveryTest is TestBase {
         assertEq(auction.escrow(), 1 ether);
     }
 
-    function _deadline() internal view returns (uint256) {
+    function _availableAt() internal view returns (uint256) {
         return auction.endTime() + 28 days;
     }
 
@@ -46,9 +46,9 @@ contract RefundRecoveryTest is TestBase {
 
     function testRecoveryTransfersCreditedUncreditedRefundsAndProceeds() public {
         _fund();
-        vm.warp(_deadline());
-        assertEq(auction.refundDeadline(), block.timestamp);
-        assertEq(auction.REFUND_CLAIM_PERIOD(), 28 days);
+        vm.warp(_availableAt());
+        assertEq(auction.recoveryAvailableAt(), block.timestamp);
+        assertEq(auction.RECOVERY_DELAY(), 28 days);
         uint256 before = alice.balance;
         vm.expectEmit(true, false, false, true, address(auction));
         emit UnclaimedETHWithdrawn(alice, 100 ether);
@@ -65,7 +65,7 @@ contract RefundRecoveryTest is TestBase {
         auction.withdrawRefund(payable(carol));
         vm.deal(address(this), 12);
         new ForceEther{ value: 5 }(payable(address(auction)));
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         uint256 before = bob.balance;
         _recover(bob);
         assertEq(bob.balance - before, 4 ether + 5);
@@ -76,9 +76,9 @@ contract RefundRecoveryTest is TestBase {
         _assertDrained();
     }
 
-    function testRefundsCanBeCreditedAndWithdrawnUntilLastSecond() public {
+    function testRefundsCanBeCreditedAndWithdrawnBeforeRecoveryEligibility() public {
         _fund();
-        vm.warp(_deadline() - 1);
+        vm.warp(_availableAt() - 1);
         assertEq(auction.refunds(alice), 3 ether);
         assertEq(auction.refunds(carol), 2 ether);
         auction.creditRefunds(one(93));
@@ -90,50 +90,108 @@ contract RefundRecoveryTest is TestBase {
         vm.prank(bob);
         auction.withdrawRefund(payable(bob));
         assertEq(address(auction).balance, 94 ether);
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         _recover(payoutWallet);
         _assertDrained();
     }
 
-    function testCreditingExpiresAtDeadlineBeforeRecovery() public {
+    function testCreditingRemainsAvailableAtRecoveryEligibility() public {
         _fund();
-        vm.warp(_deadline());
-        vm.expectRevert(RankedAuction.RefundClaimPeriodExpired.selector);
+        vm.warp(_availableAt());
+        assertFalse(auction.refundsClosed());
         auction.creditRefunds(one(93));
-        assertEq(auction.escrow(), 1 ether);
-        assertEq(auction.totalRefunds(), 5 ether);
+        assertEq(auction.refunds(bob), 1 ether);
+        assertEq(auction.escrow(), 0);
+        assertEq(auction.totalRefunds(), 6 ether);
+        vm.prank(bob);
+        auction.withdrawRefund(payable(bob));
+        _recover(payoutWallet);
+        assertTrue(auction.refundsClosed());
+        _assertDrained();
     }
 
-    function testWithdrawingExpiresAtDeadlineBeforeRecovery() public {
+    function testWithdrawingRemainsAvailableAtRecoveryEligibility() public {
         _fund();
-        vm.warp(_deadline());
-        assertEq(auction.refunds(alice), 0);
-        assertEq(auction.refunds(carol), 0);
+        vm.warp(_availableAt());
+        assertFalse(auction.refundsClosed());
+        assertEq(auction.refunds(alice), 3 ether);
+        assertEq(auction.refunds(carol), 2 ether);
+        uint256 before = alice.balance;
         vm.prank(alice);
-        vm.expectRevert(RankedAuction.RefundClaimPeriodExpired.selector);
         auction.withdrawRefund(payable(alice));
-        assertEq(auction.totalRefunds(), 5 ether);
-        assertEq(address(auction).balance, 100 ether);
+        assertEq(alice.balance - before, 3 ether);
+        assertEq(auction.totalRefunds(), 2 ether);
+        uint256 payoutBefore = payoutWallet.balance;
+        _recover(payoutWallet);
+        assertEq(payoutWallet.balance - payoutBefore, 97 ether);
+        assertTrue(auction.refundsClosed());
+        _assertDrained();
+    }
+
+    function testYearsOfInactionDoNotCloseRefunds() public {
+        _fund();
+        vm.warp(_availableAt() + 10 * 365 days);
+        assertFalse(auction.refundsClosed());
+        auction.creditRefunds(one(93));
+        assertEq(auction.refunds(bob), 1 ether);
+        vm.prank(bob);
+        auction.withdrawRefund(payable(bob));
+        assertEq(auction.refunds(carol), 2 ether);
+        vm.prank(carol);
+        auction.withdrawRefund(payable(carol));
+        assertEq(address(auction).balance, 97 ether);
+        assertEq(auction.totalRefunds(), 3 ether);
+        assertFalse(auction.refundsClosed());
+    }
+
+    function testNormalProceedsWithdrawalDoesNotCloseRefunds() public {
+        _fund();
+        vm.warp(_availableAt() + 365 days);
+        vm.prank(payoutWallet);
+        auction.withdrawProceeds(payable(payoutWallet));
+        assertFalse(auction.refundsClosed());
+        auction.creditRefunds(one(93));
+        vm.prank(bob);
+        auction.withdrawRefund(payable(bob));
+        vm.prank(carol);
+        auction.withdrawRefund(payable(carol));
+        assertEq(auction.refunds(alice), 3 ether);
+        assertEq(address(auction).balance, 3 ether);
+        _recover(payoutWallet);
+        assertTrue(auction.refundsClosed());
+        _assertDrained();
+    }
+
+    function testRecoveryClosesRefundsBeforeRecipientCallback() public {
+        _fund();
+        vm.warp(_availableAt());
+        RefundStateObserver observer = new RefundStateObserver(auction, carol);
+        _recover(address(observer));
+        assertTrue(observer.sawClosed());
+        assertEq(observer.seenCredit(), 0);
+        assertEq(observer.seenLiabilities(), 0);
+        assertTrue(auction.refundsClosed());
+        _assertDrained();
     }
 
     function testCreditedRefundsCannotBeWithdrawnAfterRecovery() public {
         _fund();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         _recover(payoutWallet);
         vm.prank(carol);
-        vm.expectRevert(RankedAuction.RefundClaimPeriodExpired.selector);
+        vm.expectRevert(RankedAuction.RefundsClosed.selector);
         auction.withdrawRefund(payable(carol));
-        vm.expectRevert(RankedAuction.RefundClaimPeriodExpired.selector);
+        vm.expectRevert(RankedAuction.RefundsClosed.selector);
         auction.creditRefunds(one(92));
         _assertDrained();
     }
 
     function testUncreditedRefundsCannotRecreateLiabilitiesAfterRecovery() public {
         _fund();
-        vm.warp(_deadline() + 365 days);
+        vm.warp(_availableAt() + 365 days);
         _recover(payoutWallet);
         assertFalse(bid(93).refundCredited);
-        vm.expectRevert(RankedAuction.RefundClaimPeriodExpired.selector);
+        vm.expectRevert(RankedAuction.RefundsClosed.selector);
         auction.creditRefunds(one(93));
         _assertDrained();
     }
@@ -142,33 +200,34 @@ contract RefundRecoveryTest is TestBase {
         _fund();
         vm.warp(auction.endTime() + 27 days);
         vm.prank(payoutWallet);
-        vm.expectRevert(RankedAuction.RefundClaimPeriodNotEnded.selector);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
         auction.withdrawUnclaimedETH(payable(payoutWallet));
-        vm.warp(_deadline() - 1);
+        vm.warp(_availableAt() - 1);
         vm.prank(payoutWallet);
-        vm.expectRevert(RankedAuction.RefundClaimPeriodNotEnded.selector);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
         auction.withdrawUnclaimedETH(payable(payoutWallet));
         vm.prank(carol);
         auction.withdrawRefund(payable(carol));
         assertEq(auction.totalRefunds(), 3 ether);
     }
 
-    function testLateSettlementDoesNotRestartTheRefundPeriod() public {
+    function testLateSettlementDoesNotRestartTheRecoveryDelay() public {
         _book();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         vm.prank(payoutWallet);
         vm.expectRevert(RankedAuction.NotSettled.selector);
         auction.withdrawUnclaimedETH(payable(payoutWallet));
         auction.settle();
-        vm.expectRevert(RankedAuction.RefundClaimPeriodExpired.selector);
         auction.creditRefunds(one(92));
+        assertEq(auction.refunds(carol), 2 ether);
+        assertFalse(auction.refundsClosed());
         uint256 before = payoutWallet.balance;
         _recover(payoutWallet);
         assertEq(payoutWallet.balance - before, 100 ether);
         _assertDrained();
     }
 
-    function testRecoveryAndRefundExpiryFollowTheExtendedEnd() public {
+    function testRecoveryEligibilityFollowsTheExtendedEnd() public {
         _book();
         uint256 originalEnd = auction.endTime();
         vm.warp(originalEnd - 1);
@@ -178,7 +237,7 @@ contract RefundRecoveryTest is TestBase {
         finish();
         vm.warp(originalEnd + 28 days);
         vm.prank(payoutWallet);
-        vm.expectRevert(RankedAuction.RefundClaimPeriodNotEnded.selector);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
         auction.withdrawUnclaimedETH(payable(payoutWallet));
         assertEq(auction.refunds(alice), 3 ether);
         vm.prank(alice);
@@ -188,7 +247,7 @@ contract RefundRecoveryTest is TestBase {
         _assertDrained();
     }
 
-    function testExtendedRefundCanBeCreditedAtOriginalDeadline() public {
+    function testExtendedRefundCanBeCreditedAtOriginalEligibilityTime() public {
         _book();
         uint256 originalEnd = auction.endTime();
         vm.warp(originalEnd - 1);
@@ -200,7 +259,7 @@ contract RefundRecoveryTest is TestBase {
         vm.prank(carol);
         auction.withdrawRefund(payable(carol));
         vm.prank(payoutWallet);
-        vm.expectRevert(RankedAuction.RefundClaimPeriodNotEnded.selector);
+        vm.expectRevert(RankedAuction.RecoveryNotAvailable.selector);
         auction.withdrawUnclaimedETH(payable(payoutWallet));
         vm.warp(originalEnd + 599 + 28 days);
         _recover(payoutWallet);
@@ -210,7 +269,7 @@ contract RefundRecoveryTest is TestBase {
     function testUnsettledRecoveryCannotEraseWinnerAllocation() public {
         live();
         place(alice, 3 ether);
-        vm.warp(_deadline() + 1);
+        vm.warp(_availableAt() + 1);
         vm.prank(payoutWallet);
         vm.expectRevert(RankedAuction.NotSettled.selector);
         auction.withdrawUnclaimedETH(payable(payoutWallet));
@@ -226,7 +285,7 @@ contract RefundRecoveryTest is TestBase {
 
     function testOnlyCurrentPayoutWalletCanRecoverNotOriginalDeployer() public {
         _fund();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         vm.expectRevert(RankedAuction.Unauthorized.selector);
         auction.withdrawUnclaimedETH(payable(address(this)));
         vm.prank(alice);
@@ -238,7 +297,7 @@ contract RefundRecoveryTest is TestBase {
 
     function testRecoveryAuthorityFollowsAcceptedWalletRotation() public {
         _fund();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         vm.prank(payoutWallet);
         auction.proposePayoutWallet(bob);
         vm.prank(bob);
@@ -257,7 +316,7 @@ contract RefundRecoveryTest is TestBase {
 
     function testRejectedRecoveryPreservesAllAccountingForRetry() public {
         _fund();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         Rejector rejector = new Rejector();
         vm.prank(payoutWallet);
         vm.expectRevert(RankedAuction.TransferFailed.selector);
@@ -266,19 +325,29 @@ contract RefundRecoveryTest is TestBase {
         assertEq(auction.totalRefunds(), 5 ether);
         assertEq(auction.pendingProceeds(), 94 ether);
         assertEq(address(auction).balance, 100 ether);
+        assertFalse(auction.refundsClosed());
+        assertEq(auction.refunds(carol), 2 ether);
+        auction.creditRefunds(one(93));
+        vm.prank(carol);
+        auction.withdrawRefund(payable(carol));
+        vm.prank(bob);
+        auction.withdrawRefund(payable(bob));
+        assertEq(address(auction).balance, 97 ether);
         _recover(payoutWallet);
         _assertDrained();
     }
 
     function testRecoveryRejectsInvalidRecipientsAndEmptyRepeat() public {
         _fund();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         vm.prank(payoutWallet);
         vm.expectRevert(RankedAuction.InvalidRecipient.selector);
         auction.withdrawUnclaimedETH(payable(address(0)));
         vm.prank(payoutWallet);
         vm.expectRevert(RankedAuction.InvalidRecipient.selector);
         auction.withdrawUnclaimedETH(payable(address(auction)));
+        assertFalse(auction.refundsClosed());
+        assertEq(auction.refunds(alice), 3 ether);
         _recover(payoutWallet);
         vm.prank(payoutWallet);
         vm.expectRevert(RankedAuction.NothingToWithdraw.selector);
@@ -292,7 +361,7 @@ contract RefundRecoveryTest is TestBase {
         auction.proposePayoutWallet(address(receiver));
         vm.prank(address(receiver));
         auction.acceptPayoutWallet();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
     }
 
     function testRecoveryCannotReenterRecovery() public {
@@ -324,11 +393,11 @@ contract RefundRecoveryTest is TestBase {
         vm.startPrank(carol);
         auction.claimTokens(one(92), carol);
         edition.setApprovalForAll(address(market), true);
-        uint256 listing = market.list(2, 1 ether, uint64(_deadline() + 1 days));
+        uint256 listing = market.list(2, 1 ether, uint64(_availableAt() + 1 days));
         vm.stopPrank();
         vm.prank(alice);
         market.buy{ value: 1 ether }(listing, alice);
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         _recover(payoutWallet);
         assertEq(market.credits(carol), 0.925 ether);
         assertEq(market.pendingRoyalties(), 0.075 ether);
@@ -351,7 +420,7 @@ contract RefundRecoveryTest is TestBase {
         place(alice, 1 ether);
         place(bob, 2 ether);
         finish();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         _recover(payoutWallet);
         vm.prank(alice);
         auction.claimTokens(one(1), alice);
@@ -369,10 +438,11 @@ contract RefundRecoveryTest is TestBase {
 
     function testEmptyAuctionRecoveryCollectsOnlyForcedETH() public {
         finish();
-        vm.warp(_deadline());
+        vm.warp(_availableAt());
         vm.prank(payoutWallet);
         vm.expectRevert(RankedAuction.NothingToWithdraw.selector);
         auction.withdrawUnclaimedETH(payable(payoutWallet));
+        assertFalse(auction.refundsClosed());
         vm.deal(address(this), 123);
         new ForceEther{ value: 123 }(payable(address(auction)));
         uint256 before = carol.balance;
@@ -381,12 +451,16 @@ contract RefundRecoveryTest is TestBase {
         _assertDrained();
     }
 
-    function testFuzzRecoveryConservesClaimedRefundsAndRemainingETH(uint96 forcedSeed, uint8 claims) public {
+    function testFuzzRecoveryConservesClaimedRefundsAndRemainingETH(uint96 forcedSeed, uint8 claims, uint32 delay)
+        public
+    {
         _fund();
         uint256 forced = bound(uint256(forcedSeed), 0, 1 ether);
         vm.deal(address(this), forced);
         new ForceEther{ value: forced }(payable(address(auction)));
         uint256 paid;
+        vm.warp(_availableAt() + uint256(delay));
+        assertFalse(auction.refundsClosed());
         if (claims & 1 != 0) auction.creditRefunds(one(93));
         if (claims & 2 != 0) {
             vm.prank(alice);
@@ -408,16 +482,36 @@ contract RefundRecoveryTest is TestBase {
             auction.withdrawProceeds(payable(payoutWallet));
             paid += 94 ether;
         }
-        vm.warp(_deadline());
         uint256 before = carol.balance;
         if (100 ether + forced == paid) {
             vm.prank(payoutWallet);
             vm.expectRevert(RankedAuction.NothingToWithdraw.selector);
             auction.withdrawUnclaimedETH(payable(carol));
+            assertFalse(auction.refundsClosed());
         } else {
             _recover(carol);
+            assertTrue(auction.refundsClosed());
         }
         assertEq(carol.balance - before + paid, 100 ether + forced);
         _assertDrained();
+    }
+}
+
+contract RefundStateObserver {
+    RankedAuction private immutable auction;
+    address private immutable bidder;
+    bool public sawClosed;
+    uint256 public seenCredit;
+    uint256 public seenLiabilities;
+
+    constructor(RankedAuction auction_, address bidder_) {
+        auction = auction_;
+        bidder = bidder_;
+    }
+
+    receive() external payable {
+        sawClosed = auction.refundsClosed();
+        seenCredit = auction.refunds(bidder);
+        seenLiabilities = auction.liabilities();
     }
 }

@@ -1,11 +1,11 @@
 {
   "fuzzSeed": "0x20260907",
   "fuzzRuns": 16,
-  "baselineTests": 146,
+  "baselineTests": 149,
   "minimumBehavioralFailures": 2,
   "inputSha256": {
     "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
-    "src/RankedAuction.sol": "0edfe997ba47b8ad425583c687bbe7803841fcffcf0ff5afe63ced97c2f8a0b7",
+    "src/RankedAuction.sol": "741b68050ab248a326b4caaecde715261df51fad72cb56324ba80e86fd632705",
     "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85",
     "test/AuctionInvariant.t.sol": "6ceead69706d644926397b87ff00395053485cf204842ccb2c002e3ffe0ba739",
     "test/CrossContractAudit.t.sol": "1d5939cc66b7897be076faadaa0cd393764a3c7088ee850b67177dd8c508762e",
@@ -15,7 +15,7 @@
     "test/MutationBehavior.t.sol": "875bac33d3335629cc100753fce40f28fda846d4944bba15d68635a2ce91db67",
     "test/PayoutWallet.t.sol": "bdd751b360f890dac6ca108f6ad0075a87560fb8eccd4f26116ef35bfbb9fac1",
     "test/RankedAuction.t.sol": "c33afbecbe3643dfacae48c146521e174ad8301cfdb10196a598711ab52cb353",
-    "test/RefundRecovery.t.sol": "c0b6ac407b2dd48c9f23ebe9186bc8892ba7376c7699fc3984e87736da44ff6e",
+    "test/RefundRecovery.t.sol": "625590d7af422350518c01d5e787ef94d55672fed51ac209af5f1c130a12b32e",
     "test/RoyaltyMarketplace.t.sol": "e9c0bd91c46775a571e10f99b08882aa3fb4ffae76be3e99a0c45c734465cd4d",
     "test/TestBase.sol": "9885e831bfd1f617d535522e613e3a13299f2031d1d56b98c6710b11be2e94b8",
     "test/TieredAllocation.t.sol": "8ff77523c7ca925afe87b1a681e05a870087836f190116eea00d6af1cec8a83d",
@@ -383,5 +383,5 @@
     "lib/openzeppelin-contracts/vendor/compound/ICompoundTimelock.sol": "b1062b283d59aea38dbecafabe94dedb7152b89ae001f85b35f86b3817929c4c",
     "foundry.toml": "9fda63afa30d8a43d8f9f833e93b24b3ead88fe3056cee064df06a5629efd66c"
   },
-  "runnerSha256": "29bdcc56f5dc1e35c4fbe2193a01bca5ef820cf20d7b782c5361e3da526fc8f4"
+  "runnerSha256": "045acde77a48d1e4937cadb377b704de0f1003d4c6acc47190a44b47594e0a4a"
 }

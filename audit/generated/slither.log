@@ -3,18 +3,18 @@
 'forge build --build-info --skip ./test/** ./script/** --force' running (wd: /Users/aaa/Desktop/dev/LNTV-contracts)
 
 Detector: arbitrary-send-eth
-RankedAuction._send(address,uint256) (src/RankedAuction.sol#433-438) sends eth to arbitrary user
+RankedAuction._send(address,uint256) (src/RankedAuction.sol#435-440) sends eth to arbitrary user
 	Dangerous calls:
-	- (success,None) = recipient.call{value: amount}() (src/RankedAuction.sol#436)
+	- (success,None) = recipient.call{value: amount}() (src/RankedAuction.sol#438)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations
 
 Detector: incorrect-equality
-RankedAuction._send(address,uint256) (src/RankedAuction.sol#433-438) uses a dangerous strict equality:
-	- amount == 0 (src/RankedAuction.sol#435)
+RankedAuction._send(address,uint256) (src/RankedAuction.sol#435-440) uses a dangerous strict equality:
+	- amount == 0 (src/RankedAuction.sol#437)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities
 
 Detector: uninitialized-local
-RankedAuction.creditRefunds(uint256[]).credited (src/RankedAuction.sol#241) is a local variable never initialized
+RankedAuction.creditRefunds(uint256[]).credited (src/RankedAuction.sol#242) is a local variable never initialized
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
 
 Detector: unused-return
@@ -23,28 +23,22 @@ RoyaltyMarketplace.withdrawRoyalties(address) (src/RoyaltyMarketplace.sol#115-12
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
 
 Detector: timestamp
-RankedAuction.constructor(RankedAuction.Config) (src/RankedAuction.sol#109-119) uses timestamp for comparisons
+RankedAuction.constructor(RankedAuction.Config) (src/RankedAuction.sol#110-120) uses timestamp for comparisons
 	Dangerous comparisons:
-	- config.reservePrice == 0 || config.startTime <= block.timestamp (src/RankedAuction.sol#110)
-RankedAuction.phase() (src/RankedAuction.sol#150-155) uses timestamp for comparisons
+	- config.reservePrice == 0 || config.startTime <= block.timestamp (src/RankedAuction.sol#111)
+RankedAuction.phase() (src/RankedAuction.sol#151-156) uses timestamp for comparisons
 	Dangerous comparisons:
-	- block.timestamp < startTime (src/RankedAuction.sol#152)
-	- block.timestamp < endTime (src/RankedAuction.sol#153)
-RankedAuction.settle() (src/RankedAuction.sol#212-227) uses timestamp for comparisons
+	- block.timestamp < startTime (src/RankedAuction.sol#153)
+	- block.timestamp < endTime (src/RankedAuction.sol#154)
+RankedAuction.settle() (src/RankedAuction.sol#213-228) uses timestamp for comparisons
 	Dangerous comparisons:
-	- block.timestamp < endTime (src/RankedAuction.sol#214)
-RankedAuction.refunds(address) (src/RankedAuction.sol#313-315) uses timestamp for comparisons
+	- block.timestamp < endTime (src/RankedAuction.sol#215)
+RankedAuction.withdrawUnclaimedETH(address) (src/RankedAuction.sol#337-348) uses timestamp for comparisons
 	Dangerous comparisons:
-	- block.timestamp < refundDeadline() (src/RankedAuction.sol#314)
-RankedAuction.withdrawUnclaimedETH(address) (src/RankedAuction.sol#336-346) uses timestamp for comparisons
+	- block.timestamp < recoveryAvailableAt() (src/RankedAuction.sol#340)
+RankedAuction._extend() (src/RankedAuction.sol#422-426) uses timestamp for comparisons
 	Dangerous comparisons:
-	- block.timestamp < refundDeadline() (src/RankedAuction.sol#339)
-RankedAuction._requireRefundPeriod() (src/RankedAuction.sol#376-378) uses timestamp for comparisons
-	Dangerous comparisons:
-	- block.timestamp >= refundDeadline() (src/RankedAuction.sol#377)
-RankedAuction._extend() (src/RankedAuction.sol#420-424) uses timestamp for comparisons
-	Dangerous comparisons:
-	- endTime - block.timestamp >= EXTENSION_WINDOW (src/RankedAuction.sol#421)
+	- endTime - block.timestamp >= EXTENSION_WINDOW (src/RankedAuction.sol#423)
 RoyaltyMarketplace.list(uint256,uint128,uint64) (src/RoyaltyMarketplace.sol#58-67) uses timestamp for comparisons
 	Dangerous comparisons:
 	- price == 0 || expiry <= block.timestamp (src/RoyaltyMarketplace.sol#60)
@@ -59,11 +53,11 @@ AuctionEdition.mint(address,uint256[]) (src/AuctionEdition.sol#51-60) has costly
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop
 
 Detector: low-level-calls
-Low level call in RankedAuction._send(address,uint256) (src/RankedAuction.sol#433-438):
-	- (success,None) = recipient.call{value: amount}() (src/RankedAuction.sol#436)
+Low level call in RankedAuction._send(address,uint256) (src/RankedAuction.sol#435-440):
+	- (success,None) = recipient.call{value: amount}() (src/RankedAuction.sol#438)
 Low level call in RoyaltyMarketplace.withdraw(address) (src/RoyaltyMarketplace.sol#103-112):
 	- (success,None) = recipient.call{value: amount}() (src/RoyaltyMarketplace.sol#109)
 Low level call in RoyaltyMarketplace.withdrawRoyalties(address) (src/RoyaltyMarketplace.sol#115-126):
 	- (success,None) = recipient.call{value: amount}() (src/RoyaltyMarketplace.sol#123)
 Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
-. analyzed (25 contracts with 101 detectors), 18 result(s) found
+. analyzed (25 contracts with 101 detectors), 16 result(s) found

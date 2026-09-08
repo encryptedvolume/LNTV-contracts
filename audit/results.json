@@ -1,14 +1,14 @@
 {
   "date": "2026-09-08",
   "status": "PASS",
-  "scope": "Creator-authorized 28-day refund expiry and payout-wallet recovery of unclaimed auction ETH",
+  "scope": "Refunds remain available indefinitely until successful optional payout-wallet recovery, eligible 28 days after the final extended end",
   "sourceSha256": {
     "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
-    "src/RankedAuction.sol": "0edfe997ba47b8ad425583c687bbe7803841fcffcf0ff5afe63ced97c2f8a0b7",
+    "src/RankedAuction.sol": "741b68050ab248a326b4caaecde715261df51fad72cb56324ba80e86fd632705",
     "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
   },
   "solidityTests": {
-    "passed": 149,
+    "passed": 152,
     "failed": 0,
     "skipped": 0
   },
@@ -22,7 +22,7 @@
     "depth": 256,
     "totalHandlerCalls": 768000,
     "unexpectedReverts": 0,
-    "seed": "0x2026090828"
+    "seed": "0x2026090829"
   },
   "productionCoverage": {
     "lines": "100%",
@@ -31,16 +31,16 @@
     "functions": "100%"
   },
   "mutations": {
-    "killed": 73,
+    "killed": 77,
     "survived": 0,
     "minimumBehavioralFailures": 2,
-    "baselineTests": 146
+    "baselineTests": 149
   },
   "nativeRunnerTests": 2,
   "auditGateTests": 7,
   "mutationRunnerTests": 14,
   "slither": {
-    "reviewedWarnings": 18,
+    "reviewedWarnings": 16,
     "unreviewed": 0
   },
   "localDeployment": {
@@ -50,14 +50,14 @@
     "edition": "0xa16E02E87b7454126E5E10d957A927A7F5B5d2be",
     "marketplace": "0x8Ff3801288a85ea261E4277d44E1131Ea736F77B",
     "gasUsed": {
-      "atomic_deployment": 4924078,
-      "reserve_4": 187705,
-      "worst_bid": 590731,
+      "atomic_deployment": 4940828,
+      "reserve_4": 187595,
+      "worst_bid": 590775,
       "settle": 772205,
-      "claim_88": 3303828,
-      "secondary_sale": 182611,
-      "payout_rotation_accept": 30746,
-      "reserve_6": 218657
+      "claim_88": 3303806,
+      "secondary_sale": 182655,
+      "payout_rotation_accept": 30768,
+      "reserve_6": 218547
     },
     "bids": 92,
     "minted": 100,
@@ -84,895 +84,895 @@
     "timedTransactions": [
       {
         "function": "createBid",
-        "timestamp": 1788865803,
+        "timestamp": 1788867440,
         "blockNumber": 6,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789038602,
+        "timestamp": 1789040239,
         "blockNumber": 101,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789039201,
+        "timestamp": 1789040838,
         "blockNumber": 102,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789039800,
+        "timestamp": 1789041437,
         "blockNumber": 103,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789040399,
+        "timestamp": 1789042036,
         "blockNumber": 104,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789040998,
+        "timestamp": 1789042635,
         "blockNumber": 105,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789041597,
+        "timestamp": 1789043234,
         "blockNumber": 106,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789042196,
+        "timestamp": 1789043833,
         "blockNumber": 107,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789042795,
+        "timestamp": 1789044432,
         "blockNumber": 108,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789043394,
+        "timestamp": 1789045031,
         "blockNumber": 109,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789043993,
+        "timestamp": 1789045630,
         "blockNumber": 110,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789044592,
+        "timestamp": 1789046229,
         "blockNumber": 111,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789045191,
+        "timestamp": 1789046828,
         "blockNumber": 112,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789045790,
+        "timestamp": 1789047427,
         "blockNumber": 113,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789046389,
+        "timestamp": 1789048026,
         "blockNumber": 114,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789046988,
+        "timestamp": 1789048625,
         "blockNumber": 115,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789047587,
+        "timestamp": 1789049224,
         "blockNumber": 116,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789048186,
+        "timestamp": 1789049823,
         "blockNumber": 117,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789048785,
+        "timestamp": 1789050422,
         "blockNumber": 118,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789049384,
+        "timestamp": 1789051021,
         "blockNumber": 119,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789049983,
+        "timestamp": 1789051620,
         "blockNumber": 120,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789050582,
+        "timestamp": 1789052219,
         "blockNumber": 121,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789051181,
+        "timestamp": 1789052818,
         "blockNumber": 122,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789051780,
+        "timestamp": 1789053417,
         "blockNumber": 123,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789052379,
+        "timestamp": 1789054016,
         "blockNumber": 124,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789052978,
+        "timestamp": 1789054615,
         "blockNumber": 125,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789053577,
+        "timestamp": 1789055214,
         "blockNumber": 126,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789054176,
+        "timestamp": 1789055813,
         "blockNumber": 127,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789054775,
+        "timestamp": 1789056412,
         "blockNumber": 128,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789055374,
+        "timestamp": 1789057011,
         "blockNumber": 129,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789055973,
+        "timestamp": 1789057610,
         "blockNumber": 130,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789056572,
+        "timestamp": 1789058209,
         "blockNumber": 131,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789057171,
+        "timestamp": 1789058808,
         "blockNumber": 132,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789057770,
+        "timestamp": 1789059407,
         "blockNumber": 133,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789058369,
+        "timestamp": 1789060006,
         "blockNumber": 134,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789058968,
+        "timestamp": 1789060605,
         "blockNumber": 135,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789059567,
+        "timestamp": 1789061204,
         "blockNumber": 136,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789060166,
+        "timestamp": 1789061803,
         "blockNumber": 137,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789060765,
+        "timestamp": 1789062402,
         "blockNumber": 138,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789061364,
+        "timestamp": 1789063001,
         "blockNumber": 139,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789061963,
+        "timestamp": 1789063600,
         "blockNumber": 140,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789062562,
+        "timestamp": 1789064199,
         "blockNumber": 141,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789063161,
+        "timestamp": 1789064798,
         "blockNumber": 142,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789063760,
+        "timestamp": 1789065397,
         "blockNumber": 143,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789064359,
+        "timestamp": 1789065996,
         "blockNumber": 144,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789064958,
+        "timestamp": 1789066595,
         "blockNumber": 145,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789065557,
+        "timestamp": 1789067194,
         "blockNumber": 146,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789066156,
+        "timestamp": 1789067793,
         "blockNumber": 147,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789066755,
+        "timestamp": 1789068392,
         "blockNumber": 148,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789067354,
+        "timestamp": 1789068991,
         "blockNumber": 149,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789067953,
+        "timestamp": 1789069590,
         "blockNumber": 150,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789068552,
+        "timestamp": 1789070189,
         "blockNumber": 151,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789069151,
+        "timestamp": 1789070788,
         "blockNumber": 152,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789069750,
+        "timestamp": 1789071387,
         "blockNumber": 153,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789070349,
+        "timestamp": 1789071986,
         "blockNumber": 154,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789070948,
+        "timestamp": 1789072585,
         "blockNumber": 155,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789071547,
+        "timestamp": 1789073184,
         "blockNumber": 156,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789072146,
+        "timestamp": 1789073783,
         "blockNumber": 157,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789072745,
+        "timestamp": 1789074382,
         "blockNumber": 158,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789073344,
+        "timestamp": 1789074981,
         "blockNumber": 159,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789073943,
+        "timestamp": 1789075580,
         "blockNumber": 160,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789074542,
+        "timestamp": 1789076179,
         "blockNumber": 161,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789075141,
+        "timestamp": 1789076778,
         "blockNumber": 162,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789075740,
+        "timestamp": 1789077377,
         "blockNumber": 163,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789076339,
+        "timestamp": 1789077976,
         "blockNumber": 164,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789076938,
+        "timestamp": 1789078575,
         "blockNumber": 165,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789077537,
+        "timestamp": 1789079174,
         "blockNumber": 166,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789078136,
+        "timestamp": 1789079773,
         "blockNumber": 167,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789078735,
+        "timestamp": 1789080372,
         "blockNumber": 168,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789079334,
+        "timestamp": 1789080971,
         "blockNumber": 169,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789079933,
+        "timestamp": 1789081570,
         "blockNumber": 170,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789080532,
+        "timestamp": 1789082169,
         "blockNumber": 171,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789081131,
+        "timestamp": 1789082768,
         "blockNumber": 172,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789081730,
+        "timestamp": 1789083367,
         "blockNumber": 173,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789082329,
+        "timestamp": 1789083966,
         "blockNumber": 174,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789082928,
+        "timestamp": 1789084565,
         "blockNumber": 175,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789083527,
+        "timestamp": 1789085164,
         "blockNumber": 176,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789084126,
+        "timestamp": 1789085763,
         "blockNumber": 177,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789084725,
+        "timestamp": 1789086362,
         "blockNumber": 178,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789085324,
+        "timestamp": 1789086961,
         "blockNumber": 179,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789085923,
+        "timestamp": 1789087560,
         "blockNumber": 180,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789086522,
+        "timestamp": 1789088159,
         "blockNumber": 181,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789087121,
+        "timestamp": 1789088758,
         "blockNumber": 182,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789087720,
+        "timestamp": 1789089357,
         "blockNumber": 183,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789088319,
+        "timestamp": 1789089956,
         "blockNumber": 184,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789088918,
+        "timestamp": 1789090555,
         "blockNumber": 185,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789089517,
+        "timestamp": 1789091154,
         "blockNumber": 186,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789090116,
+        "timestamp": 1789091753,
         "blockNumber": 187,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789090715,
+        "timestamp": 1789092352,
         "blockNumber": 188,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789091314,
+        "timestamp": 1789092951,
         "blockNumber": 189,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789091913,
+        "timestamp": 1789093550,
         "blockNumber": 190,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789092512,
+        "timestamp": 1789094149,
         "blockNumber": 191,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789093111,
+        "timestamp": 1789094748,
         "blockNumber": 192,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789093710,
+        "timestamp": 1789095347,
         "blockNumber": 193,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789094309,
+        "timestamp": 1789095946,
         "blockNumber": 194,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789094908,
+        "timestamp": 1789096545,
         "blockNumber": 195,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789095507,
+        "timestamp": 1789097144,
         "blockNumber": 196,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789096106,
+        "timestamp": 1789097743,
         "blockNumber": 197,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789096705,
+        "timestamp": 1789098342,
         "blockNumber": 198,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789097304,
+        "timestamp": 1789098941,
         "blockNumber": 199,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789097903,
+        "timestamp": 1789099540,
         "blockNumber": 200,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789098502,
+        "timestamp": 1789100139,
         "blockNumber": 201,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789099101,
+        "timestamp": 1789100738,
         "blockNumber": 202,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789099700,
+        "timestamp": 1789101337,
         "blockNumber": 203,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789100299,
+        "timestamp": 1789101936,
         "blockNumber": 204,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789100898,
+        "timestamp": 1789102535,
         "blockNumber": 205,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789101497,
+        "timestamp": 1789103134,
         "blockNumber": 206,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789102096,
+        "timestamp": 1789103733,
         "blockNumber": 207,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789102695,
+        "timestamp": 1789104332,
         "blockNumber": 208,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789103294,
+        "timestamp": 1789104931,
         "blockNumber": 209,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789103893,
+        "timestamp": 1789105530,
         "blockNumber": 210,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789104492,
+        "timestamp": 1789106129,
         "blockNumber": 211,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789105091,
+        "timestamp": 1789106728,
         "blockNumber": 212,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789105690,
+        "timestamp": 1789107327,
         "blockNumber": 213,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789106289,
+        "timestamp": 1789107926,
         "blockNumber": 214,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789106888,
+        "timestamp": 1789108525,
         "blockNumber": 215,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789107487,
+        "timestamp": 1789109124,
         "blockNumber": 216,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789108086,
+        "timestamp": 1789109723,
         "blockNumber": 217,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789108685,
+        "timestamp": 1789110322,
         "blockNumber": 218,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789109284,
+        "timestamp": 1789110921,
         "blockNumber": 219,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789109883,
+        "timestamp": 1789111520,
         "blockNumber": 220,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789110482,
+        "timestamp": 1789112119,
         "blockNumber": 221,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789111081,
+        "timestamp": 1789112718,
         "blockNumber": 222,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789111680,
+        "timestamp": 1789113317,
         "blockNumber": 223,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789112279,
+        "timestamp": 1789113916,
         "blockNumber": 224,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789112878,
+        "timestamp": 1789114515,
         "blockNumber": 225,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789113477,
+        "timestamp": 1789115114,
         "blockNumber": 226,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789114076,
+        "timestamp": 1789115713,
         "blockNumber": 227,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789114675,
+        "timestamp": 1789116312,
         "blockNumber": 228,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789115274,
+        "timestamp": 1789116911,
         "blockNumber": 229,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789115873,
+        "timestamp": 1789117510,
         "blockNumber": 230,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789116472,
+        "timestamp": 1789118109,
         "blockNumber": 231,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789117071,
+        "timestamp": 1789118708,
         "blockNumber": 232,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789117670,
+        "timestamp": 1789119307,
         "blockNumber": 233,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789118269,
+        "timestamp": 1789119906,
         "blockNumber": 234,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789118868,
+        "timestamp": 1789120505,
         "blockNumber": 235,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789119467,
+        "timestamp": 1789121104,
         "blockNumber": 236,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789120066,
+        "timestamp": 1789121703,
         "blockNumber": 237,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789120665,
+        "timestamp": 1789122302,
         "blockNumber": 238,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789121264,
+        "timestamp": 1789122901,
         "blockNumber": 239,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789121863,
+        "timestamp": 1789123500,
         "blockNumber": 240,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789122462,
+        "timestamp": 1789124099,
         "blockNumber": 241,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789123061,
+        "timestamp": 1789124698,
         "blockNumber": 242,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789123660,
+        "timestamp": 1789125297,
         "blockNumber": 243,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789124259,
+        "timestamp": 1789125896,
         "blockNumber": 244,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789124858,
+        "timestamp": 1789126495,
         "blockNumber": 245,
         "status": 1
       },
       {
         "function": "increaseBid",
-        "timestamp": 1789125457,
+        "timestamp": 1789127094,
         "blockNumber": 246,
         "status": 1
       },
       {
         "function": "settle",
-        "timestamp": 1789126056,
+        "timestamp": 1789127693,
         "blockNumber": 247,
         "status": 0
       },
       {
         "function": "settle",
-        "timestamp": 1789126057,
+        "timestamp": 1789127694,
         "blockNumber": 248,
         "status": 1
       }
@@ -987,60 +987,73 @@
     "refundRecovery": {
       "result": "PASS",
       "auction": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
-      "refundClaimPeriodSeconds": 2419200,
-      "initialEnd": 1789299458,
-      "finalEnd": 1789300057,
-      "refundDeadline": 1791719257,
+      "recoveryDelaySeconds": 2419200,
+      "initialEnd": 1789301095,
+      "finalEnd": 1789301694,
+      "recoveryAvailableAt": 1791720894,
       "timedTransactions": [
         {
           "function": "createBid",
-          "timestamp": 1789126658,
+          "timestamp": 1789128295,
           "status": 1
         },
         {
           "function": "increaseBid",
-          "timestamp": 1789299457,
+          "timestamp": 1789301094,
           "status": 1
         },
         {
           "function": "settle",
-          "timestamp": 1789300057,
+          "timestamp": 1789301694,
           "status": 1
         },
         {
           "function": "withdrawUnclaimedETH",
-          "timestamp": 1791718658,
+          "timestamp": 1791720295,
           "status": 0
         },
         {
           "function": "withdrawUnclaimedETH",
-          "timestamp": 1791719255,
+          "timestamp": 1791720892,
           "status": 0
         },
         {
           "function": "withdrawRefund",
-          "timestamp": 1791719256,
+          "timestamp": 1791720893,
           "status": 1
         },
         {
-          "function": "withdrawRefund",
-          "timestamp": 1791719257,
+          "function": "creditRefunds",
+          "timestamp": 1791720894,
+          "status": 1
+        },
+        {
+          "function": "withdrawUnclaimedETH",
+          "timestamp": 1792325694,
           "status": 0
+        },
+        {
+          "function": "withdrawRefund",
+          "timestamp": 1792930494,
+          "status": 1
         }
       ],
-      "lastSecondRefundWei": 1990000000000000000,
-      "recoveredWei": 6010000000000000000,
-      "recoveryGas": 47701,
+      "refundBeforeRecoveryEligibilityWei": 1990000000000000000,
+      "refundAfterRecoveryEligibilityWei": 2490000000000000000,
+      "recoveredWei": 3520000000000000000,
+      "recoveryGas": 47880,
       "auctionEndingLiabilities": 0,
       "auctionEndingBalance": 0,
       "originalDeployerDenied": true,
       "oldPayoutWalletDeniedAfterRotation": true,
-      "creditedAndUncreditedRefundsExpired": true,
+      "refundsStayOpenUntilRecovery": true,
+      "rejectedRecoveryLeavesRefundsOpen": true,
+      "refundsClosedAfterRecovery": true,
       "nftClaimsAfterRecovery": true
     }
   },
   "frontendInterface": {
-    "version": "2.0.0",
+    "version": "3.0.0",
     "freshBuildMatchesExports": true,
     "publicDeployments": 0,
     "frontendCopyUpdated": false,
@@ -1049,7 +1062,7 @@
   "limitations": [
     "N-01 list back-pointer mutation coverage gap remains open",
     "N-04 extra-mutant redundancy and N-05 deployment guidance remain optional open findings",
-    "Creator explicitly accepts uncapped extensions, rank-based extension triggers, and 28-day refund expiry",
+    "Creator accepts uncapped extensions, rank-based extension triggers, and optional recovery that closes remaining refunds only when successful",
     "Frontend wording, behavior and copied interface updates are deferred by creator instruction",
     "No public deployment, live auction wallet integration, or off-chain reveal backend",
     "Passing automated checks is not proof of absence of defects or a new independent manual audit"
@@ -1060,9 +1073,12 @@
     "cumulativeExtensionCap": null
   },
   "refundPolicy": {
-    "claimPeriodSeconds": 2419200,
-    "deadlineAnchor": "final extended endTime",
-    "creditAndWithdrawalBeforeDeadline": true,
+    "recoveryDelaySeconds": 2419200,
+    "eligibilityAnchor": "final extended endTime",
+    "automaticRefundExpiry": false,
+    "refundsCloseOn": "successful withdrawUnclaimedETH transaction only",
+    "failedRecoveryClosesRefunds": false,
+    "normalProceedsWithdrawalClosesRefunds": false,
     "recoveryRole": "current payoutWallet",
     "settlementRequiredForRecovery": true,
     "nftClaimExpiry": null,

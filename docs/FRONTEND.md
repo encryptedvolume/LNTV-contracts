@@ -33,20 +33,24 @@ been verified. After deployment, record the chain ID and verified `auction`,
 frontend. An empty mapping must leave transaction controls unavailable. ABI
 exports alone do not implement wallet integration or the reveal service.
 
-## Refund policy in interface 2.0.0
+## Refund policy in interface 3.0.0
 
-The contract now exposes `refundDeadline()`, `REFUND_CLAIM_PERIOD()` and
-`withdrawUnclaimedETH(recipient)`. `refunds(wallet)` keeps its selector but now
-returns zero once the 28-day period expires. Both `creditRefunds` and
-`withdrawRefund` reject at/after that deadline, even if recovery has not happened.
-Crediting alone does not preserve the right to withdraw. The projected deadline
-moves with `endTime` during extensions and does not move when settlement occurs.
-NFT claims and marketplace credits remain independent.
+`RECOVERY_DELAY()` is 28 days and `recoveryAvailableAt()` is the final extended
+`endTime + 28 days`. These replace the misleading deadline/claim-period getters
+from unreleased version 2.0.0. Neither crediting nor withdrawal has an automatic
+expiry: enable them while `refundsClosed()` is false, even after day 28.
+`refunds(wallet)` reports credited amounts until successful recovery and zero
+afterwards. NFT claims and marketplace credits remain independent.
+
+The current payout wallet may call `withdrawUnclaimedETH(recipient)` after
+settlement and recovery eligibility. Success sets `refundsClosed()` true and
+emits `UnclaimedETHWithdrawn`; failed and empty transactions leave refunds open.
+Normal `withdrawProceeds` never closes refunds. Show `RefundsClosed` as recovery
+already completed; `RecoveryNotAvailable` means the 28-day delay has not elapsed.
+Use confirmed state to reconcile simultaneous refund/recovery transactions.
 
 Frontend wording, behavior and the copied interface have deliberately not been
-updated in this request. The current frontend snapshot remains pinned to 1.1.0.
-When integrating this release, synchronize the interface to the published 2.0.0
-commit, display/disclose the deadline before real bids, and stop offering expired
-refund actions while retaining NFT claims. Show `RefundClaimPeriodExpired` as an
-expired refund window; the recovery action requires the current payout wallet,
-settlement and the deadline. Recovery emits `UnclaimedETHWithdrawn`.
+updated in this request. The frontend snapshot remains pinned to 1.1.0.
+When integrating, synchronize the interface to the published 3.0.0 commit and
+disclose the optional recovery policy before real bids. Keep refund actions
+available until the live closure flag changes, and retain NFT claim actions.

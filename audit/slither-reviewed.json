@@ -3,30 +3,30 @@
   "slitherVersion": "0.11.5",
   "sourceSha256": {
     "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
-    "src/RankedAuction.sol": "0edfe997ba47b8ad425583c687bbe7803841fcffcf0ff5afe63ced97c2f8a0b7",
+    "src/RankedAuction.sol": "741b68050ab248a326b4caaecde715261df51fad72cb56324ba80e86fd632705",
     "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
   },
   "findings": [
     {
-      "id": "7484a738a8fc5e548922f686fb25dd01e0a573e86bb1c9490024ed690e6bd1ea",
+      "id": "686ddaa4b24d71d08feedaa80a8ad3883f0c303d645e1050981e6abdbddf1805",
       "check": "arbitrary-send-eth",
       "reportedImpact": "High",
-      "reason": "Reviewed authorized payment: _send is private and every caller is nonReentrant. Refund withdrawals debit only the original bidder before expiry; proceeds require the current payout wallet. The new withdrawUnclaimedETH also requires that wallet, completed settlement and final endTime + 28 days before transferring the entire remaining balance. It zeros all accounting before interaction, validates recipients, rejects empty sends and rolls back on rejection. Recovery of expired refunds is explicitly requested policy, not an authorization bypass. Dedicated tests cover wrong callers, wallet rotation, premature and unsettled calls, expired credits, replay, rejection and reentrancy.",
-      "location": "src/RankedAuction.sol:433"
+      "reason": "Reviewed authorized payment: _send is private and all callers are nonReentrant. Refund withdrawals debit the original bidder while refundsClosed is false, with no time expiry. Normal proceeds require the current payout wallet and do not close refunds. Recovery requires that wallet, settlement and final endTime + 28 days; it sets refundsClosed and zeros all accounting before interaction. Recipient/empty-payment checks and transfer rejection revert all effects, preserving refunds if recovery fails. Optional successful recovery forfeits remaining refunds by explicit creator choice. Tests cover late refunds, rejection/retry, callback state, ordering, wallet rotation, unauthorized and early calls, repeated recovery and preserved NFTs.",
+      "location": "src/RankedAuction.sol:435"
     },
     {
-      "id": "51e00ed1f1d94a9a9c979e419cac1869165bea47a56bd26328dd3098ec76b02b",
+      "id": "80da22d34b649e07bba6c6119282cf2c7cae02bd535327a0d4bef09f12bca947",
       "check": "incorrect-equality",
       "reportedImpact": "Medium",
       "reason": "False positive: amount == 0 is solely an empty-withdrawal guard. There is no requirement that an ETH balance equal a predetermined target. Recovery accepts the entire positive balance, including forced surplus; a later forced deposit can be recovered again. Unit and fuzz tests exercise zero balances, partial prior withdrawals and arbitrary forced surplus.",
-      "location": "src/RankedAuction.sol:433"
+      "location": "src/RankedAuction.sol:435"
     },
     {
       "id": "34692b64f08f40f032e0f0f6fcc1603e183b9e65ff5a8c892538e901db06a4e1",
       "check": "uninitialized-local",
       "reportedImpact": "Medium",
       "reason": "False positive: credited is a Solidity zero-initialized local uint256 accumulator, not a storage pointer. It sums validated overpayments and moves exactly that amount from escrow into the original bidders\u2019 pull credits. Duplicate credits and empty-overpayment/full-batch cases are tested.",
-      "location": "src/RankedAuction.sol:241"
+      "location": "src/RankedAuction.sol:242"
     },
     {
       "id": "31b2355ffb9110add8ebb1107050856090ca4c3a0ffa809c0397854ccd998030",
@@ -43,11 +43,11 @@
       "location": "src/RoyaltyMarketplace.sol:115"
     },
     {
-      "id": "168c6e8a88695efcb466ec6906cbcf455c9f8314dbb742eb508f4f01f983833f",
+      "id": "2dbdb4f041c744b4916d72bc0071543867f55a53f0345e325b60ff1a74235600",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction and refund deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; qualifying late bids reset end to timestamp + 600 without a cap. Refunds expire exactly at final endTime + 28 days, independent of settlement time; recovery is allowed only after settlement and at/after that deadline. Explicit boundary, extended-end, late-settlement, before/after-recovery, and timestamp-crossing tests cover the policy. NFT claims and marketplace credits retain separate lifecycles.",
-      "location": "src/RankedAuction.sol:420"
+      "reason": "Intentional rolling auction timing, never randomness. Only live bidding calls _extend; a qualifying transaction within the last 600 seconds sets endTime to timestamp + 600, with no cumulative cap. Existing tests cover repeated extensions, exact boundaries, unchanged rank and uint64 crossing.",
+      "location": "src/RankedAuction.sol:422"
     },
     {
       "id": "59177f8f25cc8995ea6c6857e36bf745798a1fe8ddae2f524a7181f55f534291",
@@ -57,13 +57,6 @@
       "location": "src/RoyaltyMarketplace.sol:78"
     },
     {
-      "id": "629e16faf2042f80a1bfb4a502585784710098cb14de5c7fd3cedd1ae7bc2fc3",
-      "check": "timestamp",
-      "reportedImpact": "Low",
-      "reason": "Intentional auction and refund deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; qualifying late bids reset end to timestamp + 600 without a cap. Refunds expire exactly at final endTime + 28 days, independent of settlement time; recovery is allowed only after settlement and at/after that deadline. Explicit boundary, extended-end, late-settlement, before/after-recovery, and timestamp-crossing tests cover the policy. NFT claims and marketplace credits retain separate lifecycles.",
-      "location": "src/RankedAuction.sol:212"
-    },
-    {
       "id": "65b33644c492a1621f8d6151a19720b67cf9891ec8190672a3166d93cb61e14c",
       "check": "timestamp",
       "reportedImpact": "Low",
@@ -71,39 +64,32 @@
       "location": "src/RoyaltyMarketplace.sol:58"
     },
     {
-      "id": "797251f095efc886a89328c1589d58c6695eff32bca8c68e892d9833c6150e43",
+      "id": "6d1ef35b8146faa2dd36140d6235ba3ac8b0f11a677bfd61e9d8e2db300975c0",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction and refund deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; qualifying late bids reset end to timestamp + 600 without a cap. Refunds expire exactly at final endTime + 28 days, independent of settlement time; recovery is allowed only after settlement and at/after that deadline. Explicit boundary, extended-end, late-settlement, before/after-recovery, and timestamp-crossing tests cover the policy. NFT claims and marketplace credits retain separate lifecycles.",
-      "location": "src/RankedAuction.sol:376"
+      "reason": "Intentional auction phases: bidding starts at startTime inclusively and ends at endTime exclusively. Settled state takes priority. Boundary, 48-hour duration and extension tests exercise the conditions; timestamps are not randomness.",
+      "location": "src/RankedAuction.sol:151"
     },
     {
-      "id": "8191935bdd5f5633ab35a80da32e5bf8c030c85061f14d672cb11d4ec518d9e6",
+      "id": "adbd63f4290cbc3137f47c130d644d8b1305bdb5c0ae939632a0547089ee144f",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction and refund deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; qualifying late bids reset end to timestamp + 600 without a cap. Refunds expire exactly at final endTime + 28 days, independent of settlement time; recovery is allowed only after settlement and at/after that deadline. Explicit boundary, extended-end, late-settlement, before/after-recovery, and timestamp-crossing tests cover the policy. NFT claims and marketplace credits retain separate lifecycles.",
-      "location": "src/RankedAuction.sol:150"
+      "reason": "Intentional deployment validation: reserve must be nonzero and start must be in the future. Fixed initial duration is 48 hours; deployment and invalid-configuration tests exercise these checks. Timestamp is not randomness.",
+      "location": "src/RankedAuction.sol:110"
     },
     {
-      "id": "9d58028cccb6cae75b3a85107f6152ce219e797a8b4985abbc7e64a7a3d21787",
+      "id": "cb07f0afa235193053c26485e157a3786f0adbc6ff8daac66d596e3bbbdc9642",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction and refund deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; qualifying late bids reset end to timestamp + 600 without a cap. Refunds expire exactly at final endTime + 28 days, independent of settlement time; recovery is allowed only after settlement and at/after that deadline. Explicit boundary, extended-end, late-settlement, before/after-recovery, and timestamp-crossing tests cover the policy. NFT claims and marketplace credits retain separate lifecycles.",
-      "location": "src/RankedAuction.sol:109"
+      "reason": "Intentional optional recovery eligibility: current payout wallet, settlement and final extended endTime + 28 days are all required. Passing this time alone never disables refunds; only successful recovery sets refundsClosed. Independent tests cover day 27, one second early, exact eligibility, extended end, late settlement, years of inaction and rejected recovery. NFT claims and marketplace credits are unaffected.",
+      "location": "src/RankedAuction.sol:337"
     },
     {
-      "id": "b07e328e155f0a290a2b316e362658af7bb6f86cf0dc3e8e557652f7fa828eed",
+      "id": "e548e16ac51a9da624c18f26416b8efb4b0fbecf622d2cb2981bbf12e710b703",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction and refund deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; qualifying late bids reset end to timestamp + 600 without a cap. Refunds expire exactly at final endTime + 28 days, independent of settlement time; recovery is allowed only after settlement and at/after that deadline. Explicit boundary, extended-end, late-settlement, before/after-recovery, and timestamp-crossing tests cover the policy. NFT claims and marketplace credits retain separate lifecycles.",
-      "location": "src/RankedAuction.sol:313"
-    },
-    {
-      "id": "e3b6bc73dbd5ad95a6f3553c5aae6d87563ece255e221216428b1a153ec950da",
-      "check": "timestamp",
-      "reportedImpact": "Low",
-      "reason": "Intentional auction and refund deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; qualifying late bids reset end to timestamp + 600 without a cap. Refunds expire exactly at final endTime + 28 days, independent of settlement time; recovery is allowed only after settlement and at/after that deadline. Explicit boundary, extended-end, late-settlement, before/after-recovery, and timestamp-crossing tests cover the policy. NFT claims and marketplace credits retain separate lifecycles.",
-      "location": "src/RankedAuction.sol:336"
+      "reason": "Intentional settlement boundary at or after the final extended endTime. No receiver is called; allocation and gross proceeds are fixed exactly once. Tests reject premature settlement including hour 24 and just before extended end, and allow exact-end settlement. Not a source of randomness.",
+      "location": "src/RankedAuction.sol:213"
     },
     {
       "id": "900972bf68b6afd527836f08858255058c95bb8af277294f9a1dece11e1c8a9f",
@@ -113,18 +99,18 @@
       "location": "src/AuctionEdition.sol:51"
     },
     {
-      "id": "4d891587315fb0799bc744dfa0dc7145a11aa46f6d521bf05be6f2cbf652bbbf",
-      "check": "low-level-calls",
-      "reportedImpact": "Informational",
-      "reason": "Reviewed private pull-payment helper: all callers are nonReentrant and authenticate the relevant entitlement. Refunds belong to the original bidder until expiry; proceeds and post-deadline recovery require the current payout wallet. The recovery path requires settlement and final endTime + 28 days, clears accounting before the call and rolls back on failure. Explicit callback tests reject recursive recovery and payout nomination during recovery.",
-      "location": "src/RankedAuction.sol:433"
-    },
-    {
       "id": "51942ec9f72b29e37355c539e94a527faf6ef7437ae3e69b63ff72bc03fffb4d",
       "check": "low-level-calls",
       "reportedImpact": "Informational",
       "reason": "Intentional royalty pull payment: only the current shared payout wallet can debit the accrued pool; pendingRoyalties and totalCredits are reduced before interaction. nonReentrant and revert-on-failure prevent duplicate/cross-function withdrawal and preserve credits for rejecting recipients.",
       "location": "src/RoyaltyMarketplace.sol:115"
+    },
+    {
+      "id": "5fa5903b11468c3ae834906c68bea3674e00f69a2f2d821017041094c146773f",
+      "check": "low-level-calls",
+      "reportedImpact": "Informational",
+      "reason": "Reviewed authorized payment: _send is private and all callers are nonReentrant. Refund withdrawals debit the original bidder while refundsClosed is false, with no time expiry. Normal proceeds require the current payout wallet and do not close refunds. Recovery requires that wallet, settlement and final endTime + 28 days; it sets refundsClosed and zeros all accounting before interaction. Recipient/empty-payment checks and transfer rejection revert all effects, preserving refunds if recovery fails. Optional successful recovery forfeits remaining refunds by explicit creator choice. Tests cover late refunds, rejection/retry, callback state, ordering, wallet rotation, unauthorized and early calls, repeated recovery and preserved NFTs.",
+      "location": "src/RankedAuction.sol:435"
     },
     {
       "id": "da0c9ed25c90d6a89c610ffa7c66cfd28af96bcff926ef10ee480e40b130f302",

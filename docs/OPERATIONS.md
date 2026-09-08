@@ -80,8 +80,8 @@ At capacity, the minimum new bid is the current floor plus 5%, rounded up to a w
 | Inspect ranking | `rankedBids(0, 90)`; for smaller pages pass the returned next ID |
 | End the auction | `settle()` from any account after the current end time |
 | Make winner refunds withdrawable | `creditRefunds(ids)` from any account, 1–90 winning IDs |
-| Receive ETH refund | Original bidder calls `withdrawRefund(payableRecipient)` before `refundDeadline()` |
-| Recover unclaimed auction ETH | Current payout wallet calls `withdrawUnclaimedETH(payableRecipient)` after settlement and at/after `refundDeadline()` |
+| Receive ETH refund | Original bidder calls `withdrawRefund(payableRecipient)` while `refundsClosed()` is false |
+| Recover unclaimed auction ETH | Current payout wallet calls `withdrawUnclaimedETH(payableRecipient)` after settlement and at/after `recoveryAvailableAt()` |
 | Receive winning NFTs | `claimTokens(ids, recipient)`; only the winning bidder may call |
 | Inspect a winner’s final payment | `winningBidCost(id)` after settlement; head pays full, others pay cutoff |
 | Receive reserved NFTs | Current payout wallet calls `claimReserved(quantity, recipient)`, up to 10 total, at any phase |
@@ -121,15 +121,15 @@ Metadata changes do not invalidate active sale listings or emit ERC-4906 events.
 
 The current wallet can replace an unaccepted nomination or cancel it with `cancelPayoutWalletChange()`. No arbitrary caller or deployer can rotate it. Both EOAs and contract wallets must be able to make these calls. Zero, the current wallet, and the three system contract addresses are rejected as nominees.
 
-Acceptance applies to unwithdrawn auction proceeds, accrued and future trading royalties, control of unclaimed reserved and unsold NFTs. Unexpired bidder refunds, winning NFTs, seller credits, and already withdrawn funds keep their existing owners. Recovery of expired auction refunds follows the current payout wallet. If the old payout wallet also sold NFTs, its seller credits stay withdrawable by that old wallet. No separate royalty-recipient update is necessary.
+Acceptance applies to unwithdrawn auction proceeds, accrued and future trading royalties, control of unclaimed reserved and unsold NFTs. Unrecovered bidder refunds, winning NFTs, seller credits, and already withdrawn funds keep their existing owners. Optional recovery after 28 days follows the current payout wallet and closes outstanding auction refunds only when successful. If the old payout wallet also sold NFTs, its seller credits stay withdrawable by that old wallet. No separate royalty-recipient update is necessary.
 
 ## Recovery and operational limits
 
-If a refund recipient rejects ETH, the entitlement survives and the bidder can retry to another address before the refund deadline. If an NFT receiver rejects ERC-721, the mint entitlement survives and the bidder can redirect it; refund crediting and withdrawal are independent. Batch mint failure reverts that batch only; smaller batches help isolate a rejecting recipient. The current payout wallet can redirect auction proceeds and trading royalties in the same way.
+If a refund recipient rejects ETH, the entitlement survives and the bidder can retry to another address until a successful recovery closes refunds. If an NFT receiver rejects ERC-721, the mint entitlement survives and the bidder can redirect it; refund crediting and withdrawal are independent. Batch mint failure reverts that batch only; smaller batches help isolate a rejecting recipient. The current payout wallet can redirect auction proceeds and trading royalties in the same way.
 
-No admin intervention can replace a lost bidder key, redirect somebody else's tokens, cancel an auction after a configuration mistake, change the on-chain metadata base, change the royalty percentage, recover unclaimed bidder ETH before the authorized refund deadline, or unlock direct transfers. Unclaimed winning units are reserved forever. The payout wallet can be rotated only while the current wallet can nominate a replacement (or a previously nominated wallet can still accept). There is no separate lost-key recovery authority. Keep wallets operational and communicate these constraints before opening the auction.
+No admin intervention can replace a lost bidder key, redirect somebody else's tokens, cancel an auction after a configuration mistake, change the on-chain metadata base, change the royalty percentage, recover unclaimed bidder ETH before the authorized recovery eligibility time, or unlock direct transfers. Unclaimed winning units are reserved forever. The payout wallet can be rotated only while the current wallet can nominate a replacement (or a previously nominated wallet can still accept). There is no separate lost-key recovery authority. Keep wallets operational and communicate these constraints before opening the auction.
 
-Monitor `liabilities() <= auction.balance`, `market.totalCredits() <= market.balance`, `activeCount <= 90`, the current closing time, and total supply. Normal donations cannot be sent directly; `selfdestruct` or protocol-level balance transfers can create surplus, recoverable with the remaining auction ETH after the refund deadline. Regular-tier uniform-price demand reduction, bid shading, transaction ordering, Sybil bidding, and self-outbidding are economic properties, not solvency failures. The design supplies no per-person allocation guarantee.
+Monitor `liabilities() <= auction.balance`, `market.totalCredits() <= market.balance`, `activeCount <= 90`, the current closing time, and total supply. Normal donations cannot be sent directly; `selfdestruct` or protocol-level balance transfers can create surplus, recoverable with the remaining auction ETH after settlement and recovery eligibility. Regular-tier uniform-price demand reduction, bid shading, transaction ordering, Sybil bidding, and self-outbidding are economic properties, not solvency failures. The design supplies no per-person allocation guarantee.
 
 ## Migration from earlier local prototypes
 
@@ -143,31 +143,38 @@ ERC-721 claims take bid IDs and return the NFTs assigned to those bids at settle
 
 New auctions run for 48 hours initially (`AUCTION_DURATION() = 172800`). A qualifying new bid or rank-changing increase inside the final ten minutes resets `endTime` to the transaction timestamp plus 600 seconds. Extensions have no cumulative cap, including at 24 hours past the initial close. An increase that preserves rank still does not extend the deadline. The existing code already had no extension cap; this update changes only the two timing constants in production Solidity.
 
-These constants are compiled into the contract. An already deployed auction would retain its original timing and require a new deployment to adopt this version. The timing-only release retained its external function signatures and exported interface version 1.1.0. The subsequent refund-recovery release below exports version 2.0.0 with additional calls and an expiry policy. No public deployment is recorded.
+These constants are compiled into the contract. An already deployed auction would retain its original timing and require a new deployment to adopt this version. The timing-only release retained its external function signatures and exported interface version 1.1.0. The corrected refund-recovery release below exports version 3.0.0 with recovery eligibility and an explicit refund-closure state. No public deployment is recorded.
 
-## Recover unclaimed auction ETH after 28 days
+## Optional recovery of unclaimed auction ETH after 28 days
 
-The creator has explicitly chosen a refund expiry. Bidders must both credit any
-winner excess and withdraw all refunds **before** `refundDeadline()`, which is
-exactly 28 days (2,419,200 seconds) after the final extended `endTime`. Displaced
-bidders can still withdraw during bidding. Late settlement does not postpone
-expiry. Credited but unwithdrawn refunds expire just like uncredited excess.
-NFT claims do not expire. Marketplace seller credits and royalties are separate
-and have no new deadline.
+The creator can choose to recover unclaimed ETH starting at
+`recoveryAvailableAt()`: exactly 28 days (2,419,200 seconds) after the final
+extended `endTime`. The auction must also be settled. Late settlement does not
+postpone eligibility. Bidders may still credit and withdraw refunds at day 28
+or any later date **until recovery succeeds**. Displaced bidders may withdraw
+during bidding. Normal `withdrawProceeds` never closes refunds.
 
-After `settle()` has completed and the deadline has arrived, send
-`withdrawUnclaimedETH(recipient)` from the **current `PAYOUT_WALLET`**. It withdraws
-all remaining auction ETH, including unwithdrawn proceeds, expired refunds and
-forced donations. The original deployment signer has no separate authority;
-set `PAYOUT_WALLET` to that address if it should hold this role. Accepted wallet
-rotation transfers recovery authority. A rejected payment can be retried to a
-different recipient. Failed or empty recovery attempts cannot consume funds.
+To exercise this option, call `withdrawUnclaimedETH(recipient)` from the
+**current `PAYOUT_WALLET`**. Success transfers all remaining auction ETH,
+including unwithdrawn proceeds, remaining refunds and forced donations, and
+permanently sets `refundsClosed()` to true. It disables both refund crediting
+and withdrawals. The original deployment signer has no separate authority;
+accepted wallet rotation transfers the recovery role. Rejected payments and
+empty recovery attempts revert without closing refunds or consuming credits.
+Retry a rejected payment with a suitable recipient. After successful recovery,
+later forced ETH can be recovered again.
 
-This is a new compiled contract version (interface 2.0.0), with no additional
-deployment parameter: the 28-day period is fixed. Existing deployed bytecode
-would retain its original rules. No public deployment is recorded. Frontend
-wording and behavior are intentionally deferred at the creator's request; show
-the refund deadline and expiry policy before accepting real bids when that
-integration is built. Historical refund events and bid flags must be reconciled
-with the current deadline and `refunds(wallet)`, rather than treated as perpetual
-withdrawal rights. Index `UnclaimedETHWithdrawn` for recovery transactions.
+NFT claims never expire through this action. Marketplace seller credits and
+royalties are separate and unaffected. After recovery becomes available,
+transaction ordering determines whether a particular refund or recovery executes
+first; a pending recovery transaction does not itself close refunds.
+
+Interface 3.0.0 replaces the unreleased 2.0.0 time-expiry API with
+`RECOVERY_DELAY()`, `recoveryAvailableAt()` and `refundsClosed()`. There is no new
+deployment parameter. Existing deployed bytecode would keep its original rules;
+no public deployment is recorded. Frontend wording, behavior and copied
+interface remain deferred at the creator's request. When integrating, disclose
+the optional recovery policy before real bids and use the live closure flag,
+not elapsed time, to enable refund actions. Reconcile historical credit events
+with `refunds(wallet)` and `refundsClosed()`. Index `UnclaimedETHWithdrawn` for
+successful recovery transactions.

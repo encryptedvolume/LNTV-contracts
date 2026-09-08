@@ -9,8 +9,8 @@ deployed: contract RankedAuction 0x5FbDB2315678afecb367f032d93F642f64180aa3
   Shared payout wallet 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
   Royalty BPS 750
   Reserve (wei) 10000000000000000
-  Start (unix seconds) 1788865803
-  Initial end (unix seconds) 1789038603
+  Start (unix seconds) 1788867440
+  Initial end (unix seconds) 1789040240
   Fixed off-chain metadata base URI https://metadata.example/local-e2e/
   ERC-721 collection name Local ERC721 NFTs
   ERC-721 symbol L721
@@ -26,9 +26,9 @@ Chain 31337
 
 Estimated gas price: 2.000000001 gwei
 
-Estimated total gas used for script: 6401301
+Estimated total gas used for script: 6423076
 
-Estimated amount required: 0.012802602006401301 ETH
+Estimated amount required: 0.012846152006423076 ETH
 
 ==========================
 
@@ -37,25 +37,25 @@ Estimated amount required: 0.012802602006401301 ETH
 
 ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
 
-Transactions saved to: /var/folders/z8/l7lwbjk53j32dvfykd8lwg_r0000gn/T/auction-e2e-yu26fovd/broadcast/Deploy.s.sol/31337/run-latest.json
+Transactions saved to: /var/folders/z8/l7lwbjk53j32dvfykd8lwg_r0000gn/T/auction-e2e-xwmfgvq6/broadcast/Deploy.s.sol/31337/run-latest.json
 
 Sensitive values saved to: /Users/aaa/Desktop/dev/LNTV-contracts/cache/Deploy.s.sol/31337/run-latest.json
 
-2026-09-08T10:10:03.145551Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdAssertions.sol
-2026-09-08T10:10:03.145634Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdError.sol
-2026-09-08T10:10:03.145656Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdInvariant.sol
-2026-09-08T10:10:03.145751Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdToml.sol
-2026-09-08T10:10:03.145785Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/Test.sol
-2026-09-08T10:10:03.146094Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/AuctionInvariant.t.sol
-2026-09-08T10:10:03.146131Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/CrossContractAudit.t.sol
-2026-09-08T10:10:03.146166Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/Deployment.t.sol
-2026-09-08T10:10:03.146194Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/MarketInvariant.t.sol
-2026-09-08T10:10:03.146240Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/Metadata.t.sol
-2026-09-08T10:10:03.146264Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/MutationBehavior.t.sol
-2026-09-08T10:10:03.146289Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/PayoutWallet.t.sol
-2026-09-08T10:10:03.146338Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RankedAuction.t.sol
-2026-09-08T10:10:03.146367Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RefundRecovery.t.sol
-2026-09-08T10:10:03.146403Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RoyaltyMarketplace.t.sol
-2026-09-08T10:10:03.146426Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestBase.sol
-2026-09-08T10:10:03.146470Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TieredAllocation.t.sol
-2026-09-08T10:10:03.155636Z  WARN evm::traces::external: etherscan config not found
+2026-09-08T10:37:20.453254Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdAssertions.sol
+2026-09-08T10:37:20.453433Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdError.sol
+2026-09-08T10:37:20.453473Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdInvariant.sol
+2026-09-08T10:37:20.453672Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdToml.sol
+2026-09-08T10:37:20.453757Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/Test.sol
+2026-09-08T10:37:20.454960Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/AuctionInvariant.t.sol
+2026-09-08T10:37:20.455005Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/CrossContractAudit.t.sol
+2026-09-08T10:37:20.455049Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/Deployment.t.sol
+2026-09-08T10:37:20.455092Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/MarketInvariant.t.sol
+2026-09-08T10:37:20.455134Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/Metadata.t.sol
+2026-09-08T10:37:20.455178Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/MutationBehavior.t.sol
+2026-09-08T10:37:20.455220Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/PayoutWallet.t.sol
+2026-09-08T10:37:20.455273Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RankedAuction.t.sol
+2026-09-08T10:37:20.455318Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RefundRecovery.t.sol
+2026-09-08T10:37:20.455361Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RoyaltyMarketplace.t.sol
+2026-09-08T10:37:20.455411Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestBase.sol
+2026-09-08T10:37:20.455451Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TieredAllocation.t.sol
+2026-09-08T10:37:20.461330Z  WARN evm::traces::external: etherscan config not found
