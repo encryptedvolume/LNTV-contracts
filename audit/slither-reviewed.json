@@ -1,25 +1,40 @@
 {
-  "reviewedDate": "2026-09-07",
+  "reviewedDate": "2026-09-08",
   "slitherVersion": "0.11.5",
   "sourceSha256": {
-    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
-    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
-    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
+    "src/AuctionEdition.sol": "c80d4f2104b7a33449f1228e4b27169d77d752ab2e791a381beb64b5af7f461e",
+    "src/RankedAuction.sol": "804449f989d099500f9857553055993da69bcf04862b1ecf7ea8d101f89cecbc",
+    "src/RoyaltyMarketplace.sol": "eaf99f7b0950c843283e28887bb63b948a62d0590d2f6e83f6fbd72f0480939f",
+    "src/TokenRescue.sol": "bb8587c8ea3f380764fa4563d3aaf296d4f83760258e0b0542b5e68566cd907d"
   },
   "findings": [
     {
-      "id": "7cc41bc4d3bfbc0af06171de6317405c79c79d3d900282ae2fd3653c243f3b59",
+      "id": "f021d03cce3d398fad101447a8e8586e45b85e1074c50333f9b8aa45b64272a4",
       "check": "arbitrary-send-eth",
       "reportedImpact": "High",
-      "reason": "False positive: _send is private. Its nonReentrant callers debit only refunds[msg.sender] or authenticate the current shared payout wallet before debiting pendingProceeds. Zero/self recipients and zero withdrawals revert; a failed send restores the entitlement. NFT rank assignment and minting cannot access refunds or create additional business proceeds. Authorization, rotation, refund isolation and theft mutations exercise these boundaries.",
-      "location": "src/RankedAuction.sol:397"
+      "reason": "Reviewed authorized payment: _send is private and all callers are nonReentrant. Refund withdrawals debit the original bidder while refundsClosed is false, with no time expiry. Normal proceeds require the current payout wallet and do not close refunds. Recovery requires that wallet, settlement and settledAt + 28 days; it sets refundsClosed and zeros all accounting before interaction. Recipient/empty-payment checks and transfer rejection revert all effects, preserving refunds if recovery fails. Optional successful recovery forfeits remaining refunds by explicit creator choice. Tests cover late refunds, rejection/retry, callback state, ordering, wallet rotation, unauthorized and early calls, repeated recovery and preserved NFTs.",
+      "location": "src/RankedAuction.sol:469"
+    },
+    {
+      "id": "411652c352396d6e66e3904b60232ee5745aa9356d36ed11098496ab8ffcb651",
+      "check": "incorrect-equality",
+      "reportedImpact": "Medium",
+      "reason": "False positive: amount == 0 is solely an empty-withdrawal guard. There is no requirement that an ETH balance equal a predetermined target. Recovery accepts the entire positive balance, including forced surplus; a later forced deposit can be recovered again. Unit and fuzz tests exercise zero balances, partial prior withdrawals and arbitrary forced surplus.",
+      "location": "src/RankedAuction.sol:469"
     },
     {
       "id": "34692b64f08f40f032e0f0f6fcc1603e183b9e65ff5a8c892538e901db06a4e1",
       "check": "uninitialized-local",
       "reportedImpact": "Medium",
       "reason": "False positive: credited is a Solidity zero-initialized local uint256 accumulator, not a storage pointer. It sums validated overpayments and moves exactly that amount from escrow into the original bidders\u2019 pull credits. Duplicate credits and empty-overpayment/full-batch cases are tested.",
-      "location": "src/RankedAuction.sol:236"
+      "location": "src/RankedAuction.sol:245"
+    },
+    {
+      "id": "394f2dd470ff9519a7b35b00fbdc5af985437d4097a0bbc5ad5faf9611fd9af2",
+      "check": "uninitialized-local",
+      "reportedImpact": "Medium",
+      "reason": "False positive: total is a Solidity zero-initialized local uint256 accumulator. A maximum of 90 calldata amounts is summed with checked arithmetic, and msg.value must equal that exact sum before any bid is created. Each private helper call credits only its supplied individual amount. Tests reject underpayment, overpayment, existing-escrow/forced-surplus funding and arithmetic overflow, and accept a valid aggregate above uint128.max.",
+      "location": "src/RankedAuction.sol:186"
     },
     {
       "id": "31b2355ffb9110add8ebb1107050856090ca4c3a0ffa809c0397854ccd998030",
@@ -29,81 +44,173 @@
       "location": "src/RoyaltyMarketplace.sol:78"
     },
     {
-      "id": "e96b4a8c96ab6a8ea297faf6f601369aeff13ac6b08e4fd96e30e04051a04e23",
+      "id": "3fd745c4989d29aae0b8d1501803439b20ae08b2bf9dc7a420a5f28550362f4f",
+      "check": "unused-return",
+      "reportedImpact": "Medium",
+      "reason": "Intentional: royaltyInfo(1, 0) resolves the current payout wallet for foreign-token rescue authorization; the zero royalty amount is irrelevant. The immutable edition resolves the immutable auction's mutable payoutWallet. _validateRescue requires this exact caller, and all rescue functions share the marketplace nonReentrant guard with buy and ETH withdrawals. Accepted rotation revokes the old wallet on all three contracts. Safe transfers are limited to foreign tokens held here; every rescue API rejects the LNTV edition and exposes no ETH value or transferFrom source chosen by the admin. Focused and adversarial tests cover authorization, rotation, rejecting transfers, callbacks and unchanged ETH credits.",
+      "location": "src/RoyaltyMarketplace.sol:97"
+    },
+    {
+      "id": "9b3dc39b2ce02587a8d3ab135b7324890d58f6924365031e44e2bb4061aa82c2",
       "check": "unused-return",
       "reportedImpact": "Medium",
       "reason": "Intentional: royaltyInfo(1, 0) resolves the current shared payout wallet for authorization; the zero amount is unused because withdrawal uses the accounted pendingRoyalties pool. IDs 1\u2013100 share the fixed rate and payout controller. Rotation, accrued funds, unauthorized access and repeated-withdraw tests cover this flow.",
-      "location": "src/RoyaltyMarketplace.sol:115"
+      "location": "src/RoyaltyMarketplace.sol:123"
     },
     {
-      "id": "508f4c47f22ccd5cd1a5561f62323ab976ab86f28e95248acb1c164d476a30bb",
+      "id": "1b82a2df334f9d778c1c37b4eae2894c56a993bbdf76a75f46cf62ae4110f9b2",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
-      "location": "src/RankedAuction.sol:146"
+      "reason": "Intentional settlement boundary at or after the final extended endTime. Settlement records block.timestamp once in uint256 settledAt, opening winner claims and starting the 28-day recovery delay. No receiver is called. AlreadySettled prevents resetting that timestamp. Tests cover delayed settlement, same-transaction settlement/recovery rollback, early settlement rejection and a timestamp beyond uint64; no timestamp is used as randomness.",
+      "location": "src/RankedAuction.sol:215"
+    },
+    {
+      "id": "29b529050c31cdf19cb91f7dd04a4bba30896c8d742359277f89aebd6a5c652f",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional auction phases: bidding starts at startTime inclusively and ends at endTime exclusively. Settled state takes priority. Boundary, 48-hour duration and extension tests exercise the conditions; timestamps are not randomness.",
+      "location": "src/RankedAuction.sol:153"
     },
     {
       "id": "59177f8f25cc8995ea6c6857e36bf745798a1fe8ddae2f524a7181f55f534291",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 600 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
       "location": "src/RoyaltyMarketplace.sol:78"
+    },
+    {
+      "id": "5f02a1ffbe1dec4a5e9be70740efdfc92c4960c00903b1be311a8cbca96892e3",
+      "check": "timestamp",
+      "reportedImpact": "Low",
+      "reason": "Intentional rolling auction timing, never randomness. Only live bidding calls _extend; a qualifying transaction within the last 600 seconds sets endTime to timestamp + 600, with no cumulative cap. Existing tests cover repeated extensions, exact boundaries, unchanged rank and uint64 crossing.",
+      "location": "src/RankedAuction.sol:456"
     },
     {
       "id": "65b33644c492a1621f8d6151a19720b67cf9891ec8190672a3166d93cb61e14c",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
+      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 48 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 600 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
       "location": "src/RoyaltyMarketplace.sol:58"
     },
     {
-      "id": "6d6e0e317ef93202ae2bfe355fe422e6683566d6d105bf98a8a264b2b0f905fb",
+      "id": "ccc1c9d80c794d5fc0e42bf8d352d57d7f521ed7956c004acdbfc314602dbc08",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
-      "location": "src/RankedAuction.sol:105"
+      "reason": "Intentional optional recovery eligibility. Current payout wallet, completed settlement and settledAt + 28 days are required. settledAt is recorded once on successful settlement and never changes; the pre-settlement endTime estimate cannot authorize recovery. Late settlement and atomic settlement/recovery tests prove a full protected interval; boundaries, extended end, clock reset, uint64 crossing and delayed-settlement fuzz tests cover timestamp handling. Time alone never closes refunds; only successful recovery does.",
+      "location": "src/RankedAuction.sol:340"
     },
     {
-      "id": "c7a440b5c96075d489edcb6ba133e961308f28082dca8e630c047ab7d2afd5f7",
+      "id": "dfc1c422ebd4305cf276e87a712ce8ea6dba1c5698bf291880c0981a44005d63",
       "check": "timestamp",
       "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
-      "location": "src/RankedAuction.sol:384"
+      "reason": "Intentional deployment validation: reserve must be nonzero and start must be in the future. Fixed initial duration is 48 hours; deployment and invalid-configuration tests exercise these checks. Timestamp is not randomness.",
+      "location": "src/RankedAuction.sol:112"
     },
     {
-      "id": "e9eac2fc73bdc0e616287a06d7775a19037fd140b88128917e60e7d9526293b7",
-      "check": "timestamp",
-      "reportedImpact": "Low",
-      "reason": "Intentional auction/listing deadlines, never randomness. Initial end is uint256(startTime) + 24 hours; bidding requires start <= timestamp < end, and late qualifying bids set end to timestamp + 300 without a cap. Listing expiry is exclusive. Exact boundary, uint64 crossing, fixed-duration and repeated-extension tests cover this policy.",
-      "location": "src/RankedAuction.sol:208"
+      "id": "3440e229311fa4b2795f3f95ae10742e4e73d2432060a72e3257d7c5e2bfa309",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded escrow debit on eviction; the same amount becomes a refund liability, so total liabilities stay equal to paid-in ETH. At most one eviction per batch item and at most 90 items. Failed later entries revert every debit and credit. Independent solvency models and full-book transaction rehearsals verify this path.",
+      "location": "src/RankedAuction.sol:385"
     },
     {
-      "id": "900972bf68b6afd527836f08858255058c95bb8af277294f9a1dece11e1c8a9f",
+      "id": "3da1e2d48f9fb3933eae2d8a43527e16ab7a27c5c6a22c6c76f8bd528d0e12ff",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional tail update while filling the auction or inserting at the end of the bounded ranked list. Every later batch item reads the resulting current floor. Capacity-crossing, rising-floor, stable-tie, max-batch and invariant tests cover these pointer and pricing transitions.",
+      "location": "src/RankedAuction.sol:426"
+    },
+    {
+      "id": "445dc01ed0551fdeae1a69aa2545a4884cae0ac4a76fcc51224f0184368c0fed",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "The shared unlink helper handles a head update for single-bid top-ups. Batch displacement removes a tail from 91 nodes and cannot enter this head-only branch. Both paths are bounded, internal and covered by ranked-list tests and model invariants; batching introduces no external call.",
+      "location": "src/RankedAuction.sol:445"
+    },
+    {
+      "id": "61d566848358d2ea715531a9bfa5d076684b8e9beb1edceff0861f96ffc72e6f",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded unlink count update. Batch insertions may transiently raise the list to 91 nodes; one tail removal restores 90 before processing the next item. Tests and the independent stateful model verify active count, linked-list integrity and retained/displaced ownership. No iteration traverses historical bids.",
+      "location": "src/RankedAuction.sol:445"
+    },
+    {
+      "id": "62eff9241de22aea4ff10e0cd1f5e91870c6e371bc931988f8db809a43c58af4",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional linked-list head update when an inserted bid ranks first. Each insertion scans at most 90 active nodes and performs bounded pointer writes. The batch has at most 90 insertions. Exact ownership, ranking, stable-tie, differential and invariant tests cover insertion ordering; local transaction gas is measured for maximum batches.",
+      "location": "src/RankedAuction.sol:426"
+    },
+    {
+      "id": "6985be2e972773584ab2ebb55cab7106236073d6141c39a367fe6bfad025c957",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional count update for each bounded insertion. A subsequent eviction keeps activeCount <= 90 after each completed item. Batch bounds are checked before execution. Maximum-size, repeated-batch, capacity-crossing and independent-model tests verify count and funding invariants.",
+      "location": "src/RankedAuction.sol:426"
+    },
+    {
+      "id": "8594bdeaf54c7a7c503e00281cc5aaf5db6d145c62766d4a18fae09772614208",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded refund accounting: each of at most 90 displacements moves the original bid amount into its original wallet's pull credit and totalRefunds exactly once. This includes the sender's earlier batch bids. No payment callback occurs while bidding. Unit, fuzz and stateful model tests cover conservation and rollback.",
+      "location": "src/RankedAuction.sol:385"
+    },
+    {
+      "id": "b330bad22ea94ecc30efc809ceef7f465685900c75ec0f93a3e22ab6b10dd652",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded displacement: a batch has at most 90 items, each insert temporarily permits 91 active bids and immediately unlinks the tail. Updating tail preserves the next item's floor. Unit tests cover self-displacement, invalid-later-bid rollback and links; independent model campaigns compare ranking, pointers and credits.",
+      "location": "src/RankedAuction.sol:445"
+    },
+    {
+      "id": "dced4cdff4e1bd41804bd105a20eb6a43704080ac0337606b19e8adc34d0e09e",
       "check": "costly-loop",
       "reportedImpact": "Informational",
       "reason": "Intentional bounded mint loop: lifetime mint cap is 100; auction batches are at most 90 and reserved batches at most 10. The supply count advances before each safe-mint callback. Only the immutable auction may mint and all claim entry points are nonReentrant. Rejected later callbacks roll back the whole batch including allocation counters and ownership. Unit tests cover reserved/unsold/winner partitioning, failed deliveries, reentry and rotation; lifecycle receipt gas bounds batch costs.",
-      "location": "src/AuctionEdition.sol:51"
+      "location": "src/AuctionEdition.sol:55"
     },
     {
-      "id": "2126db9fb0123dfeb2a58df0b29b603641a419b1059e647464a33a196c5d8659",
-      "check": "low-level-calls",
+      "id": "dda0d9d8a6a6fa0bc6d7a8a07f200f7a76d59665cc156a36601dcf135c0612b6",
+      "check": "costly-loop",
       "reportedImpact": "Informational",
-      "reason": "Intentional private pull-payment helper: only the original bidder can debit its own refund; only the current payout wallet can debit proceeds. Both callers update liabilities before interaction, are nonReentrant and revert on failure. Bidding and settlement call no untrusted receivers. Reserved mint claims cannot create or withdraw proceeds.",
-      "location": "src/RankedAuction.sol:397"
+      "reason": "Intentional monotonic checked bid-ID allocation, once per independent bid, at most 90 per batch. Input order determines ID and tie priority. Returned IDs and BidCreated events are checked against sequential bidding; a failed later entry reverts all prior increments.",
+      "location": "src/RankedAuction.sol:385"
     },
     {
-      "id": "51942ec9f72b29e37355c539e94a527faf6ef7437ae3e69b63ff72bc03fffb4d",
+      "id": "f5bf9e9393c178bd654f8972413bd207c1fb17300683a4a84de817f8519c3076",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional shared extension logic. All batch items share block.timestamp; after the first qualifying item sets endTime to timestamp + 600, subsequent items take the >= 600 early return. The batch can update the deadline and emit AuctionExtended at most once. Boundary, event-count and failed-later-bid rollback tests cover this behavior.",
+      "location": "src/RankedAuction.sol:456"
+    },
+    {
+      "id": "fcd9af3bad51f9af5b1278d70d0592bcb77d304f94c6aaf56ff66b020d22a09e",
+      "check": "costly-loop",
+      "reportedImpact": "Informational",
+      "reason": "Intentional bounded batch accounting: at most 90 independent bids, each with its explicit funded amount. Escrow grows once per item; displaced amounts are debited before the next item. There are no external calls. Exact-total, solvency, differential and independent-model invariant tests cover this path.",
+      "location": "src/RankedAuction.sol:385"
+    },
+    {
+      "id": "8221cd588ed8662efd0cdf8a3f693fb2c7908bdf0d92bea44f5f6e516befbbfc",
       "check": "low-level-calls",
       "reportedImpact": "Informational",
       "reason": "Intentional royalty pull payment: only the current shared payout wallet can debit the accrued pool; pendingRoyalties and totalCredits are reduced before interaction. nonReentrant and revert-on-failure prevent duplicate/cross-function withdrawal and preserve credits for rejecting recipients.",
-      "location": "src/RoyaltyMarketplace.sol:115"
+      "location": "src/RoyaltyMarketplace.sol:123"
     },
     {
-      "id": "da0c9ed25c90d6a89c610ffa7c66cfd28af96bcff926ef10ee480e40b130f302",
+      "id": "ba166a266b3cfef61534e8989c488a35d0a26c97a405e2efdbecbbf5c6aa9235",
+      "check": "low-level-calls",
+      "reportedImpact": "Informational",
+      "reason": "Reviewed authorized payment: _send is private and all callers are nonReentrant. Refund withdrawals debit the original bidder while refundsClosed is false, with no time expiry. Normal proceeds require the current payout wallet and do not close refunds. Recovery requires that wallet, settlement and settledAt + 28 days; it sets refundsClosed and zeros all accounting before interaction. Recipient/empty-payment checks and transfer rejection revert all effects, preserving refunds if recovery fails. Optional successful recovery forfeits remaining refunds by explicit creator choice. Tests cover late refunds, rejection/retry, callback state, ordering, wallet rotation, unauthorized and early calls, repeated recovery and preserved NFTs.",
+      "location": "src/RankedAuction.sol:469"
+    },
+    {
+      "id": "cca61438a80be7050c9332ad378f351a431860e0859db8e05cbf6fb14372c092",
       "check": "low-level-calls",
       "reportedImpact": "Informational",
       "reason": "Intentional seller pull payment: withdraw debits only credits[msg.sender] and totalCredits before interaction, under nonReentrant. Failed delivery rolls back all effects. NFT ownership changes and payout rotation never reassign personal seller credits.",
-      "location": "src/RoyaltyMarketplace.sol:103"
+      "location": "src/RoyaltyMarketplace.sol:111"
     }
-  ]
+  ],
+  "scope": "3.3.0 non-mutation audit; all four production contracts including TokenRescue"
 }

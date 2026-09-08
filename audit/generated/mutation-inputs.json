@@ -1,24 +1,25 @@
 {
   "fuzzSeed": "0x20260907",
   "fuzzRuns": 16,
-  "baselineTests": 124,
+  "baselineTests": 154,
   "minimumBehavioralFailures": 2,
   "inputSha256": {
     "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
-    "src/RankedAuction.sol": "45371987e5fd027bfbae2cc0f79c0f0df4c4934a938e8205f65dfc31d9a325a7",
+    "src/RankedAuction.sol": "42255828c76235a2be2244e5d870ecd1b5a69675552ebc8140be9459fe21503b",
     "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85",
-    "test/AuctionInvariant.t.sol": "4dcaf38e58dbafd08723880190e6f28717eb639a6368f1ff94ce6ded38af6339",
+    "test/AuctionInvariant.t.sol": "6ceead69706d644926397b87ff00395053485cf204842ccb2c002e3ffe0ba739",
     "test/CrossContractAudit.t.sol": "1d5939cc66b7897be076faadaa0cd393764a3c7088ee850b67177dd8c508762e",
-    "test/Deployment.t.sol": "0404f4d7f19407a2470d88c4ea0fcb1f091473360acbf0e5f28d76eb8c22c2f2",
+    "test/Deployment.t.sol": "fd0fde7ded7e29b91e793b79efeee4e32a91e2593f8d77cc38e4828f1e9b14f0",
     "test/MarketInvariant.t.sol": "28a8e4030a063be0c18cf65b00b6125071620d5e3e42bb0d964b9fa1ced2d74a",
     "test/Metadata.t.sol": "a0c2f8e2f40bc2cd0db7a4b834260b6cde70880451dff2e65dddc03eda71ac10",
-    "test/MutationBehavior.t.sol": "a39ea6c4bed5f88c8f2d6ebb4ad830135a530e393520a7f841047de5e2fe222f",
+    "test/MutationBehavior.t.sol": "875bac33d3335629cc100753fce40f28fda846d4944bba15d68635a2ce91db67",
     "test/PayoutWallet.t.sol": "bdd751b360f890dac6ca108f6ad0075a87560fb8eccd4f26116ef35bfbb9fac1",
-    "test/RankedAuction.t.sol": "e2c860fd4661b25c80f25ee4b7a2c450d26f7fd822a6e97dacb9cabd1efda928",
+    "test/RankedAuction.t.sol": "c33afbecbe3643dfacae48c146521e174ad8301cfdb10196a598711ab52cb353",
+    "test/RefundRecovery.t.sol": "b713a4d777548ec33eedad2e24197c270ed029c2408957b2e17c224b54ca552b",
     "test/RoyaltyMarketplace.t.sol": "e9c0bd91c46775a571e10f99b08882aa3fb4ffae76be3e99a0c45c734465cd4d",
     "test/TestBase.sol": "9885e831bfd1f617d535522e613e3a13299f2031d1d56b98c6710b11be2e94b8",
-    "test/TieredAllocation.t.sol": "60cc7f20ff04678aa07df015c6c73b0a1b56618a96937e92629e0c8512374d03",
-    "script/Deploy.s.sol": "5e9a984bbbe826511764beefa4eb90dfa22280227c0c04aecd01e8afc27d60f6",
+    "test/TieredAllocation.t.sol": "8ff77523c7ca925afe87b1a681e05a870087836f190116eea00d6af1cec8a83d",
+    "script/Deploy.s.sol": "1dce72a9b592df2bbd645aa4b12bfd97947bbcab7095af06db203ebcc8fe3189",
     "lib/forge-std/Base.sol": "fc32a987e0555c69c646d995981acbcc57d5cd0173a364d37b9f79e3aa00ff0e",
     "lib/forge-std/Config.sol": "2644da0b989dddfa1a8fa0451dd9d41e8120ce9375fe589c61670caf3cafb925",
     "lib/forge-std/LibVariable.sol": "65820c5909b7c1c1f1ba44be07539da535fb51d2088bce85d90e0240a294ebea",
@@ -382,5 +383,5 @@
     "lib/openzeppelin-contracts/vendor/compound/ICompoundTimelock.sol": "b1062b283d59aea38dbecafabe94dedb7152b89ae001f85b35f86b3817929c4c",
     "foundry.toml": "9fda63afa30d8a43d8f9f833e93b24b3ead88fe3056cee064df06a5629efd66c"
   },
-  "runnerSha256": "15e65919f796eb26a25bdc828fca282e121e6731bf806d5fa17ae333b09c4334"
+  "runnerSha256": "f73dbfb028815fb43cae08886dee24610e3bcfd8e9145259df2c70ebde747bae"
 }

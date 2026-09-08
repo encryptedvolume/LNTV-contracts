@@ -8,11 +8,11 @@ import { RoyaltyMarketplace } from "../src/RoyaltyMarketplace.sol";
 
 /// @dev Independent lifecycle scenarios for regressions previously caught by one test or only config getters.
 contract MutationBehaviorTest is TestBase {
-    function testBiddingRemainsOpenAtHour23() public {
+    function testBiddingRemainsOpenAtHour47() public {
         uint256 start = auction.startTime();
-        vm.warp(start + 23 hours);
+        vm.warp(start + 47 hours);
         uint256 id = place(alice, 1 ether);
-        vm.warp(start + 24 hours);
+        vm.warp(start + 48 hours);
         auction.settle();
         vm.prank(alice);
         auction.claimTokens(one(id), carol);
@@ -20,16 +20,16 @@ contract MutationBehaviorTest is TestBase {
         assertEq(auction.pendingProceeds(), 1 ether);
     }
 
-    function testSettlementCannotReleaseFundsAtHourTwo() public {
+    function testSettlementCannotReleaseFundsAtHour24() public {
         live();
         place(alice, 1 ether);
         uint256 start = auction.startTime();
-        vm.warp(start + 2 hours);
+        vm.warp(start + 24 hours);
         vm.expectRevert(RankedAuction.AuctionNotEnded.selector);
         auction.settle();
         assertEq(auction.pendingProceeds(), 0);
         assertEq(auction.escrow(), 1 ether);
-        vm.warp(start + 24 hours);
+        vm.warp(start + 48 hours);
         auction.settle();
         uint256 before = carol.balance;
         vm.prank(payoutWallet);
@@ -38,19 +38,23 @@ contract MutationBehaviorTest is TestBase {
         assertEq(auction.liabilities(), 0);
     }
 
-    function testRankIncreasesKeepAuctionLiveBeyondFormerCap() public {
+    function testRankIncreasesKeepAuctionLiveBeyond24HourExtension() public {
         live();
         place(alice, RESERVE);
         place(bob, 2 * RESERVE);
-        uint256 deadline = uint256(auction.startTime()) + 24 hours;
-        for (uint256 i; i < 26; ++i) {
+        uint256 deadline = uint256(auction.startTime()) + 48 hours;
+        uint256[2] memory amounts = [RESERVE, 2 * RESERVE];
+        for (uint256 i; i < 146; ++i) {
             uint256 id = i % 2 + 1;
             uint256 other = id == 1 ? 2 : 1;
-            uint256 extra = uint256(bid(other).amount) + RESERVE - bid(id).amount;
+            uint256 extra = amounts[other - 1] + RESERVE - amounts[id - 1];
+            uint256 minimumExtra = (amounts[id - 1] * 250 + 9999) / 10000;
+            if (extra < minimumExtra) extra = minimumExtra;
+            amounts[id - 1] += extra;
             vm.warp(deadline - 1);
             vm.prank(id == 1 ? alice : bob);
             auction.increaseBid{ value: extra }(id);
-            deadline += 299;
+            deadline += 599;
         }
         vm.expectRevert(RankedAuction.AuctionNotEnded.selector);
         auction.settle();
@@ -59,27 +63,27 @@ contract MutationBehaviorTest is TestBase {
         vm.prank(bob);
         auction.claimTokens(one(2), carol);
         assertEq(edition.ownerOf(1), carol);
-        assertEq(auction.pendingProceeds(), 29 * RESERVE);
+        assertEq(auction.pendingProceeds(), amounts[1] + RESERVE);
     }
 
     function testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement() public {
         RankedAuction.Config memory c = config();
-        c.startTime = type(uint64).max - 1 days - 120;
+        c.startTime = type(uint64).max - 2 days - 120;
         auction = new RankedAuction(c);
         live();
         place(alice, RESERVE);
         place(bob, 2 * RESERVE);
-        vm.warp(uint256(c.startTime) + 24 hours - 1);
+        vm.warp(uint256(c.startTime) + 48 hours - 1);
         vm.prank(alice);
         auction.increaseBid{ value: 2 * RESERVE }(1);
         uint256 afterBoundary = uint256(type(uint64).max) + 1;
         vm.warp(afterBoundary);
         vm.prank(bob);
         auction.increaseBid{ value: 2 * RESERVE }(2);
-        vm.warp(afterBoundary + 299);
+        vm.warp(afterBoundary + 599);
         vm.expectRevert(RankedAuction.AuctionNotEnded.selector);
         auction.settle();
-        vm.warp(afterBoundary + 300);
+        vm.warp(afterBoundary + 600);
         auction.settle();
         assertEq(auction.pendingProceeds(), 5 * RESERVE);
     }
@@ -106,7 +110,7 @@ contract MutationBehaviorTest is TestBase {
     function testInsufficientTopUpCannotChangeRankOrDelayClosing() public {
         live();
         fill(alice, 1 ether);
-        uint256 deadline = uint256(auction.startTime()) + 24 hours;
+        uint256 deadline = uint256(auction.startTime()) + 48 hours;
         vm.warp(deadline - 10);
         vm.prank(alice);
         vm.expectRevert(RankedAuction.BidTooLow.selector);
@@ -116,7 +120,7 @@ contract MutationBehaviorTest is TestBase {
         assertEq(auction.escrow(), 90 ether);
         vm.prank(alice);
         auction.increaseBid{ value: 0.025 ether }(90);
-        vm.warp(deadline + 290);
+        vm.warp(deadline + 590);
         auction.settle();
         assertEq(auction.winningBidCost(90), 1.025 ether);
         assertEq(auction.pendingProceeds(), 90.025 ether);
@@ -125,7 +129,9 @@ contract MutationBehaviorTest is TestBase {
     function testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain() public {
         _sellReservedToBob();
         vm.prank(bob);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
+        vm.expectRevert(
+            bytes4(keccak256("StrictAuthorizedTransferSecurityRegistry__CallerMustBeWhitelistedOperator()"))
+        );
         edition.safeTransferFrom(bob, carol, 91);
         assertEq(edition.ownerOf(91), bob);
         assertEq(edition.transferNonce(91), 1);
@@ -254,12 +260,14 @@ contract MutationBehaviorTest is TestBase {
         assertEq(edition.totalSupply(), 2);
     }
 
-    function testPurchasedNftRejectsTokenApprovalToFormerSeller() public {
+    function testPurchasedNftApprovalDoesNotBypassRegistryAndClearsAfterResale() public {
         _sellReservedToBob();
         vm.prank(bob);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
         edition.approve(alice, 91);
-        assertEq(edition.getApproved(91), address(0));
+        assertEq(edition.getApproved(91), alice);
+        vm.prank(alice);
+        vm.expectRevert(bytes4(keccak256("StrictAuthorizedTransferSecurityRegistry__UnauthorizedTransfer()")));
+        edition.transferFrom(bob, alice, 91);
         uint256 resale = _list(bob, 91, 2 ether);
         vm.prank(carol);
         market.buy{ value: 2 ether }(resale, carol);

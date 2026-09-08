@@ -1,0 +1,1135 @@
+
+> @lntv/contracts@3.0.0 audit
+> bash scripts/audit.sh
+
+
+> @lntv/contracts@3.0.0 format:check
+> node scripts/foundry.mjs forge fmt --check
+
+TAP version 13
+# Subtest: the audit runner propagates native tool failures
+ok 1 - the audit runner propagates native tool failures
+  ---
+  duration_ms: 32.503875
+  type: 'test'
+  ...
+# Subtest: the audit runner propagates success
+ok 2 - the audit runner propagates success
+  ---
+  duration_ms: 30.21325
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 99.159625
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.302s
+
+OK
+..............
+----------------------------------------------------------------------
+Ran 14 tests in 0.000s
+
+OK
+PASS: 16 individually reviewed Slither findings; no unreviewed findings or source drift.
+PASS: all production contracts have 100% instrumented line, branch and function coverage.
+Extended audit fuzz seed: 0x2026090829
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 501.72s (501.72s CPU time)
+
+Ran 12 test suites in 501.72s (1094.82s CPU time): 152 tests passed, 0 failed, 0 skipped (152 total tests)
+Clean baseline: 149 tests passed; required behavioral scenarios present.
+KILLED: zero outbid increment (4 behavioral tests)
+KILLED: old 2.5 percent outbid increment restored (2 behavioral tests)
+KILLED: zero increase increment (4 behavioral tests)
+KILLED: old 0.5 percent increase increment restored (2 behavioral tests)
+KILLED: wrong supply (77 behavioral tests)
+KILLED: two-hour extension cap restored (2 behavioral tests)
+KILLED: extension timestamp narrowed (2 behavioral tests)
+KILLED: reversed tie priority (8 behavioral tests)
+KILLED: loser refund shortfall (9 behavioral tests)
+KILLED: wrong clearing price (31 behavioral tests)
+KILLED: settlement double liability (35 behavioral tests)
+KILLED: stealable claims (4 behavioral tests)
+KILLED: repeatable refund credit (4 behavioral tests)
+KILLED: repeatable token claim (2 behavioral tests)
+KILLED: stolen payout funds (8 behavioral tests)
+KILLED: auction reentrancy guard removed (6 behavioral tests)
+KILLED: royalty transfer bypass (2 behavioral tests)
+KILLED: missing supply accounting (13 behavioral tests)
+KILLED: zeroed royalties (21 behavioral tests)
+KILLED: free purchase (2 behavioral tests)
+KILLED: royalty double credit (15 behavioral tests)
+KILLED: unauthorized cancellation (2 behavioral tests)
+KILLED: repeatable marketplace withdrawal (2 behavioral tests)
+KILLED: marketplace reentrancy guard removed (4 behavioral tests)
+KILLED: primary auction royalty deduction (42 behavioral tests)
+KILLED: unauthorized wallet acceptance (3 behavioral tests)
+KILLED: wallet nomination takes immediate control (8 behavioral tests)
+KILLED: accepted wallet not applied (15 behavioral tests)
+KILLED: stale pending wallet retained (7 behavioral tests)
+KILLED: unsafe payout wallet allowed (2 behavioral tests)
+KILLED: rotation erases accrued auction proceeds (4 behavioral tests)
+KILLED: royalty recipient ignores shared wallet (16 behavioral tests)
+KILLED: stealable trading royalties (4 behavioral tests)
+KILLED: repeatable royalty withdrawal (4 behavioral tests)
+KILLED: forced third-party mint delivery (2 behavioral tests)
+KILLED: royalty pool double credit (17 behavioral tests)
+KILLED: rank-to-token assignment reversed (17 behavioral tests)
+KILLED: bid ID used instead of awarded token ID (8 behavioral tests)
+KILLED: unsold mint consumes winning token IDs (5 behavioral tests)
+KILLED: unauthorized ERC721 mint (2 behavioral tests)
+KILLED: ERC721 token approval bypass (2 behavioral tests)
+KILLED: missing transfer nonce (5 behavioral tests)
+KILLED: stale listing nonce ignored (2 behavioral tests)
+KILLED: ERC721 listing stays active after sale (3 behavioral tests)
+KILLED: ERC721 supply exceeds 100 (2 behavioral tests)
+KILLED: ERC721 receiver check bypassed (9 behavioral tests)
+KILLED: top winner gets cutoff discount (14 behavioral tests)
+KILLED: regular winner pays full bid (35 behavioral tests)
+KILLED: uniform primary proceeds restored (38 behavioral tests)
+KILLED: empty auction settlement underflows (35 behavioral tests)
+KILLED: wrong initial duration (5 behavioral tests)
+KILLED: old 24-hour duration restored (5 behavioral tests)
+KILLED: old five-minute extension restored (6 behavioral tests)
+KILLED: 24-hour extension cap introduced (2 behavioral tests)
+KILLED: recovery authorization removed (2 behavioral tests)
+KILLED: recovery settlement guard removed (2 behavioral tests)
+KILLED: recovery available before eligibility (3 behavioral tests)
+KILLED: recovery delay shortened (4 behavioral tests)
+KILLED: recovery delay lengthened (21 behavioral tests)
+KILLED: recovery eligibility ignores extensions (2 behavioral tests)
+KILLED: refund closure guards removed (2 behavioral tests)
+KILLED: recovered refunds still advertised (18 behavioral tests)
+KILLED: automatic refund expiry restored (7 behavioral tests)
+KILLED: refund getter automatically expires (7 behavioral tests)
+KILLED: recovery leaves refunds open (18 behavioral tests)
+KILLED: proceeds withdrawal closes refunds (6 behavioral tests)
+KILLED: recovery retains escrow (17 behavioral tests)
+KILLED: recovery retains refund accounting (18 behavioral tests)
+KILLED: recovery retains proceeds accounting (20 behavioral tests)
+KILLED: recovery ignores forced surplus (3 behavioral tests)
+KILLED: recovery reentrancy guard removed (2 behavioral tests)
+KILLED: wrong reserved allocation (5 behavioral tests)
+KILLED: reserved IDs overlap auction (39 behavioral tests)
+KILLED: reserved batch ignores quantity (3 behavioral tests)
+KILLED: reserved batch starts at wrong ID (41 behavioral tests)
+KILLED: metadata ignores token ID (4 behavioral tests)
+KILLED: metadata slash validation bypassed (2 behavioral tests)
+All 77 intentional regressions were detected by at least two behavioral tests.
+{
+  "chainId": 31337,
+  "result": "PASS",
+  "auction": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+  "edition": "0xa16E02E87b7454126E5E10d957A927A7F5B5d2be",
+  "marketplace": "0x8Ff3801288a85ea261E4277d44E1131Ea736F77B",
+  "gasUsed": {
+    "atomic_deployment": 4940828,
+    "reserve_4": 187595,
+    "worst_bid": 590775,
+    "settle": 772205,
+    "claim_88": 3303806,
+    "secondary_sale": 182655,
+    "payout_rotation_accept": 30768,
+    "reserve_6": 218547
+  },
+  "bids": 92,
+  "minted": 100,
+  "auctionEndingLiabilities": 0,
+  "marketEndingLiabilities": 0,
+  "auctionRoyalties": 0,
+  "initialPayoutWallet": "0x70997970C51812dc3A010C7d01b50e0d17dc79C8",
+  "finalPayoutWallet": "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC",
+  "walletRotation": "Two-step acceptance, old-wallet revocation, accrued and future revenue",
+  "secondarySales": 2,
+  "tokenStandard": "ERC-721",
+  "tokenIds": "1-90 by final rank; 91-100 reserved",
+  "metadata": "Fixed per-token off-chain endpoints; reveal policy belongs to the metadata service",
+  "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
+  "initialDurationSeconds": 172800,
+  "auctionedSupply": 90,
+  "reservedSupply": 10,
+  "outbidBps": 500,
+  "increaseBps": 250,
+  "extensionLimit": null,
+  "extensionWindowSeconds": 600,
+  "lateRankChangingIncreases": 146,
+  "extensionSecondsAfterOriginalClose": 87454,
+  "timedTransactions": [
+    {
+      "function": "createBid",
+      "timestamp": 1788867440,
+      "blockNumber": 6,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789040239,
+      "blockNumber": 101,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789040838,
+      "blockNumber": 102,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789041437,
+      "blockNumber": 103,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789042036,
+      "blockNumber": 104,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789042635,
+      "blockNumber": 105,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789043234,
+      "blockNumber": 106,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789043833,
+      "blockNumber": 107,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789044432,
+      "blockNumber": 108,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789045031,
+      "blockNumber": 109,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789045630,
+      "blockNumber": 110,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789046229,
+      "blockNumber": 111,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789046828,
+      "blockNumber": 112,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789047427,
+      "blockNumber": 113,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789048026,
+      "blockNumber": 114,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789048625,
+      "blockNumber": 115,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789049224,
+      "blockNumber": 116,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789049823,
+      "blockNumber": 117,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789050422,
+      "blockNumber": 118,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789051021,
+      "blockNumber": 119,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789051620,
+      "blockNumber": 120,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789052219,
+      "blockNumber": 121,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789052818,
+      "blockNumber": 122,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789053417,
+      "blockNumber": 123,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789054016,
+      "blockNumber": 124,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789054615,
+      "blockNumber": 125,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789055214,
+      "blockNumber": 126,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789055813,
+      "blockNumber": 127,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789056412,
+      "blockNumber": 128,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789057011,
+      "blockNumber": 129,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789057610,
+      "blockNumber": 130,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789058209,
+      "blockNumber": 131,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789058808,
+      "blockNumber": 132,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789059407,
+      "blockNumber": 133,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789060006,
+      "blockNumber": 134,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789060605,
+      "blockNumber": 135,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789061204,
+      "blockNumber": 136,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789061803,
+      "blockNumber": 137,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789062402,
+      "blockNumber": 138,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789063001,
+      "blockNumber": 139,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789063600,
+      "blockNumber": 140,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789064199,
+      "blockNumber": 141,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789064798,
+      "blockNumber": 142,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789065397,
+      "blockNumber": 143,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789065996,
+      "blockNumber": 144,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789066595,
+      "blockNumber": 145,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789067194,
+      "blockNumber": 146,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789067793,
+      "blockNumber": 147,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789068392,
+      "blockNumber": 148,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789068991,
+      "blockNumber": 149,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789069590,
+      "blockNumber": 150,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789070189,
+      "blockNumber": 151,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789070788,
+      "blockNumber": 152,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789071387,
+      "blockNumber": 153,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789071986,
+      "blockNumber": 154,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789072585,
+      "blockNumber": 155,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789073184,
+      "blockNumber": 156,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789073783,
+      "blockNumber": 157,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789074382,
+      "blockNumber": 158,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789074981,
+      "blockNumber": 159,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789075580,
+      "blockNumber": 160,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789076179,
+      "blockNumber": 161,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789076778,
+      "blockNumber": 162,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789077377,
+      "blockNumber": 163,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789077976,
+      "blockNumber": 164,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789078575,
+      "blockNumber": 165,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789079174,
+      "blockNumber": 166,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789079773,
+      "blockNumber": 167,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789080372,
+      "blockNumber": 168,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789080971,
+      "blockNumber": 169,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789081570,
+      "blockNumber": 170,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789082169,
+      "blockNumber": 171,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789082768,
+      "blockNumber": 172,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789083367,
+      "blockNumber": 173,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789083966,
+      "blockNumber": 174,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789084565,
+      "blockNumber": 175,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789085164,
+      "blockNumber": 176,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789085763,
+      "blockNumber": 177,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789086362,
+      "blockNumber": 178,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789086961,
+      "blockNumber": 179,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789087560,
+      "blockNumber": 180,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789088159,
+      "blockNumber": 181,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789088758,
+      "blockNumber": 182,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789089357,
+      "blockNumber": 183,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789089956,
+      "blockNumber": 184,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789090555,
+      "blockNumber": 185,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789091154,
+      "blockNumber": 186,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789091753,
+      "blockNumber": 187,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789092352,
+      "blockNumber": 188,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789092951,
+      "blockNumber": 189,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789093550,
+      "blockNumber": 190,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789094149,
+      "blockNumber": 191,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789094748,
+      "blockNumber": 192,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789095347,
+      "blockNumber": 193,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789095946,
+      "blockNumber": 194,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789096545,
+      "blockNumber": 195,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789097144,
+      "blockNumber": 196,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789097743,
+      "blockNumber": 197,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789098342,
+      "blockNumber": 198,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789098941,
+      "blockNumber": 199,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789099540,
+      "blockNumber": 200,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789100139,
+      "blockNumber": 201,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789100738,
+      "blockNumber": 202,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789101337,
+      "blockNumber": 203,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789101936,
+      "blockNumber": 204,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789102535,
+      "blockNumber": 205,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789103134,
+      "blockNumber": 206,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789103733,
+      "blockNumber": 207,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789104332,
+      "blockNumber": 208,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789104931,
+      "blockNumber": 209,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789105530,
+      "blockNumber": 210,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789106129,
+      "blockNumber": 211,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789106728,
+      "blockNumber": 212,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789107327,
+      "blockNumber": 213,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789107926,
+      "blockNumber": 214,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789108525,
+      "blockNumber": 215,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789109124,
+      "blockNumber": 216,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789109723,
+      "blockNumber": 217,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789110322,
+      "blockNumber": 218,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789110921,
+      "blockNumber": 219,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789111520,
+      "blockNumber": 220,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789112119,
+      "blockNumber": 221,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789112718,
+      "blockNumber": 222,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789113317,
+      "blockNumber": 223,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789113916,
+      "blockNumber": 224,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789114515,
+      "blockNumber": 225,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789115114,
+      "blockNumber": 226,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789115713,
+      "blockNumber": 227,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789116312,
+      "blockNumber": 228,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789116911,
+      "blockNumber": 229,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789117510,
+      "blockNumber": 230,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789118109,
+      "blockNumber": 231,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789118708,
+      "blockNumber": 232,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789119307,
+      "blockNumber": 233,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789119906,
+      "blockNumber": 234,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789120505,
+      "blockNumber": 235,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789121104,
+      "blockNumber": 236,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789121703,
+      "blockNumber": 237,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789122302,
+      "blockNumber": 238,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789122901,
+      "blockNumber": 239,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789123500,
+      "blockNumber": 240,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789124099,
+      "blockNumber": 241,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789124698,
+      "blockNumber": 242,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789125297,
+      "blockNumber": 243,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789125896,
+      "blockNumber": 244,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789126495,
+      "blockNumber": 245,
+      "status": 1
+    },
+    {
+      "function": "increaseBid",
+      "timestamp": 1789127094,
+      "blockNumber": 246,
+      "status": 1
+    },
+    {
+      "function": "settle",
+      "timestamp": 1789127693,
+      "blockNumber": 247,
+      "status": 0
+    },
+    {
+      "function": "settle",
+      "timestamp": 1789127694,
+      "blockNumber": 248,
+      "status": 1
+    }
+  ],
+  "deploymentCheckerNegativeCases": [
+    "incorrect royalty configuration rejected",
+    "unexpected current payout wallet rejected",
+    "unexpected pending payout wallet rejected",
+    "inconsistent immutable bytecode rejected"
+  ],
+  "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully",
+  "refundRecovery": {
+    "result": "PASS",
+    "auction": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "recoveryDelaySeconds": 2419200,
+    "initialEnd": 1789301095,
+    "finalEnd": 1789301694,
+    "recoveryAvailableAt": 1791720894,
+    "timedTransactions": [
+      {
+        "function": "createBid",
+        "timestamp": 1789128295,
+        "status": 1
+      },
+      {
+        "function": "increaseBid",
+        "timestamp": 1789301094,
+        "status": 1
+      },
+      {
+        "function": "settle",
+        "timestamp": 1789301694,
+        "status": 1
+      },
+      {
+        "function": "withdrawUnclaimedETH",
+        "timestamp": 1791720295,
+        "status": 0
+      },
+      {
+        "function": "withdrawUnclaimedETH",
+        "timestamp": 1791720892,
+        "status": 0
+      },
+      {
+        "function": "withdrawRefund",
+        "timestamp": 1791720893,
+        "status": 1
+      },
+      {
+        "function": "creditRefunds",
+        "timestamp": 1791720894,
+        "status": 1
+      },
+      {
+        "function": "withdrawUnclaimedETH",
+        "timestamp": 1792325694,
+        "status": 0
+      },
+      {
+        "function": "withdrawRefund",
+        "timestamp": 1792930494,
+        "status": 1
+      }
+    ],
+    "refundBeforeRecoveryEligibilityWei": 1990000000000000000,
+    "refundAfterRecoveryEligibilityWei": 2490000000000000000,
+    "recoveredWei": 3520000000000000000,
+    "recoveryGas": 47880,
+    "auctionEndingLiabilities": 0,
+    "auctionEndingBalance": 0,
+    "originalDeployerDenied": true,
+    "oldPayoutWalletDeniedAfterRotation": true,
+    "refundsStayOpenUntilRecovery": true,
+    "rejectedRecoveryLeavesRefundsOpen": true,
+    "refundsClosedAfterRecovery": true,
+    "nftClaimsAfterRecovery": true
+  }
+}
+PASS: all audit gates completed. Reports: audit/generated/

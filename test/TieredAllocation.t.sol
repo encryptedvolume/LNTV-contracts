@@ -5,12 +5,12 @@ import { TestBase, ReentrantReceiver } from "./TestBase.sol";
 import { RankedAuction } from "../src/RankedAuction.sol";
 
 contract TieredAllocationTest is TestBase {
-    function testFixedSupplyAnd24HourDuration() public view {
+    function testFixedSupplyAnd48HourDuration() public view {
         assertEq(auction.SUPPLY(), 90);
         assertEq(auction.RESERVED_SUPPLY(), 10);
         assertEq(edition.MAX_SUPPLY(), 100);
-        assertEq(auction.AUCTION_DURATION(), 24 hours);
-        assertEq(auction.initialEndTime(), uint256(auction.startTime()) + 24 hours);
+        assertEq(auction.AUCTION_DURATION(), 48 hours);
+        assertEq(auction.initialEndTime(), uint256(auction.startTime()) + 48 hours);
         assertEq(auction.endTime(), auction.initialEndTime());
         assertEq(auction.reservedRemaining(), 10);
     }

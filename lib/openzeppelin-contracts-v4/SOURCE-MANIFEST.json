@@ -1,0 +1,15 @@
+{
+  "commit": "0a25c1940ca220686588c4af3ec526f725fe2582",
+  "files": {
+    "contracts/token/ERC721/ERC721.sol": "d0ae06bbac0c133b7891194ae955f624473d8572a7c6928747599f4043b01c04",
+    "contracts/token/ERC721/IERC721.sol": "c7703068bac02fe1cdf109e38faf10399c66eb411e4c9ae0d70c009eca4bf5ef",
+    "contracts/token/ERC721/IERC721Receiver.sol": "77f0f7340c2da6bb9edbc90ab6e7d3eb8e2ae18194791b827a3e8c0b11a09b43",
+    "contracts/token/ERC721/extensions/IERC721Metadata.sol": "f16b861aa1f623ccc5e173f1a82d8cf45b678a7fb81e05478fd17eb2ccb7b37e",
+    "contracts/utils/Address.sol": "8160a4242e8a7d487d940814e5279d934e81f0436689132a4e73394bab084a6d",
+    "contracts/utils/Context.sol": "1458c260d010a08e4c20a4a517882259a23a4baa0b5bd9add9fb6d6a1549814a",
+    "contracts/utils/Strings.sol": "f81f11dca62dcd3e0895e680559676f4ba4f2e12a36bb0291d7ecbb6b983141f",
+    "contracts/utils/introspection/ERC165.sol": "8806a632d7b656cadb8133ff8f2acae4405b3a64d8709d93b0fa6a216a8a6154",
+    "contracts/utils/introspection/IERC165.sol": "701e025d13ec6be09ae892eb029cd83b3064325801d73654847a5fb11c58b1e5",
+    "contracts/utils/math/Math.sol": "8059d642ec219d0b9b62fbc76912079529cf494cac988abe5e371f1168b29b0f"
+  }
+}

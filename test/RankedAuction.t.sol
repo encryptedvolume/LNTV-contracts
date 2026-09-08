@@ -345,40 +345,40 @@ contract RankedAuctionTest is TestBase {
         auction.claimTokens(one(90), alice);
     }
 
-    function testExtensionWindowContinuesBeyondTwoHours() public {
+    function testTenMinuteExtensionsContinueBeyond24Hours() public {
         live();
-        vm.warp(auction.endTime() - 300);
+        vm.warp(auction.endTime() - 600);
         place(alice, RESERVE);
         assertEq(auction.endTime(), auction.initialEndTime());
-        vm.warp(auction.endTime() - 299);
+        vm.warp(auction.endTime() - 599);
         place(alice, RESERVE);
         assertEq(auction.endTime(), auction.initialEndTime() + 1);
-        for (uint256 i; i < 50; ++i) {
+        for (uint256 i; i < 146; ++i) {
             vm.warp(auction.endTime() - 1);
             place(alice, auction.minimumBid());
-            assertEq(auction.endTime(), block.timestamp + 300);
+            assertEq(auction.endTime(), block.timestamp + 600);
         }
-        assertGt(auction.endTime(), uint256(auction.initialEndTime()) + 4 hours);
+        assertGt(auction.endTime(), uint256(auction.initialEndTime()) + 24 hours);
         vm.expectRevert(RankedAuction.AuctionNotEnded.selector);
         auction.settle();
         vm.warp(auction.endTime() - 1);
         place(bob, auction.minimumBid());
-        assertEq(auction.endTime(), block.timestamp + 300);
+        assertEq(auction.endTime(), block.timestamp + 600);
         finish();
         assertTrue(auction.settled());
     }
 
     function testExtensionDoesNotTruncateAtUint64Boundary() public {
         RankedAuction.Config memory c = config();
-        c.startTime = type(uint64).max - 1 days;
+        c.startTime = type(uint64).max - 2 days;
         auction = new RankedAuction(c);
         uint256 initialEnd = auction.initialEndTime();
         vm.warp(initialEnd - 1);
         place(alice, RESERVE);
-        assertEq(auction.endTime(), initialEnd + 299);
+        assertEq(auction.endTime(), initialEnd + 599);
         vm.warp(auction.endTime() - 1);
         place(bob, RESERVE);
-        assertEq(auction.endTime(), initialEnd + 598);
+        assertEq(auction.endTime(), initialEnd + 1198);
         finish();
         assertTrue(auction.settled());
     }
@@ -387,13 +387,13 @@ contract RankedAuctionTest is TestBase {
         live();
         place(alice, 1 ether);
         place(bob, 2 ether);
-        vm.warp(auction.endTime() - 1);
+        vm.warp(auction.endTime() - 599);
         vm.prank(bob);
         auction.increaseBid{ value: 1 ether }(2);
         assertEq(auction.endTime(), auction.initialEndTime());
         vm.prank(alice);
         auction.increaseBid{ value: 3 ether }(1);
-        assertEq(auction.endTime(), block.timestamp + 300);
+        assertEq(auction.endTime(), block.timestamp + 600);
     }
 
     function testSettlementTimingAndSingleUse() public {

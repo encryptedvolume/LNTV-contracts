@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import { TokenRescue } from "./TokenRescue.sol";
 import { AuctionEdition } from "./AuctionEdition.sol";
 
 /// @title RankedAuction
 /// @notice 90 ranked NFT auction places and 10 reserved NFTs. Rank #1 pays its full bid; other winners pay the cutoff.
 /// @dev Ranked-list mechanics adapted from Transient Labs TLRankedAuction (MIT), reference commit in NOTICE.md.
 ///      A bounded list keeps only the best 90 bids. No callbacks during bidding or settlement.
-contract RankedAuction is ReentrancyGuard {
+contract RankedAuction is TokenRescue {
     enum Phase {
         Scheduled,
         Live,
@@ -39,8 +39,9 @@ contract RankedAuction is ReentrancyGuard {
 
     uint256 public constant SUPPLY = 90;
     uint256 public constant RESERVED_SUPPLY = 10;
-    uint256 public constant AUCTION_DURATION = 24 hours;
-    uint256 public constant EXTENSION_WINDOW = 5 minutes;
+    uint256 public constant AUCTION_DURATION = 48 hours;
+    uint256 public constant EXTENSION_WINDOW = 10 minutes;
+    uint256 public constant RECOVERY_DELAY = 28 days;
     uint256 public constant MAX_BID = type(uint128).max;
     uint256 public constant OUTBID_BPS = 500;
     uint256 public constant INCREASE_BPS = 250;
@@ -53,7 +54,9 @@ contract RankedAuction is ReentrancyGuard {
     uint64 public immutable startTime;
     uint256 public immutable initialEndTime;
     uint256 public endTime;
+    uint256 public settledAt;
     bool public settled;
+    bool public refundsClosed;
     uint256 public clearingPrice;
     uint256 public nextBidId = 1;
     uint256 public head;
@@ -68,7 +71,7 @@ contract RankedAuction is ReentrancyGuard {
     uint256 public totalRefunds;
     uint256 public pendingProceeds;
     mapping(uint256 => Bid) public bids;
-    mapping(address => uint256) public refunds;
+    mapping(address => uint256) private _refunds;
 
     error InvalidConfiguration();
     error BiddingClosed();
@@ -81,11 +84,14 @@ contract RankedAuction is ReentrancyGuard {
     error NotSettled();
     error AlreadyClaimed();
     error InvalidBatch();
+    error IncorrectPayment();
     error InvalidRecipient();
     error NothingToWithdraw();
     error TransferFailed();
     error InvalidPayoutWallet();
     error NoPendingPayoutWallet();
+    error RefundsClosed();
+    error RecoveryNotAvailable();
 
     event BidCreated(uint256 indexed id, address indexed bidder, uint256 amount);
     event BidIncreased(uint256 indexed id, uint256 amount);
@@ -98,6 +104,7 @@ contract RankedAuction is ReentrancyGuard {
     event UnsoldClaimed(address indexed recipient, uint256 firstTokenId, uint256 quantity);
     event RefundWithdrawn(address indexed bidder, address indexed recipient, uint256 amount);
     event ProceedsWithdrawn(address indexed recipient, uint256 amount);
+    event UnclaimedETHWithdrawn(address indexed recipient, uint256 amount);
     event PayoutWalletProposed(address indexed currentWallet, address indexed proposedWallet);
     event PayoutWalletChangeCancelled(address indexed cancelledWallet);
     event PayoutWalletChanged(address indexed previousWallet, address indexed newWallet);
@@ -163,28 +170,28 @@ contract RankedAuction is ReentrancyGuard {
         return minimumIncrement(bids[id].amount, INCREASE_BPS);
     }
 
+    /// @notice Place one bid for one possible NFT win.
     function createBid() external payable nonReentrant returns (uint256 id) {
         _requireLive();
-        if (msg.value > MAX_BID) revert BidTooLarge();
-        if (msg.value < minimumBid()) revert BidTooLow();
-        id = nextBidId++;
-        bids[id] = Bid(msg.sender, uint128(msg.value), 0, 0, true, false, false, 0);
-        escrow += msg.value;
-        _insert(id);
-        if (activeCount > SUPPLY) {
-            uint256 displacedId = tail;
-            Bid storage displaced = bids[displacedId];
-            _unlink(displacedId);
-            displaced.active = false;
-            displaced.refundCredited = true;
-            uint256 amount = displaced.amount;
-            escrow -= amount;
-            refunds[displaced.bidder] += amount;
-            totalRefunds += amount;
-            emit BidDisplaced(displacedId, displaced.bidder, amount);
+        return _createBid(msg.sender, msg.value);
+    }
+
+    /// @notice Place 1-90 independent bids in input order, paying exactly their sum.
+    /// @dev Each bid checks the updated minimum. Any failure reverts the entire batch.
+    ///      Later bids can displace earlier ones, including bids created in this batch.
+    function createBids(uint256[] calldata amounts) external payable nonReentrant returns (uint256[] memory ids) {
+        _requireLive();
+        uint256 count = amounts.length;
+        if (count == 0 || count > SUPPLY) revert InvalidBatch();
+        uint256 total;
+        for (uint256 i; i < count; ++i) {
+            total += amounts[i];
         }
-        _extend();
-        emit BidCreated(id, msg.sender, msg.value);
+        if (msg.value != total) revert IncorrectPayment();
+        ids = new uint256[](count);
+        for (uint256 i; i < count; ++i) {
+            ids[i] = _createBid(msg.sender, amounts[i]);
+        }
     }
 
     /// @notice Add ETH to your active bid. Earlier bid IDs retain priority when totals tie.
@@ -209,6 +216,7 @@ contract RankedAuction is ReentrancyGuard {
         if (settled) revert AlreadySettled();
         if (block.timestamp < endTime) revert AuctionNotEnded();
         settled = true;
+        settledAt = block.timestamp;
         clearingPrice = activeCount < SUPPLY ? reservePrice : bids[tail].amount;
         uint256 gross = activeCount == 0 ? 0 : uint256(bids[head].amount) + clearingPrice * (activeCount - 1);
         pendingProceeds = gross;
@@ -229,10 +237,11 @@ contract RankedAuction is ReentrancyGuard {
         return id == head ? bids[id].amount : clearingPrice;
     }
 
-    /// @notice Anyone can credit winner overpayments; refunds always belong to the original bidder.
-    /// @dev Independent of NFT delivery, so a rejecting ERC-721 receiver can still obtain its refund.
+    /// @notice Anyone can credit winner overpayments until the payout wallet successfully recovers remaining ETH.
+    /// @dev Independent of NFT delivery. Passing recoveryAvailableAt() alone does not close refunds.
     function creditRefunds(uint256[] calldata ids) external nonReentrant {
         _requireSettledBatch(ids.length);
+        _requireRefundsOpen();
         uint256 credited;
         for (uint256 i; i < ids.length; ++i) {
             uint256 id = ids[i];
@@ -242,7 +251,7 @@ contract RankedAuction is ReentrancyGuard {
             bid.refundCredited = true;
             uint256 amount = uint256(bid.amount) - winningBidCost(id);
             credited += amount;
-            refunds[bid.bidder] += amount;
+            _refunds[bid.bidder] += amount;
             emit RefundCredited(id, bid.bidder, amount);
         }
         escrow -= credited;
@@ -298,9 +307,21 @@ contract RankedAuction is ReentrancyGuard {
         emit ReservedClaimed(recipient, firstTokenId, quantity);
     }
 
+    /// @notice The payout wallet may recover remaining ETH 28 days after settlement.
+    /// @dev Before settlement this is only an earliest estimate based on endTime. Refunds do not expire automatically.
+    function recoveryAvailableAt() public view returns (uint256) {
+        return (settled ? settledAt : endTime) + RECOVERY_DELAY;
+    }
+
+    /// @notice Currently withdrawable credit; returns zero after a successful recovery closes refunds.
+    function refunds(address bidder) external view returns (uint256) {
+        return refundsClosed ? 0 : _refunds[bidder];
+    }
+
     function withdrawRefund(address payable recipient) external nonReentrant {
-        uint256 amount = refunds[msg.sender];
-        refunds[msg.sender] = 0;
+        _requireRefundsOpen();
+        uint256 amount = _refunds[msg.sender];
+        _refunds[msg.sender] = 0;
         totalRefunds -= amount;
         _send(recipient, amount);
         emit RefundWithdrawn(msg.sender, recipient, amount);
@@ -314,7 +335,23 @@ contract RankedAuction is ReentrancyGuard {
         emit ProceedsWithdrawn(recipient, amount);
     }
 
-    /// @notice Total protected ETH. Forced ETH is surplus, and never changes the clearing price or liabilities.
+    /// @notice After settlement and the recovery delay, the current payout wallet can recover all remaining ETH.
+    /// @dev A successful transfer permanently closes refunds. Includes all auction ETH; NFT claims survive.
+    function withdrawUnclaimedETH(address payable recipient) external nonReentrant {
+        if (msg.sender != payoutWallet) revert Unauthorized();
+        if (!settled) revert NotSettled();
+        if (block.timestamp < recoveryAvailableAt()) revert RecoveryNotAvailable();
+        uint256 amount = address(this).balance;
+        refundsClosed = true;
+        escrow = 0;
+        totalRefunds = 0;
+        pendingProceeds = 0;
+        _send(recipient, amount);
+        emit UnclaimedETHWithdrawn(recipient, amount);
+    }
+
+    /// @notice Accounted ETH, including bidder refunds until the payout wallet successfully recovers them.
+    /// @dev Forced ETH is surplus and does not change clearing prices or these accounting totals.
     function liabilities() public view returns (uint256) {
         return escrow + totalRefunds + pendingProceeds;
     }
@@ -337,8 +374,43 @@ contract RankedAuction is ReentrancyGuard {
         }
     }
 
+    function _tokenRescueAdmin() internal view override returns (address) {
+        return payoutWallet;
+    }
+
+    function _protectedToken() internal view override returns (address) {
+        return address(edition);
+    }
+
+    function _createBid(address bidder, uint256 bidAmount) private returns (uint256 id) {
+        if (bidAmount > MAX_BID) revert BidTooLarge();
+        if (bidAmount < minimumBid()) revert BidTooLow();
+        id = nextBidId++;
+        bids[id] = Bid(bidder, uint128(bidAmount), 0, 0, true, false, false, 0);
+        escrow += bidAmount;
+        _insert(id);
+        if (activeCount > SUPPLY) {
+            uint256 displacedId = tail;
+            Bid storage displaced = bids[displacedId];
+            _unlink(displacedId);
+            displaced.active = false;
+            displaced.refundCredited = true;
+            uint256 amount = displaced.amount;
+            escrow -= amount;
+            _refunds[displaced.bidder] += amount;
+            totalRefunds += amount;
+            emit BidDisplaced(displacedId, displaced.bidder, amount);
+        }
+        _extend();
+        emit BidCreated(id, bidder, bidAmount);
+    }
+
     function _requireLive() private view {
         if (phase() != Phase.Live) revert BiddingClosed();
+    }
+
+    function _requireRefundsOpen() private view {
+        if (refundsClosed) revert RefundsClosed();
     }
 
     function _requireSettledBatch(uint256 length) private view {

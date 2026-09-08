@@ -1,0 +1,39 @@
+
+> @lntv/contracts@3.3.0 audit:nonmutation
+> bash scripts/audit.sh --skip-mutations
+
+Audit started (UTC): 2026-09-08T12:56:39Z; skip mutations: true
+
+> @lntv/contracts@3.3.0 format:check
+> node scripts/foundry.mjs forge fmt --check
+
+TAP version 13
+# Subtest: the audit runner propagates native tool failures
+ok 1 - the audit runner propagates native tool failures
+  ---
+  duration_ms: 141.289916
+  type: 'test'
+  ...
+# Subtest: the audit runner propagates success
+ok 2 - the audit runner propagates success
+  ---
+  duration_ms: 120.032
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 515.271416
+..........
+----------------------------------------------------------------------
+Ran 10 tests in 1.054s
+
+OK
+PASS: 29 individually reviewed Slither findings; no unreviewed findings or source drift.
+PASS: all production contracts have 100% instrumented line, branch and function coverage.
+Extended audit fuzz seed: 0x2026090833

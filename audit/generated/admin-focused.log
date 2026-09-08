@@ -1,0 +1,31 @@
+Compiling 1 files with Solc 0.8.28
+Solc 0.8.28 finished in 4.73s
+Compiler run successful with warnings:
+Warning (5159): "selfdestruct" has been deprecated. Note that, starting from the Cancun hard fork, the underlying opcode no longer deletes the code and data associated with an account and only transfers its Ether to the beneficiary, unless executed in the same transaction in which the contract was created (see EIP-6780). Any use in newly deployed contracts is strongly discouraged even if the new behavior is taken into account. Future changes to the EVM might further reduce the functionality of the opcode.
+   --> test/TestBase.sol:146:9:
+    |
+146 |         selfdestruct(to);
+    |         ^^^^^^^^^^^^
+
+
+Ran 3 tests for test/Metadata.t.sol:MetadataTest
+[PASS] testBaseEndpointMustEndWithSlash() (gas: 5883236)
+[PASS] testDistinctOffchainEndpointsForAuctionAndReservedNfts() (gas: 2849658)
+[PASS] testNoOnchainRevealAuthority() (gas: 2845920)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 11.42ms (5.26ms CPU time)
+
+Ran 11 tests for test/AdminFeatures.t.sol:AdminFeaturesTest
+[PASS] testMetadataAuthorizationValidationAndWalletRotation() (gas: 104644)
+[PASS] testMetadataUpdateChangesAllMintedAndFutureEndpointsAndEmitsRefresh() (gas: 2886696)
+[PASS] testOwnCollectionCannotBeRescuedOrBypassRoyalties() (gas: 2914754)
+[PASS] testRejectInvalidTokenRecipientAndAmount() (gas: 659287)
+[PASS] testRejectedRescuePreservesForeignBalancesAndCannotTakeThirdPartyNFT() (gas: 2643516)
+[PASS] testRescueAllThreeTokenTypesFromAllThreeContracts() (gas: 2738632)
+[PASS] testRescueAuthorityFollowsAcceptedWalletForEveryContractAndTokenType() (gas: 2794445)
+[PASS] testRescueCannotReenterAnyContractEvenWhenRecipientIsAdmin() (gas: 1906943)
+[PASS] testRescueFunctionsRejectEthPayments() (gas: 93825)
+[PASS] testRescueLeavesEthAndAuctionRefundAccountingUntouched() (gas: 1027455)
+[PASS] testSafeERC20SupportsNoReturnAndRejectsFalseReturn() (gas: 259106)
+Suite result: ok. 11 passed; 0 failed; 0 skipped; finished in 12.27ms (13.60ms CPU time)
+
+Ran 2 test suites in 20.71ms (23.69ms CPU time): 14 tests passed, 0 failed, 0 skipped (14 total tests)

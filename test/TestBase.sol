@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-import { Test } from "forge-std/Test.sol";
+import { TradingTestSetup } from "./TradingTestSetup.sol";
 import { RankedAuction } from "../src/RankedAuction.sol";
 import { AuctionEdition } from "../src/AuctionEdition.sol";
 import { RoyaltyMarketplace } from "../src/RoyaltyMarketplace.sol";
 import { IERC721Receiver } from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
-abstract contract TestBase is Test {
+abstract contract TestBase is TradingTestSetup {
     RankedAuction internal auction;
     AuctionEdition internal edition;
     RoyaltyMarketplace internal market;
@@ -22,6 +22,7 @@ abstract contract TestBase is Test {
         auction = new RankedAuction(config());
         edition = auction.edition();
         market = edition.marketplace();
+        configureTrading(edition, payoutWallet);
         vm.deal(alice, 1e40);
         vm.deal(bob, 1e40);
         vm.deal(carol, 1e40);

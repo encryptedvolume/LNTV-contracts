@@ -4,9 +4,9 @@ A self-contained Ethereum system for **100 ERC-721 NFTs: 90 auctioned and 10 res
 
 The [current issue register](audit/ISSUES.md) records open work, accepted design decisions, verified fixes and the scope of available audit evidence.
 
-Ranked-list mechanics are adapted from [Transient Labs TLRankedAuction](https://github.com/Transient-Labs/tl-ranked-auction/tree/4dd148d9fcfa4c96454393d1e8272e6e997dbf7c). The reference source and MIT attribution are included. Tiered pricing, reserved inventory, minting and royalty enforcement are this adaptation's design.
+Ranked-list mechanics are adapted from [Transient Labs TLRankedAuction](https://github.com/Transient-Labs/tl-ranked-auction/tree/4dd148d9fcfa4c96454393d1e8272e6e997dbf7c). The reference source and MIT attribution are included. Tiered pricing, reserved inventory and minting are this adaptation's design; creator-token transfer enforcement uses Limit Break's existing ERC721-C implementation.
 
-The initial auction lasts exactly **24 hours**. Qualifying late bids leave five minutes on the clock, without a total extension cap. Contract code, supply, reserve, start, metadata base URL, collection name/symbol and trading royalty rate are fixed. The shared payout wallet can be changed through nomination and acceptance. There is no proxy, pause, cancellation, arbitrary execution or rescue role. The deployer has no separate authority; set `PAYOUT_WALLET` to the deployer if it should own that role.
+The initial auction lasts exactly **48 hours**. Qualifying late bids leave ten minutes on the clock, without a total extension cap. Contract code, supply, reserve, start, collection name/symbol and trading royalty rate are fixed. The shared payout wallet can be changed through nomination and acceptance. That wallet can update the metadata base and rescue foreign tokens held by the contracts. There is no proxy, pause, cancellation, arbitrary execution or early ETH recovery role. Refunds remain available until the current payout wallet successfully recovers the remaining auction ETH. Recovery is optional and becomes available 28 days after settlement. The deployer has no separate authority; set `PAYOUT_WALLET` to the deployer if it should own that role.
 
 ## Auction rules
 
@@ -17,22 +17,25 @@ The initial auction lasts exactly **24 hours**. Qualifying late bids leave five 
 | Creator allocation | 10 NFTs, IDs 91–100; current payout wallet calls `claimReserved` before, during or after bidding |
 | First-place price | Full amount of the highest-ranked bid; no overpayment refund for that bid |
 | Other winners' price | 90th winning bid when full, otherwise reserve |
-| Metadata/reveal | Fixed per-token off-chain URL; initially unrevealed content and later reveal policy managed by the metadata service |
+| Metadata/reveal | Admin-updatable base with per-token off-chain URLs; initially unrevealed content and later reveal policy managed by the metadata service |
 | Payment | Native ETH, one fully escrowed bid per NFT |
-| Multiple wins | Repeat `createBid()`; no wallet cap or allowlist |
+| Multiple wins | `createBids(amounts)` for 1–90 bids in one transaction, or repeat `createBid()`; no wallet cap or allowlist |
+| Batch funding | Exact sum of individual amounts; updated minimum checked after each bid; any failure reverts the whole batch |
 | Ranking | Amount descending, original bid ID ascending for ties |
 | Before 90 active bids | New bid must meet reserve |
 | At capacity | New bid must meet floor + 5%, rounded up to a wei |
 | Increase | Bidder adds at least 2.5% of its own active bid, rounded up |
 | Displacement | Full payment immediately credited for withdrawal |
-| Initial interval | `startTime` through `startTime + 24 hours`, end exclusive |
-| Extensions | New bids and rank-changing increases inside the final five minutes reset remaining time to five minutes; uncapped |
+| Initial interval | `startTime` through `startTime + 48 hours`, end exclusive |
+| Extensions | New bids and rank-changing increases inside the final ten minutes reset remaining time to ten minutes; uncapped |
 | Settlement | Anyone after the current end; no recipient callbacks |
 | Winners | Claim tokens separately from crediting/withdrawing refunds |
+| Refund availability | Credit and withdraw until a successful creator recovery; no automatic time expiry |
+| Unclaimed auction ETH | Current payout wallet may recover it at/after `settledAt + 28 days`; success closes refunds while NFT claims remain available |
 | Unsold auction NFTs | Current payout wallet may claim unallocated IDs up to #90 after settlement |
 | Auction royalties | None; all tiered sale revenue becomes auction proceeds |
 | Shared payout wallet | Two-step replacement controls unwithdrawn business revenue and unclaimed creator inventory |
-| Claim expiry | None |
+| NFT claim expiry | None |
 
 Tokens mint on successful claims. Reserved NFTs are an entitlement of the configured wallet; they are not automatically minted during deployment. Claiming all auction, unsold and reserved entitlements reaches exactly 100 lifetime mints.
 
@@ -40,23 +43,25 @@ The creator confirmed uncapped extensions and floor increases without an extensi
 
 ## Royalty policy
 
-**Strict enforcement is enabled permanently.** Direct ERC-721 transfers, both safe-transfer variants, and approvals for other marketplaces are blocked. Owners must approve and use the included `RoyaltyMarketplace` for every secondary transfer. Each listing sells one specified token ID for a fixed ETH price; cancellation, expiry, buyer-selected recipients and separate seller/royalty withdrawals are supported. The seller must own and approve that NFT. Every transfer invalidates prior listings for that NFT, even if it later returns to the same seller. Both token-specific and collection-wide marketplace approvals are supported.
+The edition now inherits **Limit Break ERC721-C**, with ERC-2981 reporting the confirmed **10%** trading royalty and current shared payout wallet. Standard ERC-721 marketplace approvals are supported. The old exclusive-marketplace transfer restriction has been removed; the included `RoyaltyMarketplace` is optional.
 
-The initial auction charges **no royalty**. Its full tiered sale revenue goes to the shared payout wallet. Only secondary marketplace fills charge the configured royalty on their declared ETH price. Trading royalties round up to the nearest wei; a positive resale never rounds its royalty to zero. The royalty rate cannot change. `AuctionEdition.royaltyRecipient()` and ERC-2981 always report the current shared payout wallet. Marketplace royalties accumulate in a separate pool, so an accepted wallet replacement controls both accrued and future royalties; individual seller credits never move. Rates of 1–10,000 basis points are supported; **7.5% in the examples is an example, not a contract default**.
+Before secondary trading, the payout wallet calls `configureEnforcedTrading()` (or runs `script/ConfigureTrading.s.sol`) and enables **10% enforced earnings in OpenSea Studio**. The contract configures OpenSea's supported transfer validator and SignedZone, with strict level-4 transfer rules. Other marketplaces work when they support that enforcement system and their required royalty settings are configured. Ordinary transfers remain blocked under that profile. There are no royalties on the initial auction.
 
-[ERC-2981](https://eips.ethereum.org/EIPS/eip-2981) only communicates royalty amounts. Enforcement here comes from restricting transfers of the underlying NFT to the included market. Ordinary direct gifts, external-market fills and direct deposits into wrappers/bridges are blocked. A bidder can nevertheless mint directly to a compatible custody or wrapper contract; that contract can transfer control or economic interests without moving the underlying NFT and without triggering this royalty logic. Off-chain payments, sale of wallet keys and deliberately understated prices also remain outside enforcement. Review these product constraints before using the deployment script.
+ERC721-C enforcement depends on the configured validator, trusted payment processors and OpenSea's signed fulfillment service. Creator-token administration remains trusted; the owner can change registry settings. A zero/missing validator cannot silently unlock this edition. The royalty rate is immutable, while `royaltyInfo()` and `owner()` follow the auction's two-step wallet rotation. OpenSea settings and already-signed external orders need separate handling when the payout wallet changes.
+
+Read [OpenSea setup, compatibility, administration and verification limits](docs/OPENSEA.md) before deployment. This repository contains tested contract integration, not a live OpenSea collection. Existing immutable deployments require redeployment.
 
 ## Off-chain metadata and reveal
 
-Deploy with a base URL ending in `/`, for example `https://metadata.example/collection/`. NFT #1 resolves to `<base>1.json`, and #100 to `<base>100.json`. `tokenURI` requires a minted token; the public `metadataURI` getter exposes the base before minting. The base cannot change after deployment. The contract assigns rank to ID; the metadata service supplies rarity and artwork.
+Deploy with a base URL ending in `/`, for example `https://metadata.example/collection/`. NFT #1 resolves to `<base>1.json`, and #100 to `<base>100.json`. `tokenURI` requires a minted token; the public `metadataURI` getter exposes the base before minting. The current payout wallet can call `edition.setMetadataURI(newBase)` at any time, before or after minting. The replacement must be nonempty and end in `/`; it applies to every token and emits `MetadataURIUpdated` plus ERC-4906 `BatchMetadataUpdate(1, 100)`. The admin can change artwork/rarity by changing this base; metadata is not immutable. The contract assigns rank to ID; the metadata service supplies rarity and artwork.
 
-Serve unrevealed placeholder JSON for **all 100 endpoints**, including reserved IDs, initially. Later, the metadata service can enable owner-requested reveals at the creator's discretion and return revealed JSON for selected IDs. There is **no on-chain reveal function, reveal flag, activation transaction or metadata refresh event**. The metadata service and its authenticated reveal API are separate work; this package does not implement or certify that backend. For mutable off-chain reveals, use a stable HTTPS service or another mutable resolver; a fixed IPFS directory cannot later change its contents.
+Serve unrevealed placeholder JSON for **all 100 endpoints**, including reserved IDs, initially. Later, the metadata service can enable owner-requested reveals at the creator's discretion and return revealed JSON for selected IDs. There is **no on-chain reveal function, reveal flag or activation transaction**. The metadata service and its authenticated reveal API are separate work; this package does not implement or certify that backend. For mutable off-chain reveals, use a stable HTTPS service or another mutable resolver; a fixed IPFS directory cannot later change its contents.
 
-The host controls metadata contents and availability; on-chain ownership and payout-wallet rotation do not by themselves change hosting credentials or enforce reveal permissions. Metadata updates also do not invalidate marketplace listings. Cancel affected listings before changing the content offered for sale, and handle marketplace cache refresh through that service's APIs.
+The host controls metadata contents and availability; on-chain ownership and payout-wallet rotation do not by themselves change hosting credentials or enforce reveal permissions. Metadata updates also do not invalidate marketplace listings. Cancel affected listings before changing the content offered for sale. Calling `setMetadataURI` with the same base also emits a refresh event for off-chain content changes; indexer cache refresh is not guaranteed. Hosting-only changes do not emit events automatically.
 
 ## Build and verify
 
-Requires Node 22+, Python 3.10+, and a supported Foundry platform. Solidity 0.8.28, Cancun EVM, OpenZeppelin 5.5.0, forge-std 1.11.0, and Foundry 1.7.1 are pinned. Solidity dependencies are vendored; no Git submodules are needed.
+Requires Node 22+, Python 3.10+, and a supported Foundry platform. Solidity 0.8.28, Cancun EVM, OpenZeppelin 5.5.0, forge-std 1.11.0, and Foundry 1.7.1 are pinned. ERC721-C uses the unmodified Limit Break implementation and its separately namespaced, upstream-pinned OpenZeppelin 4.8.3/PermitC dependencies; see `NOTICE.md`. Solidity dependencies are vendored; no Git submodules are needed.
 
 ```bash
 cd LNTV-contracts
@@ -68,13 +73,13 @@ python3 -m venv .venv
 npm run audit
 ```
 
-`npm run audit` runs formatting, native-runner and mutation-runner regression tests, Slither with an exact reviewed-findings gate, production coverage, the extended fuzz/invariant suite, 57 intentional security mutations in an isolated copy, bytecode size checks, and a complete deployment/bidding/claims/resale/wallet-rotation rehearsal on a temporary local Anvil. It exits unsuccessfully on any failing gate. Local Anvil is shut down afterward. Reports are written to `audit/generated/`.
+`npm run audit` runs formatting, native-runner and mutation-runner regression tests, Slither with an exact reviewed-findings gate, production coverage, the extended fuzz/invariant suite, 90 intentional security mutations in an isolated copy, bytecode size checks, and a complete deployment/bidding/claims/resale/wallet-rotation rehearsal on a temporary local Anvil. It exits unsuccessfully on any failing gate. Local Anvil is shut down afterward. Reports are written to `audit/generated/`.
 
-The mutation campaign first requires the unmodified contracts to pass the same test selection and fixed seed. Each mutation must then fail at least two behavioral tests; configuration-only checks, compiler errors, setup failures, skipped tests and changed test inventories cannot satisfy that requirement. Explicit scenarios are required for the previously weak cases, including bidding at hour 23 and rejecting settlement at hour two. The runner retains native Forge JSON, named test failures and input hashes. Use `python scripts/mutation_audit.py --output-dir <directory>` inside the audit virtual environment to retain a separate campaign without overwriting earlier evidence.
+The mutation campaign first requires the unmodified contracts to pass the same test selection and fixed seed. Each mutation must then fail at least two behavioral tests; configuration-only checks, compiler errors, setup failures, skipped tests and changed test inventories cannot satisfy that requirement. Explicit scenarios are required for the previously weak cases, including bidding at hour 47 and rejecting settlement at hour 24. The runner retains native Forge JSON, named test failures and input hashes. Use `python scripts/mutation_audit.py --output-dir <directory>` inside the audit virtual environment to retain a separate campaign without overwriting earlier evidence.
 
-The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x20260907 npm run audit` to run the current source with the 2026-09-07 re-audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts and randomized claim/refund ordering.
+The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x20260907 npm run audit` to run the current source with the 2026-09-07 re-audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts, randomized claim/refund ordering, and batch equivalence to sequential bids. Both auction invariant campaigns mix batch bidding into their independent ranking and ETH model.
 
-Historical reports `audit/REPORT.md` and `audit/REAUDIT-2026-09-07.md` describe the earlier 0.5% increase snapshot; its original results and manifest are preserved under `audit/history/`. The current standalone-repository validation and attestation are documented in [the split audit](audit/REPOSITORY-SPLIT-2026-09-08.md), `audit/results.json` and `audit/SHA256SUMS`. See [ISSUES.md](audit/ISSUES.md) for remaining findings.
+Interface **4.0.0** adds ERC721-C and OpenSea enforcement setup. The creator cancelled all long audit/mutation jobs to prioritize this migration. Current evidence is [targeted integration verification](audit/ERC721C-INTEGRATION-2026-09-08.md), not a complete audit pass. `npm run audit:nonmutation` explicitly excludes mutations, but the full audit gates/source review and mutation inventory must be refreshed for the changed inheritance before claiming a new complete audit. Historical reports and the cancelled 3.3.0 partial run are retained under `audit/history/`. See [ISSUES.md](audit/ISSUES.md).
 
 The native tool runner is also available directly:
 
@@ -90,6 +95,7 @@ The runner deliberately bypasses the upstream npm JavaScript shim to preserve fa
 | Path | Purpose |
 |---|---|
 | `src/RankedAuction.sol` | Ranking, bidding, settlement, protected ETH accounting, and mint entitlements |
+| `src/TokenRescue.sol` | Shared non-ETH foreign-token rescue controlled by the current payout wallet |
 | `src/AuctionEdition.sol` | ERC-721, ERC-2981, fixed cap, per-token metadata URLs and transfer enforcement |
 | `src/RoyaltyMarketplace.sol` | Noncustodial secondary sales with mandatory declared-price royalties |
 | `script/Deploy.s.sol` | Validated atomic deployment of the three-contract system |

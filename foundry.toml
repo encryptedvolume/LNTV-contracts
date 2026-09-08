@@ -9,7 +9,7 @@ evm_version = "cancun"
 optimizer = true
 optimizer_runs = 200
 bytecode_hash = "none"
-remappings = ["@openzeppelin/contracts/=lib/openzeppelin-contracts/", "forge-std/=lib/forge-std/"]
+remappings = ["@openzeppelin/contracts/=lib/openzeppelin-contracts/", "forge-std/=lib/forge-std/", "@limitbreak/creator-token-standards/=lib/creator-token-standards/", "lib/creator-token-standards/:@openzeppelin/contracts/=lib/openzeppelin-contracts-v4/contracts/", "@limitbreak/permit-c/=lib/permit-c/src/", "tstorish/=test/vendor/opensea/lib/tstorish/src/", "test/vendor/opensea-zone/:lib/erc721c-seaport/=test/vendor/opensea-zone/lib/erc721c-seaport/", "seaport-types/src/=test/vendor/opensea-zone/src/types/"]
 fs_permissions = [{ access = "read", path = "./" }]
 
 [profile.default.fuzz]
@@ -29,5 +29,6 @@ depth = 256
 fail_on_revert = true
 
 [fmt]
+ignore = ["test/vendor/**"]
 line_length = 120
 bracket_spacing = true

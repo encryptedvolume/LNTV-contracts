@@ -1,0 +1,133 @@
+{
+  "date": "2026-09-08",
+  "status": "PARTIAL",
+  "scope": "Batch bidding: requested test run completed; mutation testing stopped by creator, who will obtain Claude audit",
+  "sourceSha256": {
+    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
+    "src/RankedAuction.sol": "a8934f1700ab27545204657e13b8e4b74bedfe4f9e9cb0920b7215376e219404",
+    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
+  },
+  "solidityTests": {
+    "passed": 187,
+    "failed": 0,
+    "skipped": 0
+  },
+  "statelessFuzz": {
+    "tests": 7,
+    "runsPerTest": 10000
+  },
+  "invariants": {
+    "campaigns": 3,
+    "runsPerCampaign": 1000,
+    "depth": 256,
+    "totalHandlerCalls": 768000,
+    "unexpectedReverts": 0,
+    "seed": "0x2026090832",
+    "batchActions": 72810
+  },
+  "productionCoverage": {
+    "lines": "100%",
+    "statements": "100%",
+    "branches": "100%",
+    "functions": "100%"
+  },
+  "mutations": {
+    "status": "STOPPED_AT_CREATOR_REQUEST",
+    "complete": false,
+    "planned": 90,
+    "completedBeforeCancellation": 4,
+    "newBatchMutationsRun": 0,
+    "cleanBaselineTests": 184,
+    "historicalCampaignCommit": "ff5e952",
+    "evidence": "audit/history/2026-09-08-batch-mutations-interrupted/"
+  },
+  "nativeRunnerTests": 2,
+  "auditGateTests": 7,
+  "mutationRunnerTests": 14,
+  "slither": {
+    "reviewedWarnings": 28,
+    "unreviewed": 0
+  },
+  "localDeployment": {
+    "result": "PASS",
+    "auction": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "gasUsed": {
+      "three_bids_batch": 430421,
+      "three_bids_separate_total": 530430,
+      "forty_five_bids_dense_first": 7371850,
+      "forty_five_bids_dense_second": 7360192,
+      "ninety_bids_empty_book_ties": 13667532,
+      "two_bids_late_full_book": 366336
+    },
+    "batchSizeLimit": 90,
+    "maximumBatchMined": true,
+    "denseNinetyBidGasEstimate": 17861124,
+    "transactionGasBudget": 16000000,
+    "overBudgetBatchRolledBackAndRetriedAsTwoBatches": true,
+    "denseBookMatchesIndependentModel": true,
+    "sameBatchDisplacementRefunded": true,
+    "rejectedBatchRollsBackEventsEscrowRefundsIdsAndTimer": true,
+    "oneExtensionForLateBatch": true,
+    "minted": 100,
+    "auctionEndingLiabilities": 0,
+    "auctionEndingBalance": 0,
+    "scope": "Dedicated batch rehearsal; prior full lifecycle/recovery rehearsal was not repeated after the creator ended the run"
+  },
+  "frontendInterface": {
+    "version": "3.2.0",
+    "freshBuildMatchesExports": true,
+    "publicDeployments": 0,
+    "frontendCopyUpdated": false,
+    "frontendChangesDeferredByCreator": true
+  },
+  "limitations": [
+    "Mutation audit incomplete by explicit creator request; Claude will audit. No comprehensive audit PASS is claimed.",
+    "Existing unrelated issues remain in audit/ISSUES.md.",
+    "Large batches may exceed the selected gas budget; estimate and reduce quantity as needed.",
+    "Frontend code, wording and copied ABI remain deferred to separate work.",
+    "No public deployment performed by this task. Existing immutable deployments require redeployment for batch support."
+  ],
+  "timing": {
+    "initialDurationSeconds": 172800,
+    "extensionWindowSeconds": 600,
+    "cumulativeExtensionCap": null
+  },
+  "refundPolicy": {
+    "recoveryDelaySeconds": 2419200,
+    "eligibilityAnchor": "first successful settlement timestamp (settledAt)",
+    "automaticRefundExpiry": false,
+    "refundsCloseOn": "successful withdrawUnclaimedETH transaction only",
+    "failedRecoveryClosesRefunds": false,
+    "normalProceedsWithdrawalClosesRefunds": false,
+    "recoveryRole": "current payoutWallet",
+    "settlementRequiredForRecovery": true,
+    "nftClaimExpiry": null,
+    "marketplaceCreditsAffected": false,
+    "preSettlementGetter": "earliest estimate based on final extended endTime; settlement required",
+    "lateSettlementPreservesFullDelay": true
+  },
+  "resolvedFindings": [
+    "F3-02"
+  ],
+  "batchBidding": {
+    "function": "createBids(uint256[])",
+    "minimumItems": 1,
+    "maximumItems": 90,
+    "payment": "exact sum of individual wei amounts",
+    "ordering": "input order; updated minimum after each bid",
+    "bidOwner": "msg.sender",
+    "failure": "atomic rollback of all batch effects",
+    "sameBatchDisplacement": "allowed with full pull refund",
+    "extension": "timestamp + 600, at most once per late batch",
+    "walletCap": null,
+    "gasMeasurements": {
+      "three_bids_batch": 430421,
+      "three_bids_separate_total": 530430,
+      "forty_five_bids_dense_first": 7371850,
+      "forty_five_bids_dense_second": 7360192,
+      "ninety_bids_empty_book_ties": 13667532,
+      "two_bids_late_full_book": 366336
+    },
+    "maximumQuantityDoesNotGuaranteeGasFit": true
+  }
+}

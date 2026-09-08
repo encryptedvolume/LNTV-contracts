@@ -4,7 +4,7 @@ import json
 import subprocess
 import unittest
 
-from mutation_audit import CONFIGURATION_TESTS, collect_tests, evaluate_mutation, validate_baseline
+from mutation_audit import CONFIGURATION_TESTS, REQUIRED_BEHAVIORS, collect_tests, evaluate_mutation, validate_baseline
 
 A = "test/Fixture.t.sol:FixtureTest::testFirstBehavior()"
 B = "test/Fixture.t.sol:FixtureTest::testSecondBehavior()"
@@ -85,6 +85,17 @@ class MutationAuditTests(unittest.TestCase):
         self.assertTrue(result["killed"])
         self.assertFalse(result["strengthPassed"])
         self.assertEqual(len(result["missingRequiredBehaviors"]), 2)
+
+    def test_recovery_requires_qualified_behavioral_scenarios(self):
+        result = evaluate_mutation("recovery authorization removed", run_result({A: "Failure", B: "Failure"}), {A, B})
+        self.assertFalse(result["strengthPassed"])
+        self.assertEqual(len(result["missingRequiredBehaviors"]), 2)
+
+    def test_qualified_recovery_failures_satisfy_the_gate(self):
+        names = REQUIRED_BEHAVIORS["recovery authorization removed"]
+        result = evaluate_mutation("recovery authorization removed", run_result({name: "Failure" for name in names}), set(names))
+        self.assertTrue(result["strengthPassed"])
+        self.assertEqual(result["missingRequiredBehaviors"], [])
 
     def test_clean_baseline_passes_and_existing_failures_stop_the_campaign(self):
         self.assertEqual(set(validate_baseline(run_result({A: "Success", B: "Success"}, 0))), {A, B})

@@ -1,0 +1,53 @@
+
+> @lntv/contracts@3.2.0 audit
+> bash scripts/audit.sh
+
+
+> @lntv/contracts@3.2.0 format:check
+> node scripts/foundry.mjs forge fmt --check
+
+TAP version 13
+# Subtest: the audit runner propagates native tool failures
+ok 1 - the audit runner propagates native tool failures
+  ---
+  duration_ms: 62.743
+  type: 'test'
+  ...
+# Subtest: the audit runner propagates success
+ok 2 - the audit runner propagates success
+  ---
+  duration_ms: 58.080166
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 201.39375
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.666s
+
+OK
+..............
+----------------------------------------------------------------------
+Ran 14 tests in 0.001s
+
+OK
+PASS: 28 individually reviewed Slither findings; no unreviewed findings or source drift.
+PASS: all production contracts have 100% instrumented line, branch and function coverage.
+Extended audit fuzz seed: 0x2026090832
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1453.33s (1453.32s CPU time)
+
+Ran 13 test suites in 1453.35s (3913.41s CPU time): 187 tests passed, 0 failed, 0 skipped (187 total tests)
+Clean baseline: 184 tests passed; required behavioral scenarios present.
+KILLED: zero outbid increment (7 behavioral tests)
+KILLED: old 2.5 percent outbid increment restored (2 behavioral tests)
+KILLED: zero increase increment (4 behavioral tests)
+KILLED: old 0.5 percent increase increment restored (2 behavioral tests)
+scripts/audit.sh: line 28: 33093 Terminated: 15          .venv/bin/python scripts/mutation_audit.py
+     33094 Done                    | tee audit/generated/mutations.log

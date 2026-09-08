@@ -2,6 +2,7 @@
 pragma solidity 0.8.28;
 
 import { Test } from "forge-std/Test.sol";
+import { TradingTestSetup } from "./TradingTestSetup.sol";
 import { StdInvariant } from "forge-std/StdInvariant.sol";
 import { RankedAuction } from "../src/RankedAuction.sol";
 import { AuctionEdition } from "../src/AuctionEdition.sol";
@@ -205,7 +206,7 @@ contract MarketHandler is Test {
     }
 }
 
-contract MarketInvariantTest is StdInvariant, Test {
+contract MarketInvariantTest is StdInvariant, TradingTestSetup {
     MarketHandler internal handler;
 
     function setUp() public {
@@ -215,6 +216,7 @@ contract MarketInvariantTest is StdInvariant, Test {
                 address(4000), 750, 0.01 ether, 1_000_100, "ipfs://invariant/", "Invariant NFTs", "INV"
             )
         );
+        configureTrading(auction.edition(), auction.payoutWallet());
         vm.warp(auction.endTime());
         auction.settle();
         vm.prank(address(4000));

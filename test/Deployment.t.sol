@@ -69,13 +69,13 @@ contract DeploymentTest is Test {
         deployment.validateConfig(input);
     }
 
-    function testLeadTimeAndFixed24HourDuration() public {
+    function testLeadTimeAndFixed48HourDuration() public {
         input.start = 1000599;
         vm.expectRevert("Allow at least 10 minutes before bidding");
         deployment.validateConfig(input);
         input.start = 1000600;
         RankedAuction a = new RankedAuction(deployment.validateConfig(input));
-        assertEq(a.initialEndTime(), uint256(a.startTime()) + 24 hours);
+        assertEq(a.initialEndTime(), uint256(a.startTime()) + 48 hours);
         assertEq(a.endTime(), a.initialEndTime());
     }
 

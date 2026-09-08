@@ -8,8 +8,12 @@ import subprocess
 import tempfile
 import time
 
+from local_trading_setup import configure_local_trading
 from web3 import Web3
 from check_deployment import check
+from refund_recovery_e2e import run_refund_recovery
+from batch_bidding_e2e import run_batch_bidding
+from admin_features_e2e import run_admin_features
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "audit/generated"
@@ -21,7 +25,8 @@ def native(tool):
 
 
 def artifact(name):
-    return json.loads((ROOT / f"out/{name}.sol/{name}.json").read_text())
+    source_file = "AdminFeatures.t.sol" if name in {"RescueCoin", "RescueNFT", "RescueMultiToken"} else f"{name}.sol"
+    return json.loads((ROOT / f"out/{source_file}/{name}.json").read_text())
 
 
 def main():
@@ -100,6 +105,8 @@ def main():
             finally:
                 w3.provider.make_request("anvil_setCode", [auction.address, "0x" + original_code.hex()])
                 w3.provider.make_request("evm_mine", [])
+            configure_local_trading(w3, edition, payout, artifact)
+            assert check(w3, auction.address, dict(env, REQUIRE_ENFORCED_TRADING="true"))["result"] == "PASS"
             gas = {"atomic_deployment": deployment_receipt.gasUsed}
             timed_transactions = []
 
@@ -123,7 +130,7 @@ def main():
             assert edition.functions.ownerOf(91).call() == payout
             assert edition.functions.ownerOf(94).call() == payout
             assert auction.functions.activeCount().call() == 0
-            assert auction.functions.initialEndTime().call() == start + 86400
+            assert auction.functions.initialEndTime().call() == start + 172800
             gas["worst_bid"] = 0
             for index in range(90):
                 gas["worst_bid"] = max(gas["worst_bid"], transact(auction.functions.createBid(), alice, 2*10**16,
@@ -135,17 +142,18 @@ def main():
                 transact(auction.functions.createBid(), bob, amount)
             assert auction.functions.refunds(alice).call() == 4*10**16
             transact(auction.functions.withdrawRefund(alice), alice)
-            # Keep swapping the two top ranks with late increases, continuing beyond the former two-hour limit.
-            for index in range(30):
+            # Keep swapping the two top ranks with late increases, continuing beyond 24 hours of extensions.
+            for index in range(146):
                 bid_id = 91 + index % 2
                 other_id = 92 if bid_id == 91 else 91
                 old_amount = auction.functions.bids(bid_id).call()[1]
-                new_amount = auction.functions.bids(other_id).call()[1] + 10**16
+                new_amount = max(auction.functions.bids(other_id).call()[1] + 10**16,
+                                 old_amount + (old_amount * 250 + 9999) // 10000)
                 bid_timestamp = auction.functions.endTime().call() - 1
                 transact(auction.functions.increaseBid(bid_id), bob, new_amount - old_amount, timestamp=bid_timestamp)
-                assert auction.functions.endTime().call() == bid_timestamp + 300
+                assert auction.functions.endTime().call() == bid_timestamp + 600
             extension_seconds = auction.functions.endTime().call() - auction.functions.initialEndTime().call()
-            assert extension_seconds > 7200
+            assert extension_seconds > 86400
             transact(auction.functions.settle(), carol, succeeds=False, timestamp=auction.functions.endTime().call() - 1)
             top_price = auction.functions.bids(92).call()[1]
             bob_refund = auction.functions.bids(91).call()[1] - 2*10**16
@@ -232,7 +240,9 @@ def main():
             functions = {entry["name"] for entry in artifact("AuctionEdition")["abi"] if entry["type"] == "function"}
             assert not functions.intersection({"reveal", "enableReveals", "revealsEnabled", "revealed"})
             assert edition.functions.tokenURI(3).call() == "https://metadata.example/local-e2e/3.json"
-            assert gas["atomic_deployment"] < 6_000_000
+            # 4.0.0 includes upstream ERC721-C and registry configuration APIs.
+            # Keep deployment below the rehearsal transaction limit of 8 million gas.
+            assert gas["atomic_deployment"] < 7_500_000, gas["atomic_deployment"]
             assert gas["worst_bid"] < 1_500_000
             assert gas["settle"] < 2_000_000
             assert gas["claim_88"] < 5_000_000
@@ -242,15 +252,18 @@ def main():
                       "auctionRoyalties": 0, "initialPayoutWallet": payout, "finalPayoutWallet": next_payout,
                       "walletRotation": "Two-step acceptance, old-wallet revocation, accrued and future revenue",
                       "secondarySales": 2,
-                      "tokenStandard": "ERC-721", "tokenIds": "1-90 by final rank; 91-100 reserved",
-                      "metadata": "Fixed per-token off-chain endpoints; reveal policy belongs to the metadata service",
+                      "tokenStandard": "ERC721-C (ERC-721 compatible)", "tokenIds": "1-90 by final rank; 91-100 reserved",
+                      "metadata": "Admin-updatable per-token off-chain endpoints; reveal policy belongs to the metadata service",
                       "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
-                      "initialDurationSeconds": 86400, "auctionedSupply": 90, "reservedSupply": 10,
+                      "initialDurationSeconds": 172800, "auctionedSupply": 90, "reservedSupply": 10,
                       "outbidBps": 500, "increaseBps": 250, "extensionLimit": None,
-                      "lateRankChangingIncreases": 30, "extensionSecondsAfterOriginalClose": extension_seconds,
+                      "extensionWindowSeconds": 600, "lateRankChangingIncreases": 146, "extensionSecondsAfterOriginalClose": extension_seconds,
                       "timedTransactions": timed_transactions,
                       "deploymentCheckerNegativeCases": ["incorrect royalty configuration rejected", "unexpected current payout wallet rejected", "unexpected pending payout wallet rejected", "inconsistent immutable bytecode rejected"],
                       "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully"}
+            result["refundRecovery"] = run_refund_recovery(w3, artifact)
+            result["batchBidding"] = run_batch_bidding(w3, artifact)
+            result["adminFeatures"] = run_admin_features(w3, artifact)
             (OUT / "local-e2e.json").write_text(json.dumps(result, indent=2) + "\n")
             print(json.dumps(result, indent=2))
         finally:

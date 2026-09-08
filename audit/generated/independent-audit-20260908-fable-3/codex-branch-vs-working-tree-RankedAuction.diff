@@ -1,0 +1,110 @@
+--- /private/tmp/claude-501/-Users-aaa/6f792cdf-37c1-4635-b014-c305620804f4/scratchpad/codex_ra.sol	2026-09-08 18:30:07
++++ /Users/aaa/Desktop/dev/LNTV-contracts/src/RankedAuction.sol	2026-09-08 18:19:02
+@@ -41,7 +41,7 @@
+     uint256 public constant RESERVED_SUPPLY = 10;
+     uint256 public constant AUCTION_DURATION = 48 hours;
+     uint256 public constant EXTENSION_WINDOW = 10 minutes;
+-    uint256 public constant REFUND_CLAIM_PERIOD = 28 days;
++    uint256 public constant RECOVERY_DELAY = 28 days;
+     uint256 public constant MAX_BID = type(uint128).max;
+     uint256 public constant OUTBID_BPS = 500;
+     uint256 public constant INCREASE_BPS = 250;
+@@ -55,6 +55,7 @@
+     uint256 public immutable initialEndTime;
+     uint256 public endTime;
+     bool public settled;
++    bool public refundsClosed;
+     uint256 public clearingPrice;
+     uint256 public nextBidId = 1;
+     uint256 public head;
+@@ -87,8 +88,8 @@
+     error TransferFailed();
+     error InvalidPayoutWallet();
+     error NoPendingPayoutWallet();
+-    error RefundClaimPeriodExpired();
+-    error RefundClaimPeriodNotEnded();
++    error RefundsClosed();
++    error RecoveryNotAvailable();
+ 
+     event BidCreated(uint256 indexed id, address indexed bidder, uint256 amount);
+     event BidIncreased(uint256 indexed id, uint256 amount);
+@@ -233,11 +234,11 @@
+         return id == head ? bids[id].amount : clearingPrice;
+     }
+ 
+-    /// @notice Anyone can credit winner overpayments to the original bidder before refundDeadline().
+-    /// @dev Independent of NFT delivery. Both crediting and withdrawing must finish before refundDeadline().
++    /// @notice Anyone can credit winner overpayments until the payout wallet successfully recovers remaining ETH.
++    /// @dev Independent of NFT delivery. Passing recoveryAvailableAt() alone does not close refunds.
+     function creditRefunds(uint256[] calldata ids) external nonReentrant {
+         _requireSettledBatch(ids.length);
+-        _requireRefundPeriod();
++        _requireRefundsOpen();
+         uint256 credited;
+         for (uint256 i; i < ids.length; ++i) {
+             uint256 id = ids[i];
+@@ -303,19 +304,19 @@
+         emit ReservedClaimed(recipient, firstTokenId, quantity);
+     }
+ 
+-    /// @notice Refunds expire 28 days after the final extended end, irrespective of settlement time.
+-    /// @dev This projected deadline moves with endTime while bidding remains live.
+-    function refundDeadline() public view returns (uint256) {
+-        return endTime + REFUND_CLAIM_PERIOD;
++    /// @notice The payout wallet may recover remaining ETH 28 days after the final extended end.
++    /// @dev This eligibility time moves with endTime while bidding remains live; it is not a refund deadline.
++    function recoveryAvailableAt() public view returns (uint256) {
++        return endTime + RECOVERY_DELAY;
+     }
+ 
+-    /// @notice Currently withdrawable credit; returns zero once the refund period expires.
++    /// @notice Currently withdrawable credit; returns zero after a successful recovery closes refunds.
+     function refunds(address bidder) external view returns (uint256) {
+-        return block.timestamp < refundDeadline() ? _refunds[bidder] : 0;
++        return refundsClosed ? 0 : _refunds[bidder];
+     }
+ 
+     function withdrawRefund(address payable recipient) external nonReentrant {
+-        _requireRefundPeriod();
++        _requireRefundsOpen();
+         uint256 amount = _refunds[msg.sender];
+         _refunds[msg.sender] = 0;
+         totalRefunds -= amount;
+@@ -331,13 +332,14 @@
+         emit ProceedsWithdrawn(recipient, amount);
+     }
+ 
+-    /// @notice After settlement and the refund deadline, the current payout wallet can withdraw all remaining ETH.
+-    /// @dev Includes expired credited/uncredited refunds, unwithdrawn proceeds and forced surplus. NFT claims survive.
++    /// @notice After settlement and the recovery delay, the current payout wallet can recover all remaining ETH.
++    /// @dev A successful transfer permanently closes refunds. Includes all auction ETH; NFT claims survive.
+     function withdrawUnclaimedETH(address payable recipient) external nonReentrant {
+         if (msg.sender != payoutWallet) revert Unauthorized();
+         if (!settled) revert NotSettled();
+-        if (block.timestamp < refundDeadline()) revert RefundClaimPeriodNotEnded();
++        if (block.timestamp < recoveryAvailableAt()) revert RecoveryNotAvailable();
+         uint256 amount = address(this).balance;
++        refundsClosed = true;
+         escrow = 0;
+         totalRefunds = 0;
+         pendingProceeds = 0;
+@@ -345,7 +347,7 @@
+         emit UnclaimedETHWithdrawn(recipient, amount);
+     }
+ 
+-    /// @notice Accounted ETH; after expiry the remaining refund balances are recoverable by the payout wallet.
++    /// @notice Accounted ETH, including bidder refunds until the payout wallet successfully recovers them.
+     /// @dev Forced ETH is surplus and does not change clearing prices or these accounting totals.
+     function liabilities() public view returns (uint256) {
+         return escrow + totalRefunds + pendingProceeds;
+@@ -373,8 +375,8 @@
+         if (phase() != Phase.Live) revert BiddingClosed();
+     }
+ 
+-    function _requireRefundPeriod() private view {
+-        if (block.timestamp >= refundDeadline()) revert RefundClaimPeriodExpired();
++    function _requireRefundsOpen() private view {
++        if (refundsClosed) revert RefundsClosed();
+     }
+ 
+     function _requireSettledBatch(uint256 length) private view {

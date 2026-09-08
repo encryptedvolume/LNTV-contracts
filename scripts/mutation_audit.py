@@ -19,7 +19,7 @@ MUTANTS = [
     ("two-hour extension cap restored", "RankedAuction", "endTime = block.timestamp + EXTENSION_WINDOW;", "if (block.timestamp + EXTENSION_WINDOW > uint256(initialEndTime) + 2 hours) return; endTime = block.timestamp + EXTENSION_WINDOW;"),
     ("extension timestamp narrowed", "RankedAuction", "endTime = block.timestamp + EXTENSION_WINDOW;", "endTime = uint64(block.timestamp + EXTENSION_WINDOW);"),
     ("reversed tie priority", "RankedAuction", "id < current", "id > current"),
-    ("loser refund shortfall", "RankedAuction", "refunds[displaced.bidder] += amount;", "refunds[displaced.bidder] += amount - 1;"),
+    ("loser refund shortfall", "RankedAuction", "_refunds[displaced.bidder] += amount;", "_refunds[displaced.bidder] += amount - 1;"),
     ("wrong clearing price", "RankedAuction", "reservePrice : bids[tail].amount", "reservePrice : bids[head].amount"),
     ("settlement double liability", "RankedAuction", "escrow -= gross;", "escrow -= 0;"),
     ("stealable claims", "RankedAuction", "if (bid.tokenClaimed) revert AlreadyClaimed();\n            if (msg.sender != bid.bidder) revert Unauthorized();", "if (bid.tokenClaimed) revert AlreadyClaimed();"),
@@ -61,27 +61,60 @@ MUTANTS = [
     ("regular winner pays full bid", "RankedAuction", "return id == head ? bids[id].amount : clearingPrice;", "return bids[id].amount;"),
     ("uniform primary proceeds restored", "RankedAuction", "uint256(bids[head].amount) + clearingPrice * (activeCount - 1)", "clearingPrice * activeCount"),
     ("empty auction settlement underflows", "RankedAuction", "activeCount == 0 ? 0 : uint256(bids[head].amount)", "uint256(bids[head].amount)"),
-    ("wrong initial duration", "RankedAuction", "AUCTION_DURATION = 24 hours", "AUCTION_DURATION = 1 hours"),
+    ("wrong initial duration", "RankedAuction", "AUCTION_DURATION = 48 hours", "AUCTION_DURATION = 1 hours"),
+    ("old 24-hour duration restored", "RankedAuction", "AUCTION_DURATION = 48 hours", "AUCTION_DURATION = 24 hours"),
+    ("old five-minute extension restored", "RankedAuction", "EXTENSION_WINDOW = 10 minutes", "EXTENSION_WINDOW = 5 minutes"),
+    ("24-hour extension cap introduced", "RankedAuction", "endTime = block.timestamp + EXTENSION_WINDOW;", "if (block.timestamp + EXTENSION_WINDOW > uint256(initialEndTime) + 24 hours) return; endTime = block.timestamp + EXTENSION_WINDOW;"),
+    ("recovery authorization removed", "RankedAuction", "function withdrawUnclaimedETH(address payable recipient) external nonReentrant {\n        if (msg.sender != payoutWallet) revert Unauthorized();", "function withdrawUnclaimedETH(address payable recipient) external nonReentrant {"),
+    ("recovery settlement guard removed", "RankedAuction", "if (!settled) revert NotSettled();\n        if (block.timestamp < recoveryAvailableAt())", "if (block.timestamp < recoveryAvailableAt())"),
+    ("recovery available before eligibility", "RankedAuction", "if (block.timestamp < recoveryAvailableAt()) revert RecoveryNotAvailable();", ""),
+    ("recovery delay shortened", "RankedAuction", "RECOVERY_DELAY = 28 days", "RECOVERY_DELAY = 27 days"),
+    ("recovery delay lengthened", "RankedAuction", "RECOVERY_DELAY = 28 days", "RECOVERY_DELAY = 29 days"),
+    ("recovery eligibility ignores extensions", "RankedAuction", "settledAt = block.timestamp;", "settledAt = initialEndTime;"),
+    ("recovery anchors to auction close", "RankedAuction", "return (settled ? settledAt : endTime) + RECOVERY_DELAY;", "return endTime + RECOVERY_DELAY;"),
+    ("settlement timestamp never recorded", "RankedAuction", "settledAt = block.timestamp;", "settledAt = 0;"),
+    ("recovery clock keeps moving", "RankedAuction", "return (settled ? settledAt : endTime) + RECOVERY_DELAY;", "return block.timestamp + RECOVERY_DELAY;"),
+    ("refund closure guards removed", "RankedAuction", "_requireRefundsOpen();", ""),
+    ("recovered refunds still advertised", "RankedAuction", "return refundsClosed ? 0 : _refunds[bidder];", "return _refunds[bidder];"),
+    ("automatic refund expiry restored", "RankedAuction", "if (refundsClosed) revert RefundsClosed();", "if (refundsClosed || block.timestamp >= recoveryAvailableAt()) revert RefundsClosed();"),
+    ("refund getter automatically expires", "RankedAuction", "return refundsClosed ? 0 : _refunds[bidder];", "return refundsClosed || block.timestamp >= recoveryAvailableAt() ? 0 : _refunds[bidder];"),
+    ("recovery leaves refunds open", "RankedAuction", "refundsClosed = true;", "refundsClosed = false;"),
+    ("proceeds withdrawal closes refunds", "RankedAuction", "uint256 amount = pendingProceeds;", "refundsClosed = true; uint256 amount = pendingProceeds;"),
+    ("recovery retains escrow", "RankedAuction", "escrow = 0;", "escrow += 0;"),
+    ("recovery retains refund accounting", "RankedAuction", "totalRefunds = 0;", "totalRefunds += 0;"),
+    ("recovery retains proceeds accounting", "RankedAuction", "totalRefunds = 0;\n        pendingProceeds = 0;", "totalRefunds = 0;"),
+    ("recovery ignores forced surplus", "RankedAuction", "uint256 amount = address(this).balance;", "uint256 amount = escrow + totalRefunds + pendingProceeds;"),
+    ("recovery reentrancy guard removed", "RankedAuction", "function withdrawUnclaimedETH(address payable recipient) external nonReentrant", "function withdrawUnclaimedETH(address payable recipient) external"),
     ("wrong reserved allocation", "RankedAuction", "RESERVED_SUPPLY = 10", "RESERVED_SUPPLY = 11"),
     ("reserved IDs overlap auction", "RankedAuction", "SUPPLY + RESERVED_SUPPLY - reservedRemaining + 1", "RESERVED_SUPPLY - reservedRemaining + 1"),
     ("reserved batch ignores quantity", "RankedAuction", "reservedRemaining -= quantity;", "reservedRemaining -= 1;"),
     ("reserved batch starts at wrong ID", "RankedAuction", "SUPPLY + RESERVED_SUPPLY - reservedRemaining + 1", "SUPPLY + RESERVED_SUPPLY - reservedRemaining + 2"),
     ("metadata ignores token ID", "AuctionEdition", 'return string.concat(metadataURI, Strings.toString(tokenId), ".json");', "return metadataURI;"),
     ("metadata slash validation bypassed", "AuctionEdition", 'if (bytes(metadataURI_)[bytes(metadataURI_).length - 1] != bytes1("/"))', 'if (false)'),
+    ('batch payment check removed', 'RankedAuction', 'if (msg.value != total) revert IncorrectPayment();', ''),
+    ('batch size guard removed', 'RankedAuction', 'if (count == 0 || count > SUPPLY) revert InvalidBatch();', ''),
+    ('batch total reused for every bid', 'RankedAuction', 'ids[i] = _createBid(msg.sender, amounts[i]);', 'ids[i] = _createBid(msg.sender, msg.value);'),
+    ('batch repeats first amount', 'RankedAuction', 'ids[i] = _createBid(msg.sender, amounts[i]);', 'ids[i] = _createBid(msg.sender, amounts[0]);'),
+    ('batch ownership assigned to auction', 'RankedAuction', 'ids[i] = _createBid(msg.sender, amounts[i]);', 'ids[i] = _createBid(address(this), amounts[i]);'),
+    ('batch returned IDs lost', 'RankedAuction', 'ids[i] = _createBid(msg.sender, amounts[i]);', '_createBid(msg.sender, amounts[i]);'),
+    ('batch skips last bid', 'RankedAuction', 'for (uint256 i; i < count; ++i) {\n            ids[i] = _createBid', 'for (uint256 i; i + 1 < count; ++i) {\n            ids[i] = _createBid'),
+    ('batch updated floor ignored', 'RankedAuction', 'if (bidAmount < minimumBid()) revert BidTooLow();', ''),
+    ('batch reentrancy guard removed', 'RankedAuction', 'function createBids(uint256[] calldata amounts) external payable nonReentrant', 'function createBids(uint256[] calldata amounts) external payable'),
+    ('batch escrow counts full payment repeatedly', 'RankedAuction', 'escrow += bidAmount;', 'escrow += msg.value;'),
 ]
 
 # These tests primarily assert configuration values; they cannot establish behavioral kill redundancy.
 CONFIGURATION_TESTS = {
     "test/RankedAuction.t.sol:RankedAuctionTest::testConfigurationAndBindings()",
-    "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd24HourDuration()",
-    "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed24HourDuration()",
+    "test/TieredAllocation.t.sol:TieredAllocationTest::testFixedSupplyAnd48HourDuration()",
+    "test/Deployment.t.sol:DeploymentTest::testLeadTimeAndFixed48HourDuration()",
 }
 BEHAVIOR_SUITE = "test/MutationBehavior.t.sol:MutationBehaviorTest"
 # Pin the separately reviewed scenarios so removing one cannot silently weaken a previously flagged case.
 REQUIRED_BEHAVIORS = {
     "old 2.5 percent outbid increment restored": ["testNewBidRoundsFivePercentUpBeforeDisplacingWeiPricedTail"],
     "old 0.5 percent increase increment restored": ["testInsufficientTopUpCannotChangeRankOrDelayClosing"],
-    "two-hour extension cap restored": ["testRankIncreasesKeepAuctionLiveBeyondFormerCap"],
+    "two-hour extension cap restored": ["testRankIncreasesKeepAuctionLiveBeyond24HourExtension"],
     "extension timestamp narrowed": ["testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement"],
     "royalty transfer bypass": ["testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain"],
     "free purchase": ["testFreePurchaseCannotSpendExistingSellerProceeds"],
@@ -92,8 +125,34 @@ REQUIRED_BEHAVIORS = {
     "unauthorized ERC721 mint": ["testMintReceiverCannotMintAnUnallocatedAuctionToken"],
     "ERC721 token approval bypass": ["testPurchasedNftRejectsTokenApprovalToFormerSeller"],
     "metadata slash validation bypassed": ["testStandaloneEditionRequiresSeparatorForMintedTokenEndpoints"],
-    "wrong initial duration": ["testBiddingRemainsOpenAtHour23", "testSettlementCannotReleaseFundsAtHourTwo"],
+    "old 24-hour duration restored": ["testBiddingRemainsOpenAtHour47", "testSettlementCannotReleaseFundsAtHour24"],
+    "24-hour extension cap introduced": ["testRankIncreasesKeepAuctionLiveBeyond24HourExtension"],
+    "old five-minute extension restored": ["testRankIncreaseAcrossUint64BoundaryPreservesBiddingAndSettlement"],
+    "wrong initial duration": ["testBiddingRemainsOpenAtHour47", "testSettlementCannotReleaseFundsAtHour24"],
 }
+
+
+RECOVERY_SUITE = "test/RefundRecovery.t.sol:RefundRecoveryTest"
+for label, names in {
+    "recovery authorization removed": ["testOnlyCurrentPayoutWalletCanRecoverNotOriginalDeployer", "testRecoveryAuthorityFollowsAcceptedWalletRotation"],
+    "recovery settlement guard removed": ["testLateSettlementStartsFullRecoveryDelay", "testUnsettledRecoveryCannotEraseWinnerAllocation"],
+    "recovery available before eligibility": ["testRecoveryRejectsEarlyCallsWithoutFreezingRefunds", "testRecoveryEligibilityFollowsTheExtendedEnd"],
+    "recovery eligibility ignores extensions": ["testRecoveryEligibilityFollowsTheExtendedEnd", "testExtendedRefundCanBeCreditedAtOriginalEligibilityTime"],
+    "recovery anchors to auction close": ["testLateSettlementStartsFullRecoveryDelay", "testAtomicLateSettlementAndRecoveryCannotCloseRefunds", "testSettlementOnDay27GivesFull28Days"],
+    "settlement timestamp never recorded": ["testLateSettlementStartsFullRecoveryDelay", "testAtomicLateSettlementAndRecoveryCannotCloseRefunds"],
+    "recovery clock keeps moving": ["testRepeatedSettlementCannotResetRecoveryDate", "testLateSettlementStartsFullRecoveryDelay"],
+    "refund closure guards removed": ["testCreditedRefundsCannotBeWithdrawnAfterRecovery", "testUncreditedRefundsCannotRecreateLiabilitiesAfterRecovery"],
+    "automatic refund expiry restored": ["testCreditingRemainsAvailableAtRecoveryEligibility", "testWithdrawingRemainsAvailableAtRecoveryEligibility", "testYearsOfInactionDoNotCloseRefunds"],
+    "refund getter automatically expires": ["testCreditingRemainsAvailableAtRecoveryEligibility", "testWithdrawingRemainsAvailableAtRecoveryEligibility"],
+    "recovery leaves refunds open": ["testRecoveryClosesRefundsBeforeRecipientCallback", "testNormalProceedsWithdrawalDoesNotCloseRefunds"],
+    "recovery reentrancy guard removed": ["testRecoveryCannotReenterRecovery", "testRecoveryCannotNominateAnotherWalletDuringCallback"],
+}.items():
+    REQUIRED_BEHAVIORS[label] = [f"{RECOVERY_SUITE}::{name}()" for name in names]
+
+
+BATCH_SUITE = "test/BatchBidding.t.sol:BatchBiddingTest"
+for label, names in {'batch payment check removed': ['testUnderpaymentRevertsWholeBatch', 'testOverpaymentRevertsWholeBatch'], 'batch size guard removed': ['testEmptyBatchRejected', 'testBatchOver90RejectedBeforeFundingOrBidding'], 'batch total reused for every bid': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testBatchWinnerTopUpsClaimsAndTieredRefundsRemainIndependent'], 'batch repeats first amount': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testBatchWinnerTopUpsClaimsAndTieredRefundsRemainIndependent'], 'batch ownership assigned to auction': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testContractWalletOwnsBatchWithoutReceiverCallbacks'], 'batch returned IDs lost': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testOneElementBatchRetainsSingleBidBehavior'], 'batch skips last bid': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testOneElementBatchRetainsSingleBidBehavior'], 'batch updated floor ignored': ['testNewFloorRejectsLaterBidAndRestoresDisplacedBid', 'testFillingLastSlotChangesMinimumWithinBatch'], 'batch reentrancy guard removed': ['testRefundCallbackCannotReenterBatchBidding', 'testMintCallbackCannotReenterBatchBiddingWhileLive'], 'batch escrow counts full payment repeatedly': ['testDistinctBidAmountsOwnersIdsAndEvents', 'testBatchWinnerTopUpsClaimsAndTieredRefundsRemainIndependent']}.items():
+    REQUIRED_BEHAVIORS[label] = [f"{BATCH_SUITE}::{name}()" for name in names]
 
 
 def collect_tests(stdout):
@@ -132,7 +191,7 @@ def evaluate_mutation(label, run, baseline_tests):
         return result
     failures = sorted(name for name, detail in tests.items() if detail["status"] == "Failure")
     behavioral = sorted(set(failures) - CONFIGURATION_TESTS)
-    required = {f"{BEHAVIOR_SUITE}::{name}()" for name in REQUIRED_BEHAVIORS.get(label, [])}
+    required = {name if "::" in name else f"{BEHAVIOR_SUITE}::{name}()" for name in REQUIRED_BEHAVIORS.get(label, [])}
     result.update(failedTests=failures, behavioralFailures=behavioral,
                   failureReasons={name: tests[name].get("reason") for name in failures},
                   missingRequiredBehaviors=sorted(required - set(behavioral)))
@@ -170,7 +229,7 @@ def main(output_dir=None):
         (output_dir / "mutation-baseline.json").write_text(baseline.stdout)
         (output_dir / "mutation-baseline.stderr.log").write_text(baseline.stderr)
         baseline_tests = validate_baseline(baseline)
-        required_tests = {f"{BEHAVIOR_SUITE}::{name}()" for names in REQUIRED_BEHAVIORS.values() for name in names}
+        required_tests = {name if "::" in name else f"{BEHAVIOR_SUITE}::{name}()" for names in REQUIRED_BEHAVIORS.values() for name in names}
         if not required_tests.issubset(baseline_tests):
             raise RuntimeError(f"Missing required behavioral tests: {sorted(required_tests - set(baseline_tests))}")
         print(f"Clean baseline: {len(baseline_tests)} tests passed; required behavioral scenarios present.", flush=True)
