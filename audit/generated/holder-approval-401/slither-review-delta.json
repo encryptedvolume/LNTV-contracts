@@ -1,0 +1,8 @@
+{
+  "findings": 29,
+  "removedId": "99d599bf5bb3e78634111fe72950f7560bbce60ae904fbd23ce1c89ecf199e40",
+  "replacementId": "99d599bf5bb3e78634111fe72950f7560bbce60ae904fbd23ce1c89ecf199e40",
+  "oldEditionHash": "c80d4f2104b7a33449f1228e4b27169d77d752ab2e791a381beb64b5af7f461e",
+  "newEditionHash": "a6b7321c5e79e8733897d113c7d70ee0139ee8578e8a47314b09830cefa6de34",
+  "reason": "Same bounded mint loop, re-keyed after ERC721-C and approval override source changes. Caller restriction, lifetime cap, state-before-callback ordering and atomic revert behavior unchanged. The other 28 finding IDs and their review reasons are unchanged."
+}

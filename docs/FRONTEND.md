@@ -78,3 +78,13 @@ The latest export adds `AuctionEdition.setMetadataURI(string)`, metadata refresh
 ## ERC721-C interface 4.0.0
 
 The exported NFT ABI now includes `owner`, `contractURI`, `getTransferValidator`, `getTransferValidationFunction`, `configureEnforcedTrading`, `tradingConfigured`, `tradingListId`, `setTransferValidator`, and `setAutomaticApprovalOfTransfersFromValidator`. These are creator administration/discovery functions; bidding remains on the ranked auction. Standard `approve`/`setApprovalForAll` are no longer restricted to the local marketplace. Never substitute unrestricted Seaport/conduit whitelisting for valid royalty-enforced order fulfillment. Read [OpenSea integration](OPENSEA.md). The separate frontend and its wording have not been changed.
+
+## Holder approval security patch 4.0.1
+
+`AuctionEdition.isApprovedForAll(holder, operator)` now reports only actual holder
+approvals. The inherited auto-approval getter/setter remain in the ABI, but the
+flag cannot authorize NFT transfers. Use standard holder-signed `approve` or
+`setApprovalForAll` for marketplace operators. Existing function selectors and
+auction rules are unchanged. Sync the regenerated 4.0.1 export to consume the
+new source manifest; changing a frontend ABI does not upgrade an immutable NFT
+contract. A deployed vulnerable 4.0.0 edition requires a new deployment.

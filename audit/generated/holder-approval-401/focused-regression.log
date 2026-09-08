@@ -1,0 +1,48 @@
+Compiling 17 files with Solc 0.8.28
+Solc 0.8.28 finished in 20.42s
+Compiler run successful with warnings:
+Warning (5159): "selfdestruct" has been deprecated. Note that, starting from the Cancun hard fork, the underlying opcode no longer deletes the code and data associated with an account and only transfers its Ether to the beneficiary, unless executed in the same transaction in which the contract was created (see EIP-6780). Any use in newly deployed contracts is strongly discouraged even if the new behavior is taken into account. Future changes to the EVM might further reduce the functionality of the opcode.
+   --> test/TestBase.sol:147:9:
+    |
+147 |         selfdestruct(to);
+    |         ^^^^^^^^^^^^
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/vendor/opensea-zone/src/main/zones/signed-zone/signed-zone-sub-1/SignedZone.sol:430:5:
+    |
+430 |     function supportsInterface(
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 18 tests for test/OpenSeaIntegration.t.sol:OpenSeaIntegrationTest
+[PASS] testActualOpenSeaConduitPaysTenPercent() (gas: 319853)
+[PASS] testActualSeaportAndSignedZonePayTenPercentAndClearAuthorization() (gas: 316150)
+[PASS] testActualSeaportERC20OfferAcceptancePaysTenPercent() (gas: 719651)
+[PASS] testConduitApprovalAloneCannotBypassRoyalties() (gas: 184287)
+[PASS] testConfigurationRejectsMissingRegistryAndUnauthorizedCaller() (gas: 46972)
+[PASS] testCreatorTokenInterfacesAndStrictRegistryConfiguration() (gas: 59607)
+[PASS] testFilledSeaportOrderCannotReplay() (gas: 284584)
+[PASS] testMissingFakeExpiredAndWrongFulfillerSignaturesFail() (gas: 215848)
+[PASS] testOpenSeaConduitWorksWithInertAutoApprovalFlagEnabled() (gas: 328423)
+[PASS] testOpenSeaERC20OfferWorksWithInertAutoApprovalFlagEnabled() (gas: 735108)
+[PASS] testOpenSeaTransferInvalidatesExistingLocalListing() (gas: 523277)
+[PASS] testOrdinarySeaportOrderCannotBypassRoyalties() (gas: 108105)
+[PASS] testOtherCompatibleMarketplaceTradesWithoutCustomMarket() (gas: 684169)
+[PASS] testRemovingRoyaltyCannotReuseZoneAuthorization() (gas: 105829)
+[PASS] testRotationMovesCreatorTokenAdministrationAndNewSaleRoyalties() (gas: 276543)
+[PASS] testUnconfiguredEditionCanMintButCannotTransfer() (gas: 3809237)
+[PASS] testUnsetValidatorCannotDisableEnforcement() (gas: 524369)
+[PASS] testZoneAuthorizationCannotMoveAnotherToken() (gas: 110754)
+Suite result: ok. 18 passed; 0 failed; 0 skipped; finished in 42.75ms (100.77ms CPU time)
+
+Ran 7 tests for test/HolderApproval.t.sol:HolderApprovalTest
+[PASS] testEnablingAutoApprovalBeforeMintingCannotSeizeFutureNFTs() (gas: 268154)
+[PASS] testEnablingAutoApprovalBeforeValidatorReplacementCannotSeize() (gas: 3041114)
+[PASS] testExplicitTokenApprovalStillWorksAndClearsOnTransfer() (gas: 3110919)
+[PASS] testFuzzValidatorNeedsHolderConsent(uint8,bool,bool) (runs: 1024, μ: 3044743, ~: 3044772)
+[PASS] testPayoutRotationCannotGrantHolderApprovals() (gas: 3057104)
+[PASS] testPayoutWalletCannotSeizeAnyOfThe100MintedNFTs() (gas: 4310193)
+[PASS] testRevokingExplicitOperatorApprovalCannotBeUndoneByTheCreator() (gas: 3122794)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 965.71ms (980.05ms CPU time)
+
+Ran 2 test suites in 1.17s (1.01s CPU time): 25 tests passed, 0 failed, 0 skipped (25 total tests)

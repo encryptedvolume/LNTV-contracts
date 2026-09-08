@@ -1,0 +1,7 @@
+Fresh Slither 0.11.5 run on commit 1c7c1a9 (copy), filter-paths lib/|test/|script/
+reviewed findings (audit/slither-reviewed.json, pinned to 3.3.0 source): 29 | fresh findings: 29
+NEW ids: 1
+- [Informational/Medium] costly-loop id=062a250018bb59bb… AuctionEdition.mint(address,uint256[]) (src/AuctionEdition.sol#70-79) has costly operations inside a loop: @ src/AuctionEdition.sol:70
+REVIEWED ids no longer present: 1
+- costly-loop id=dced4cdff4e1bd41… reason: Intentional bounded mint loop: lifetime mint cap is 100; auction batches are at most 90 and reserved batches at most 10. The supply count ad
+fresh findings by check: {'arbitrary-send-eth': 1, 'incorrect-equality': 1, 'uninitialized-local': 2, 'unused-return': 3, 'timestamp': 7, 'costly-loop': 12, 'low-level-calls': 3}

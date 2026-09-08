@@ -1,0 +1,34 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+== Logs ==
+  Edition 0x1F708C24a0D3A740cD47cC0444E9480899f3dA7D
+  Royalty recipient 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+  Royalty BPS 1000
+  Transfer validator 0xA000027A9B2802E1ddf7000061001e5c005A0000
+  Trading list 2
+  Next: enable 10 percent enforced earnings for this collection in OpenSea Studio.
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 31337
+
+Estimated gas price: 1.000000016 gwei
+
+Estimated total gas used for script: 466017
+
+Estimated amount required: 0.000466017007456272 ETH
+
+==========================
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
+Transactions saved to: /var/folders/z8/l7lwbjk53j32dvfykd8lwg_r0000gn/T/lntv-trading-script-i4i7vxib/broadcast/ConfigureTrading.s.sol/31337/run-latest.json
+
+Sensitive values saved to: /private/tmp/claude-501/-Users-aaa/73169f30-8d95-4ce7-9778-66a7813f4474/scratchpad/lntv/cache/ConfigureTrading.s.sol/31337/run-latest.json
+

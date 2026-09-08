@@ -1,0 +1,4 @@
+
+> @lntv/contracts@4.0.1 format:check
+> node scripts/foundry.mjs forge fmt --check
+

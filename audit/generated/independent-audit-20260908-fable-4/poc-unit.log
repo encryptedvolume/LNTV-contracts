@@ -1,0 +1,13 @@
+No files changed, compilation skipped
+
+Ran 7 tests for test/poc/FableFourthPass.t.sol:FableFourthPassTest
+[PASS] testF4_01_Control_AutoApprovalAloneWithRealRegistry() (gas: 217797)
+[PASS] testF4_01_Control_MaliciousValidatorWithoutAutoApprovalCannotSeize() (gas: 154278)
+[PASS] testF4_01_PayoutWalletSeizesHolderTokenViaValidatorAutoApproval() (gas: 3951750)
+[PASS] testF4_02_PayoutWalletLevelOneMakesAnyApprovedOperatorRoyaltyFree() (gas: 397753)
+[PASS] testF4_03_OldPayoutWalletKeepsCustomListAfterRotation() (gas: 792689)
+[PASS] testF4_04_NoOwnershipTransferredEventOnEdition() (gas: 47259)
+[PASS] testF4_05_ListZeroContentsAreInheritedByConfiguration() (gas: 3592476)
+Suite result: ok. 7 passed; 0 failed; 0 skipped; finished in 5.44ms (4.48ms CPU time)
+
+Ran 1 test suite in 7.89ms (5.44ms CPU time): 7 tests passed, 0 failed, 0 skipped (7 total tests)

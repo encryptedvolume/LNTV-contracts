@@ -1,0 +1,93 @@
+No files changed, compilation skipped
+Script ran successfully.
+
+== Logs ==
+  Edition 0x1F708C24a0D3A740cD47cC0444E9480899f3dA7D
+  Royalty recipient 0x70997970C51812dc3A010C7d01b50e0d17dc79C8
+  Royalty BPS 1000
+  Transfer validator 0xA000027A9B2802E1ddf7000061001e5c005A0000
+  Trading list 2
+  Next: enable 10 percent enforced earnings for this collection in OpenSea Studio.
+
+## Setting up 1 EVM.
+
+==========================
+
+Chain 31337
+
+Estimated gas price: 1.000000016 gwei
+
+Estimated total gas used for script: 466017
+
+Estimated amount required: 0.000466017007456272 ETH
+
+==========================
+
+
+==========================
+
+ONCHAIN EXECUTION COMPLETE & SUCCESSFUL.
+
+Transactions saved to: /var/folders/z8/l7lwbjk53j32dvfykd8lwg_r0000gn/T/lntv-trading-script-k5lds6pq/broadcast/ConfigureTrading.s.sol/31337/run-latest.json
+
+Sensitive values saved to: /Users/aaa/Desktop/dev/LNTV-contracts/cache/ConfigureTrading.s.sol/31337/run-latest.json
+
+2026-09-08T14:51:30.415623Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdAssertions.sol
+2026-09-08T14:51:30.415755Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdError.sol
+2026-09-08T14:51:30.415778Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdInvariant.sol
+2026-09-08T14:51:30.415875Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/StdToml.sol
+2026-09-08T14:51:30.415934Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/forge-std/Test.sol
+2026-09-08T14:51:30.416546Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/access/IAccessControl.sol
+2026-09-08T14:51:30.416834Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/token/ERC1155/ERC1155.sol
+2026-09-08T14:51:30.416904Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/token/ERC1155/IERC1155Receiver.sol
+2026-09-08T14:51:30.416941Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol
+2026-09-08T14:51:30.416978Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/token/ERC1155/utils/ERC1155Holder.sol
+2026-09-08T14:51:30.417015Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/token/ERC1155/utils/ERC1155Utils.sol
+2026-09-08T14:51:30.417052Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/token/ERC20/ERC20.sol
+2026-09-08T14:51:30.417121Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/token/ERC20/extensions/IERC20Metadata.sol
+2026-09-08T14:51:30.417379Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/utils/Arrays.sol
+2026-09-08T14:51:30.417429Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/utils/Comparators.sol
+2026-09-08T14:51:30.417594Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/utils/SlotDerivation.sol
+2026-09-08T14:51:30.417881Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for lib/openzeppelin-contracts/utils/structs/EnumerableSet.sol
+2026-09-08T14:51:30.418025Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for script/Deploy.s.sol
+2026-09-08T14:51:30.418194Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/AdminAudit.t.sol
+2026-09-08T14:51:30.418250Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/AdminFeatures.t.sol
+2026-09-08T14:51:30.418352Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/AuctionInvariant.t.sol
+2026-09-08T14:51:30.418408Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/BatchBidding.t.sol
+2026-09-08T14:51:30.418464Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/CrossContractAudit.t.sol
+2026-09-08T14:51:30.418510Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/Deployment.t.sol
+2026-09-08T14:51:30.418552Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/HolderApproval.t.sol
+2026-09-08T14:51:30.418631Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/MarketInvariant.t.sol
+2026-09-08T14:51:30.418683Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/Metadata.t.sol
+2026-09-08T14:51:30.418710Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/MutationBehavior.t.sol
+2026-09-08T14:51:30.418806Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/OpenSeaIntegration.t.sol
+2026-09-08T14:51:30.418865Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/PayoutWallet.t.sol
+2026-09-08T14:51:30.418910Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RankedAuction.t.sol
+2026-09-08T14:51:30.418961Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RefundRecovery.t.sol
+2026-09-08T14:51:30.419007Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/RoyaltyMarketplace.t.sol
+2026-09-08T14:51:30.419071Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TestBase.sol
+2026-09-08T14:51:30.419121Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TieredAllocation.t.sol
+2026-09-08T14:51:30.419153Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/TradingTestSetup.sol
+2026-09-08T14:51:30.419206Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/lib/erc721c-seaport/src/interfaces/IAuthorizedTransferSecurityRegistry.sol
+2026-09-08T14:51:30.419248Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/main/interfaces/ZoneInterface.sol
+2026-09-08T14:51:30.419272Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/main/zones/interfaces/SIP5Interface.sol
+2026-09-08T14:51:30.419298Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/main/zones/signed-zone/interfaces/SignedZoneControllerInterface.sol
+2026-09-08T14:51:30.419318Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/main/zones/signed-zone/interfaces/SignedZoneEventsAndErrors.sol
+2026-09-08T14:51:30.419355Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/main/zones/signed-zone/signed-zone-sub-1/SignedZone.sol
+2026-09-08T14:51:30.419394Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/main/zones/signed-zone/signed-zone-sub-1/lib/SignedZoneConstants.sol
+2026-09-08T14:51:30.419449Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/types/helpers/PointerLibraries.sol
+2026-09-08T14:51:30.419517Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/types/interfaces/IERC165.sol
+2026-09-08T14:51:30.419567Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/types/interfaces/ZoneInterface.sol
+2026-09-08T14:51:30.419591Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/types/lib/ConsiderationEnums.sol
+2026-09-08T14:51:30.419622Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea-zone/src/types/lib/ConsiderationStructs.sol
+2026-09-08T14:51:30.419664Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/lib/tstorish/src/Tstorish.sol
+2026-09-08T14:51:30.419720Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/StrictAuthorizedTransferSecurityRegistry.sol
+2026-09-08T14:51:30.419781Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/StrictAuthorizedTransferSecurityRegistryExtraViewFns.sol
+2026-09-08T14:51:30.419834Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/interfaces/ICreatorTokenTransferValidator.sol
+2026-09-08T14:51:30.419866Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/interfaces/IEOARegistry.sol
+2026-09-08T14:51:30.419921Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/interfaces/IOwnable.sol
+2026-09-08T14:51:30.419949Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/interfaces/IStrictAuthorizedTransferSecurityRegistry.sol
+2026-09-08T14:51:30.420024Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/interfaces/ITransferSecurityRegistry.sol
+2026-09-08T14:51:30.420051Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/interfaces/ITransferValidator.sol
+2026-09-08T14:51:30.420113Z  WARN foundry_evm_traces::debug::sources: failed to parse contract definitions for test/vendor/opensea/src/utils/TransferPolicy.sol
+2026-09-08T14:51:30.429216Z  WARN evm::traces::external: etherscan config not found

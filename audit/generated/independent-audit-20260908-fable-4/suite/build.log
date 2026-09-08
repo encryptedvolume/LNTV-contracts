@@ -1,0 +1,430 @@
+Compiling 1 files with Solc 0.8.28
+Solc 0.8.28 finished in 403.43ms
+Compiler run successful!
+
+╭------------------------------------------------------+------------------+-------------------+--------------------+---------------------╮
+| Contract                                             | Runtime Size (B) | Initcode Size (B) | Runtime Margin (B) | Initcode Margin (B) |
++========================================================================================================================================+
+| Arrays                                               | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| AuctionEdition                                       | 11,484           | 19,095            | 13,092             | 30,057              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| Bytes                                                | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| CallbackMultiReceiver                                | 2,326            | 2,354             | 22,250             | 46,798              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| CallbackRescueCoin                                   | 3,099            | 3,569             | 21,477             | 45,583              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| CalldataPointerLib                                   | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| CalldataReaders                                      | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| Comparators                                          | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| ERC1155Utils                                         | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| ERC721Utils                                          | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| EnumerableSet                                        | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| FalseReturnRescueCoin                                | 144              | 170               | 24,432             | 48,982              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| ForceEther                                           | 21               | 86                | 24,555             | 49,066              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| Math                                                 | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| MemoryPointerLib                                     | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| MemoryReaders                                        | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| MemoryWriters                                        | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| MintSaleCallback                                     | 1,165            | 1,557             | 23,411             | 47,595              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| NoReturnRescueCoin                                   | 454              | 482               | 24,122             | 48,670              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| OtherRoyaltyMarketplaceFixture                       | 706              | 734               | 23,870             | 48,418              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| Panic                                                | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| PayoutSaleCallback                                   | 1,099            | 1,536             | 23,477             | 47,616              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| RankedAuction                                        | 11,973           | 32,525            | 12,603             | 16,627              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| ReentrantReceiver                                    | 2,445            | 2,473             | 22,131             | 46,679              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| RefundStateObserver                                  | 692              | 885               | 23,884             | 48,267              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| Rejector                                             | 415              | 443               | 24,161             | 48,709              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| RescueCoin                                           | 1,821            | 2,293             | 22,755             | 46,859              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| RescueMultiToken                                     | 4,338            | 4,750             | 20,238             | 44,402              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| RescueNFT                                            | 3,814            | 4,281             | 20,762             | 44,871              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| ReturndataPointerLib                                 | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| ReturndataReaders                                    | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| RoyaltyMarketplace                                   | 5,944            | 6,105             | 18,632             | 43,047              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| SafeCast                                             | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| SafeERC20                                            | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| SettlementRecoveryCaller                             | 425              | 563               | 24,151             | 48,589              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| SignedMath                                           | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| SignedZone                                           | 5,557            | 6,403             | 19,019             | 42,749              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| SlotDerivation                                       | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| StdConstants                                         | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| StdStyle                                             | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| StorageSlot                                          | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| StrictAuthorizedTransferSecurityRegistry             | 11,646           | 15,416            | 12,930             | 33,736              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| StrictAuthorizedTransferSecurityRegistryExtraViewFns | 2,267            | 2,772             | 22,309             | 46,380              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| Strings                                              | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| StructPointers                                       | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| Tstorish                                             | 464              | 967               | 24,112             | 48,185              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| console                                              | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| safeconsole                                          | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| stdError                                             | 522              | 574               | 24,054             | 48,578              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| stdJson                                              | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| stdMath                                              | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| stdStorage                                           | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| stdStorageSafe                                       | 44               | 94                | 24,532             | 49,058              |
+|------------------------------------------------------+------------------+-------------------+--------------------+---------------------|
+| stdToml                                              | 44               | 94                | 24,532             | 49,058              |
+╰------------------------------------------------------+------------------+-------------------+--------------------+---------------------╯
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/RankedAuction.sol:113:41
+    │
+113 │         if (config.reservePrice == 0 || config.startTime <= block.timestamp) revert InvalidConfiguration();
+    │                                         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[divide-before-multiply]: multiplication should occur before division to avoid loss of precision
+    ╭▸ test/RoyaltyMarketplace.t.sol:459:28
+    │
+459 │         uint256 expected = (price / 10000) * bps + ((price % 10000) * bps + 9999) / 10000;
+    │                            ━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#divide-before-multiply
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ src/AuctionEdition.sol:62:68
+   │
+62 │         if (bytes(metadataURI_)[bytes(metadataURI_).length - 1] != bytes1("/")) revert InvalidConfiguration();
+   │                                                                    ━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes1' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ src/AuctionEdition.sol:86:55
+   │
+86 │         if (uri.length == 0 || uri[uri.length - 1] != bytes1("/")) revert InvalidConfiguration();
+   │                                                       ━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes1' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ script/Deploy.s.sol:38:17
+   │
+38 │         require(input.start >= block.timestamp + 10 minutes, "Allow at least 10 minutes before bidding");
+   │                 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ script/Deploy.s.sol:54:70
+   │
+54 │             bytes(c.metadataURI)[bytes(c.metadataURI).length - 1] == bytes1("/"), "Metadata base must end with slash"
+   │                                                                      ━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes1' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/TestBase.sol:35:13
+   │
+35 │             uint128(RESERVE),
+   │             ━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint128' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ test/TestBase.sol:131:42
+    │
+131 │         lastError = result.length >= 4 ? bytes4(result) : bytes4(0);
+    │                                          ━━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'bytes4' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ test/MarketInvariant.t.sol:73:29
+   │
+73 │         if (!item.active || block.timestamp >= item.expiry || item.nonce != nonces[item.tokenId]) return;
+   │                             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/AdminAudit.t.sol:33:49
+   │
+33 │         if (result.length >= 4) errorSelector = bytes4(result);
+   │                                                 ━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes4' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/AdminAudit.t.sol:61:49
+   │
+61 │         if (result.length >= 4) errorSelector = bytes4(result);
+   │                                                 ━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes4' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/MarketInvariant.t.sol:44:37
+   │
+44 │             address actor = address(uint160(3000 + i));
+   │                                     ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint160' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/MarketInvariant.t.sol:58:26
+   │
+58 │         uint16 tokenId = uint16(tokenSeed % 100 + 1);
+   │                          ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint16' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/CrossContractAudit.t.sol:60:48
+   │
+60 │         withdrawalError = result.length >= 4 ? bytes4(result) : bytes4(0);
+   │                                                ━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'bytes4' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/RankedAuction.sol:155:13
+    │
+155 │         if (block.timestamp < startTime) return Phase.Scheduled;
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[erc20-unchecked-transfer]: ERC20 'transfer' and 'transferFrom' calls should check the return value
+    ╭▸ test/AdminFeatures.t.sol:122:13
+    │
+122 │             coin.transfer(target, 10);
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#erc20-unchecked-transfer
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/RankedAuction.sol:156:13
+    │
+156 │         if (block.timestamp < endTime) return Phase.Live;
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ test/AuctionInvariant.t.sol:122:13
+    │
+122 │         if (modelEndTime < block.timestamp + 600) modelEndTime = block.timestamp + 600;
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/RankedAuction.sol:217:13
+    │
+217 │         if (block.timestamp < endTime) revert AuctionNotEnded();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/AuctionInvariant.t.sol:32:33
+   │
+32 │             actors[i] = address(uint160(1000 + i));
+   │                                 ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint160' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ test/AuctionInvariant.t.sol:40:23
+   │
+40 │             create(i, uint128(i * 1e16));
+   │                       ━━━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint128' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/RankedAuction.sol:343:13
+    │
+343 │         if (block.timestamp < recoveryAvailableAt()) revert RecoveryNotAvailable();
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+    ╭▸ src/RankedAuction.sol:457:13
+    │
+457 │         if (endTime - block.timestamp >= EXTENSION_WINDOW) return;
+    │             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    │
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ src/RankedAuction.sol:227:32
+    │
+227 │             bids[id].tokenId = uint16(rank);
+    │                                ━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'uint16' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+    ╭▸ src/RankedAuction.sol:389:32
+    │
+389 │         bids[id] = Bid(bidder, uint128(bidAmount), 0, 0, true, false, false, 0);
+    │                                ━━━━━━━━━━━━━━━━━━
+    │
+    ├ note: consider disabling this lint if you're certain the cast is safe
+    │       
+    │       // casting to 'uint128' is safe because [explain why]
+    │       // forge-lint: disable-next-line(unsafe-typecast)
+    │       
+    │       
+    ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/RoyaltyMarketplace.sol:60:27
+   │
+60 │         if (price == 0 || expiry <= block.timestamp) revert InvalidListing();
+   │                           ━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[block-timestamp]: usage of `block.timestamp` in a comparison may be manipulated by validators
+   ╭▸ src/RoyaltyMarketplace.sol:80:29
+   │
+80 │         if (!item.active || block.timestamp >= item.expiry) revert InvalidListing();
+   │                             ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   │
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#block-timestamp
+
+warning[unsafe-typecast]: typecasts that can truncate values should be checked
+   ╭▸ src/RoyaltyMarketplace.sol:65:48
+   │
+65 │             Listing(msg.sender, price, expiry, uint16(tokenId), true, ITransferNonce(edition).transferNonce(tokenId));
+   │                                                ━━━━━━━━━━━━━━━
+   │
+   ├ note: consider disabling this lint if you're certain the cast is safe
+   │       
+   │       // casting to 'uint16' is safe because [explain why]
+   │       // forge-lint: disable-next-line(unsafe-typecast)
+   │       
+   │       
+   ╰ help: https://book.getfoundry.sh/reference/forge/forge-lint#unsafe-typecast
+

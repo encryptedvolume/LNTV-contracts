@@ -1,0 +1,116 @@
+'forge clean' running (wd: /private/tmp/claude-501/-Users-aaa/73169f30-8d95-4ce7-9778-66a7813f4474/scratchpad/lntv)
+'forge config --json' running
+'forge build --build-info --skip ./test/** ./script/** --force' running (wd: /private/tmp/claude-501/-Users-aaa/73169f30-8d95-4ce7-9778-66a7813f4474/scratchpad/lntv)
+
+Detector: arbitrary-send-eth
+RankedAuction._send(address,uint256) (src/RankedAuction.sol#469-474) sends eth to arbitrary user
+	Dangerous calls:
+	- (success,None) = recipient.call{value: amount}() (src/RankedAuction.sol#472)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#functions-that-send-ether-to-arbitrary-destinations
+
+Detector: incorrect-equality
+RankedAuction._send(address,uint256) (src/RankedAuction.sol#469-474) uses a dangerous strict equality:
+	- amount == 0 (src/RankedAuction.sol#471)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dangerous-strict-equalities
+
+Detector: uninitialized-local
+RankedAuction.createBids(uint256[]).total (src/RankedAuction.sol#186) is a local variable never initialized
+RankedAuction.creditRefunds(uint256[]).credited (src/RankedAuction.sol#245) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+
+Detector: unused-return
+RoyaltyMarketplace.buy(uint256,address) (src/RoyaltyMarketplace.sol#78-95) ignores return value by (None,royalty) = IERC2981(edition).royaltyInfo(item.tokenId,price) (src/RoyaltyMarketplace.sol#86)
+RoyaltyMarketplace._tokenRescueAdmin() (src/RoyaltyMarketplace.sol#97-99) ignores return value by (wallet,None) = IERC2981(edition).royaltyInfo(1,0) (src/RoyaltyMarketplace.sol#98)
+RoyaltyMarketplace.withdrawRoyalties(address) (src/RoyaltyMarketplace.sol#123-134) ignores return value by (wallet,None) = IERC2981(edition).royaltyInfo(1,0) (src/RoyaltyMarketplace.sol#124)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+
+Detector: timestamp
+RankedAuction.constructor(RankedAuction.Config) (src/RankedAuction.sol#112-122) uses timestamp for comparisons
+	Dangerous comparisons:
+	- config.reservePrice == 0 || config.startTime <= block.timestamp (src/RankedAuction.sol#113)
+RankedAuction.phase() (src/RankedAuction.sol#153-158) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < startTime (src/RankedAuction.sol#155)
+	- block.timestamp < endTime (src/RankedAuction.sol#156)
+RankedAuction.settle() (src/RankedAuction.sol#215-231) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < endTime (src/RankedAuction.sol#217)
+RankedAuction.withdrawUnclaimedETH(address) (src/RankedAuction.sol#340-351) uses timestamp for comparisons
+	Dangerous comparisons:
+	- block.timestamp < recoveryAvailableAt() (src/RankedAuction.sol#343)
+RankedAuction._extend() (src/RankedAuction.sol#456-460) uses timestamp for comparisons
+	Dangerous comparisons:
+	- endTime - block.timestamp >= EXTENSION_WINDOW (src/RankedAuction.sol#457)
+RoyaltyMarketplace.list(uint256,uint128,uint64) (src/RoyaltyMarketplace.sol#58-67) uses timestamp for comparisons
+	Dangerous comparisons:
+	- price == 0 || expiry <= block.timestamp (src/RoyaltyMarketplace.sol#60)
+RoyaltyMarketplace.buy(uint256,address) (src/RoyaltyMarketplace.sol#78-95) uses timestamp for comparisons
+	Dangerous comparisons:
+	- ! item.active || block.timestamp >= item.expiry (src/RoyaltyMarketplace.sol#80)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#block-timestamp
+
+Detector: costly-loop
+AuctionEdition.mint(address,uint256[]) (src/AuctionEdition.sol#70-79) has costly operations inside a loop:
+	- ++ totalSupply (src/AuctionEdition.sol#76)
+RankedAuction._createBid(address,uint256) (src/RankedAuction.sol#385-406) has costly operations inside a loop:
+	- id = nextBidId ++ (src/RankedAuction.sol#388)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+RankedAuction._createBid(address,uint256) (src/RankedAuction.sol#385-406) has costly operations inside a loop:
+	- escrow += bidAmount (src/RankedAuction.sol#390)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+RankedAuction._insert(uint256) (src/RankedAuction.sol#426-443) has costly operations inside a loop:
+	- head = id (src/RankedAuction.sol#438)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+		RankedAuction._createBid(address,uint256)
+RankedAuction._insert(uint256) (src/RankedAuction.sol#426-443) has costly operations inside a loop:
+	- tail = id (src/RankedAuction.sol#440)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+		RankedAuction._createBid(address,uint256)
+RankedAuction._insert(uint256) (src/RankedAuction.sol#426-443) has costly operations inside a loop:
+	- ++ activeCount (src/RankedAuction.sol#442)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+		RankedAuction._createBid(address,uint256)
+RankedAuction._unlink(uint256) (src/RankedAuction.sol#445-454) has costly operations inside a loop:
+	- head = bid.next (src/RankedAuction.sol#447)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+		RankedAuction._createBid(address,uint256)
+RankedAuction._unlink(uint256) (src/RankedAuction.sol#445-454) has costly operations inside a loop:
+	- tail = bid.prev (src/RankedAuction.sol#449)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+		RankedAuction._createBid(address,uint256)
+RankedAuction._unlink(uint256) (src/RankedAuction.sol#445-454) has costly operations inside a loop:
+	- -- activeCount (src/RankedAuction.sol#453)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+		RankedAuction._createBid(address,uint256)
+RankedAuction._createBid(address,uint256) (src/RankedAuction.sol#385-406) has costly operations inside a loop:
+	- escrow -= amount (src/RankedAuction.sol#399)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+RankedAuction._createBid(address,uint256) (src/RankedAuction.sol#385-406) has costly operations inside a loop:
+	- totalRefunds += amount (src/RankedAuction.sol#401)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+RankedAuction._extend() (src/RankedAuction.sol#456-460) has costly operations inside a loop:
+	- endTime = block.timestamp + EXTENSION_WINDOW (src/RankedAuction.sol#458)
+	Calls stack containing the loop:
+		RankedAuction.createBids(uint256[])
+		RankedAuction._createBid(address,uint256)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop
+
+Detector: low-level-calls
+Low level call in RankedAuction._send(address,uint256) (src/RankedAuction.sol#469-474):
+	- (success,None) = recipient.call{value: amount}() (src/RankedAuction.sol#472)
+Low level call in RoyaltyMarketplace.withdraw(address) (src/RoyaltyMarketplace.sol#111-120):
+	- (success,None) = recipient.call{value: amount}() (src/RoyaltyMarketplace.sol#117)
+Low level call in RoyaltyMarketplace.withdrawRoyalties(address) (src/RoyaltyMarketplace.sol#123-134):
+	- (success,None) = recipient.call{value: amount}() (src/RoyaltyMarketplace.sol#131)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+. analyzed (55 contracts with 101 detectors), 29 result(s) found

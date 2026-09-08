@@ -1,0 +1,19 @@
+No files changed, compilation skipped
+
+Ran 1 test for test/poc/FableFork.t.sol:FableForkTest
+[PASS] testLiveRegistryConfiguration() (gas: 7347101)
+Logs:
+  chainId: 11155111
+  block: 11661627
+  lastListId before: 68
+  list0 owner: 0x939C8d89EBC11fA45e576215E2353673AD0bA18A
+  list0 whitelist size: 2
+  list0 authorizers size: 1
+  LNTV whitelisted operator: 0x9A1D00bEd7CD04BCDA516d721A596eb22Aac6834
+  LNTV whitelisted operator: 0x9A1D001670C8b17F8B7900E8d7a41e785B3F0515
+  LNTV whitelisted operator: 0x41C3c259514f88211c4CA2fd805A93F8F9A57504
+  LNTV authorizer: 0x000056F7000000EcE9003ca63978907a00FFD100
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 25.09s (25.09s CPU time)
+
+Ran 1 test suite in 25.09s (25.09s CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)

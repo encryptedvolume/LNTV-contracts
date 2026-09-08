@@ -2,7 +2,7 @@
   "reviewedDate": "2026-09-08",
   "slitherVersion": "0.11.5",
   "sourceSha256": {
-    "src/AuctionEdition.sol": "a6b7321c5e79e8733897d113c7d70ee0139ee8578e8a47314b09830cefa6de34",
+    "src/AuctionEdition.sol": "c80d4f2104b7a33449f1228e4b27169d77d752ab2e791a381beb64b5af7f461e",
     "src/RankedAuction.sol": "804449f989d099500f9857553055993da69bcf04862b1ecf7ea8d101f89cecbc",
     "src/RoyaltyMarketplace.sol": "eaf99f7b0950c843283e28887bb63b948a62d0590d2f6e83f6fbd72f0480939f",
     "src/TokenRescue.sol": "bb8587c8ea3f380764fa4563d3aaf296d4f83760258e0b0542b5e68566cd907d"
@@ -163,11 +163,11 @@
       "location": "src/RankedAuction.sol:445"
     },
     {
-      "id": "99d599bf5bb3e78634111fe72950f7560bbce60ae904fbd23ce1c89ecf199e40",
+      "id": "dced4cdff4e1bd41804bd105a20eb6a43704080ac0337606b19e8adc34d0e09e",
       "check": "costly-loop",
       "reportedImpact": "Informational",
       "reason": "Intentional bounded mint loop: lifetime mint cap is 100; auction batches are at most 90 and reserved batches at most 10. The supply count advances before each safe-mint callback. Only the immutable auction may mint and all claim entry points are nonReentrant. Rejected later callbacks roll back the whole batch including allocation counters and ownership. Unit tests cover reserved/unsold/winner partitioning, failed deliveries, reentry and rotation; lifecycle receipt gas bounds batch costs.",
-      "location": "src/AuctionEdition.sol:71"
+      "location": "src/AuctionEdition.sol:55"
     },
     {
       "id": "dda0d9d8a6a6fa0bc6d7a8a07f200f7a76d59665cc156a36601dcf135c0612b6",

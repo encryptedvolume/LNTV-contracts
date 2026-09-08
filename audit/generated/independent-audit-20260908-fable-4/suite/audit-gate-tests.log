@@ -1,0 +1,14 @@
+.........F
+======================================================================
+FAIL: test_reviewed_findings_pass (__main__.AuditGateTests.test_reviewed_findings_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/private/tmp/claude-501/-Users-aaa/73169f30-8d95-4ce7-9778-66a7813f4474/scratchpad/lntv/scripts/test_audit_gates.py", line 33, in test_reviewed_findings_pass
+    self.assertEqual(self.static_gate(), 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.382s
+
+FAILED (failures=1)

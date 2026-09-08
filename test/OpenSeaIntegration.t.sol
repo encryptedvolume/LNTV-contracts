@@ -253,6 +253,20 @@ contract OpenSeaIntegrationTest is TestBase {
         assertEq(payoutWallet.balance - beforeCreator, 0.1 ether);
     }
 
+    function testOpenSeaConduitWorksWithInertAutoApprovalFlagEnabled() public {
+        vm.prank(payoutWallet);
+        edition.setAutomaticApprovalOfTransfersFromValidator(true);
+        assertFalse(edition.isApprovedForAll(alice, edition.getTransferValidator()));
+        testActualOpenSeaConduitPaysTenPercent();
+    }
+
+    function testOpenSeaERC20OfferWorksWithInertAutoApprovalFlagEnabled() public {
+        vm.prank(payoutWallet);
+        edition.setAutomaticApprovalOfTransfersFromValidator(true);
+        assertFalse(edition.isApprovedForAll(alice, edition.getTransferValidator()));
+        testActualSeaportERC20OfferAcceptancePaysTenPercent();
+    }
+
     function testConduitApprovalAloneCannotBypassRoyalties() public {
         vm.prank(alice);
         edition.setApprovalForAll(CONDUIT, true);

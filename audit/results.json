@@ -1,99 +1,89 @@
 {
   "date": "2026-09-08",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "status": "PARTIAL",
-  "scope": "ERC721-C/OpenSea migration; bounded integration and regression checks. Full audit and all old running jobs cancelled by creator.",
+  "scope": "F4-01 security patch: require holder-controlled operator approval; default regression and invariant suite, focused OpenSea tests, static review and local lifecycle verification.",
   "sourceSha256": {
-    "src/AuctionEdition.sol": "a4d0f22700de89c8377e35c62ca3ce55db335909e006c9d54e2ad33da738eaf0",
+    "src/AuctionEdition.sol": "a6b7321c5e79e8733897d113c7d70ee0139ee8578e8a47314b09830cefa6de34",
     "src/RankedAuction.sol": "804449f989d099500f9857553055993da69bcf04862b1ecf7ea8d101f89cecbc",
     "src/RoyaltyMarketplace.sol": "eaf99f7b0950c843283e28887bb63b948a62d0590d2f6e83f6fbd72f0480939f",
     "src/TokenRescue.sol": "bb8587c8ea3f380764fa4563d3aaf296d4f83760258e0b0542b5e68566cd907d"
   },
-  "upstreamDependencies": {
-    "creator-token-standards": {
-      "commit": "980a63b33591d568b6e04b45f37deba05a55f787",
-      "unmodifiedSolidityFiles": 10
-    },
-    "openzeppelin-contracts-v4": {
-      "commit": "0a25c1940ca220686588c4af3ec526f725fe2582",
-      "unmodifiedSolidityFiles": 10
-    },
-    "permit-c": {
-      "commit": "65e3a4a493aa14d1a03c23512233d7546e8f1e96",
-      "unmodifiedSolidityFiles": 1
-    }
+  "fixedFinding": {
+    "id": "F4-01",
+    "severity": "High",
+    "title": "Payout wallet can seize holder NFTs through validator auto-approval",
+    "status": "FIXED_IN_SOURCE",
+    "unpatchedRegressionFailures": 7,
+    "fix": "Read the OpenZeppelin 4.8.3 ERC721 holder approval mapping directly; inherited creator auto-approval flag has no effect on isApprovedForAll."
   },
-  "solidityRegressionTests": {
-    "passed": 217,
+  "regressionTests": {
+    "passed": 229,
     "failed": 0,
     "skipped": 0,
-    "fuzzRuns": 128,
-    "fuzzTests": 8,
-    "seed": "0x2026090840",
-    "excluded": "Extended invariant campaigns; mutation generation/execution",
-    "evidence": "audit/generated/erc721c-400/regression-tests.log"
+    "nonInvariantTests": 226,
+    "fuzzTests": 9,
+    "fuzzRuns": 1024,
+    "invariantCampaigns": 3,
+    "runsPerCampaign": 256,
+    "depth": 128,
+    "generatedInvariantActions": 98304,
+    "seed": "0x2026090841",
+    "evidence": "audit/generated/holder-approval-401/default-suite.log"
   },
-  "openSeaProtocolTests": {
-    "passed": 16,
+  "focusedTests": {
+    "passed": 25,
+    "holderApprovalTests": 7,
+    "openSeaIntegrationTests": 18,
     "subsetOfRegressionTests": true,
-    "seaport": "Verified mainnet Seaport 1.6 runtime",
-    "conduit": "Verified OpenSea conduit runtime",
-    "zoneAndRegistry": "Unmodified verified source compiled locally",
-    "signatures": "Local test signer only, not live OpenSea API",
-    "covers": [
-      "ETH listing/direct Seaport",
-      "ETH listing/OpenSea conduit",
-      "ERC20-priced offer acceptance",
-      "10 percent payments",
-      "authorization/signature/token/royalty mismatch rejection",
-      "filled-order replay rejection",
-      "other compatible marketplace fixture",
-      "payout rotation",
-      "stale local listings after external sale and return"
-    ]
+    "signatures": "Local test signatures; not live OpenSea API",
+    "evidence": "audit/generated/holder-approval-401/focused-regression.log"
   },
-  "invariantSmoke": {
-    "passed": 3,
-    "runsPerCampaign": 16,
-    "depth": 32,
-    "totalGeneratedActions": 1536,
-    "seed": "0x2026090840",
-    "extendedAuditProfile": false
-  },
-  "localRehearsal": {
+  "staticReview": {
     "status": "PASS",
-    "realTradingConfigurationScript": true,
-    "publicDeployment": false,
-    "deploymentGas": 6823539,
-    "endingAuctionAndMarketLiabilities": 0,
-    "report": "audit/generated/erc721c-400/local-e2e.json"
+    "reviewedFindings": 29,
+    "newDetectorClasses": 0,
+    "rekeyedFindings": 1,
+    "detail": "The same bounded AuctionEdition.mint loop has a new source-dependent ID; its explanation and the other 28 finding IDs are unchanged. Source pin refreshed after review.",
+    "auditGateTests": 10,
+    "nativeRunnerTests": 2
   },
   "build": {
-    "result": "PASS",
+    "status": "PASS",
     "runtimeBytes": {
       "RankedAuction": 11973,
-      "AuctionEdition": 11484,
+      "AuctionEdition": 11434,
       "RoyaltyMarketplace": 5944
     },
     "initBytes": {
-      "RankedAuction": 32525,
-      "AuctionEdition": 19095,
+      "RankedAuction": 32475,
+      "AuctionEdition": 19045,
       "RoyaltyMarketplace": 6105
     }
   },
+  "localRehearsal": {
+    "status": "PASS",
+    "deploymentGas": 6812730,
+    "auctionEndingLiabilities": 0,
+    "marketEndingLiabilities": 0,
+    "publicDeployment": false,
+    "evidence": "audit/generated/holder-approval-401/local-e2e.json"
+  },
   "format": "PASS",
-  "frontendInterface": {
-    "version": "4.0.0",
-    "freshBuildMatchesExports": true,
-    "publicDeploymentsRecorded": 0,
-    "frontendChangesDeferredByCreator": true
+  "interface": {
+    "version": "4.0.1",
+    "check": "PASS",
+    "publicDeploymentsRecorded": 0
+  },
+  "upstreamSourceIntegrity": {
+    "unchanged": true,
+    "verifiedAddedSolidityFiles": 21
   },
   "fullAudit": {
-    "status": "CANCELLED_AT_CREATOR_REQUEST",
-    "staticReview": "3.3.0 source-pinned review remains historical; not refreshed for ERC721-C",
-    "coverage": "Not rerun for 4.0.0",
-    "extendedFuzzAndInvariants": "Not run for 4.0.0",
-    "mutations": "Not run; old external mutation job also cancelled as explicitly requested"
+    "status": "NOT_CLAIMED_FOR_PATCH",
+    "extendedProfile": "The 10000-run fuzz and 1000-by-256 invariant audit profile was not rerun for 4.0.1; default-profile results above are current.",
+    "coverage": "Not rerun for 4.0.1.",
+    "mutations": "Not run, as requested."
   },
   "acceptedDesignFinding": {
     "id": "R-01",
@@ -106,18 +96,11 @@
     "refundsCloseOn": "successful withdrawUnclaimedETH only",
     "decision": "audit/REFUND-RECOVERY-DESIGN-2026-09-08.md"
   },
-  "requiredBeforeLiveTrading": [
-    "Deploy and verify the new immutable contracts with 1000 bps",
-    "Configure supported registry as current payout wallet",
-    "Enable and verify 10 percent enforced creator earnings in OpenSea Studio",
-    "Re-check actual registry policy after Studio transactions",
-    "Complete public testnet OpenSea listing/buy/offer and payout verification"
-  ],
   "limitations": [
-    "Creator-token validator/auto-approval/policy administration remains trusted under the upstream standard.",
-    "OpenSea authorization relies on its signer service and configured earnings; zero/no-code validators do not unlock this edition.",
-    "Other venues require support for the configured enforcement system and their own required setup.",
-    "Already-signed external orders may retain an old royalty recipient; update settings and cancel/recreate affected orders on wallet rotation.",
-    "No live OpenSea/API/Studio/public-chain test or full-audit PASS is claimed."
+    "Already deployed immutable contracts are not upgraded by this source patch.",
+    "Validator/policy administration remains trusted and can weaken royalties, but cannot manufacture holder approvals.",
+    "F4-02, F4-03, F4-04 and F4-06 remain recorded in the issue register.",
+    "Live OpenSea Studio activation and real API listing/buy/offer verification remain required.",
+    "The inherited auto-approval getter can report true; that flag cannot authorize transfers in this edition."
   ]
 }
