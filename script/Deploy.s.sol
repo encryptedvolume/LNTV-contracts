@@ -39,6 +39,7 @@ contract Deploy is Script {
         require(input.start <= type(uint64).max, "Time exceeds uint64 range");
         require(input.reserve > 0 && input.reserve <= type(uint128).max, "Invalid reserve");
         require(input.bps > 0 && input.bps <= 10000, "Invalid royalty basis points");
+        require(input.bps == 1000, "LNTV deployment requires 10 percent royalties");
         c = RankedAuction.Config(
             input.payoutWallet,
             uint96(input.bps),

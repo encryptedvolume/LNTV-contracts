@@ -50,7 +50,7 @@ def main():
             deployer, payout, next_payout, alice, bob, carol = w3.eth.accounts[:6]
             start = w3.eth.get_block("latest").timestamp + 3600
             env = dict(os.environ, CHAIN_ID="31337", PAYOUT_WALLET=payout,
-                       ROYALTY_BPS="750", RESERVE_WEI=str(10**16), START_TIME=str(start),
+                       ROYALTY_BPS="1000", RESERVE_WEI=str(10**16), START_TIME=str(start),
                        METADATA_URI="https://metadata.example/local-e2e/",
                        COLLECTION_NAME="Local ERC721 NFTs", COLLECTION_SYMBOL="L721",
                        FOUNDRY_BROADCAST=str(Path(temporary) / "broadcast"))
@@ -75,7 +75,7 @@ def main():
             assert edition.functions.totalSupply().call() == 0
             assert edition.functions.metadataURI().call() == "https://metadata.example/local-e2e/"
             assert check(w3, auction.address, env)["result"] == "PASS"
-            wrong_config = dict(env, ROYALTY_BPS="751")
+            wrong_config = dict(env, ROYALTY_BPS="1001")
             try:
                 check(w3, auction.address, wrong_config)
             except AssertionError:
@@ -185,8 +185,8 @@ def main():
             transact(market.functions.list(3, 10**18, w3.eth.get_block("latest").timestamp + 3600), alice)
             transact(market.functions.list(4, 10**18, w3.eth.get_block("latest").timestamp + 3600), alice)
             gas["secondary_sale"] = transact(market.functions.buy(1, carol), bob, 10**18)
-            assert market.functions.pendingRoyalties().call() == 75*10**15
-            assert market.functions.credits(alice).call() == 925*10**15
+            assert market.functions.pendingRoyalties().call() == 100*10**15
+            assert market.functions.credits(alice).call() == 900*10**15
             assert edition.functions.ownerOf(3).call() == carol
             assert edition.functions.transferNonce(3).call() == 1
             transact(market.functions.cancel(2), alice)
@@ -222,7 +222,7 @@ def main():
             before = w3.eth.get_balance(carol)
             transact(auction.functions.withdrawProceeds(carol), next_payout)
             transact(market.functions.withdrawRoyalties(carol), next_payout)
-            assert w3.eth.get_balance(carol) - before == gross + 75*10**15
+            assert w3.eth.get_balance(carol) - before == gross + 100*10**15
             assert auction.functions.liabilities().call() == 0
             assert w3.eth.get_balance(auction.address) == 0
             # New trading royalties must also accrue to the replacement wallet.

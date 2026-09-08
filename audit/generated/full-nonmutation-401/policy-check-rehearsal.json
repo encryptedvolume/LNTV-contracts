@@ -1,0 +1,34 @@
+{
+  "result": "PASS",
+  "chainId": 31337,
+  "cases": [
+    {
+      "case": "extra operator",
+      "result": "REJECTED_AS_EXPECTED"
+    },
+    {
+      "case": "extra authorizer",
+      "result": "REJECTED_AS_EXPECTED"
+    },
+    {
+      "case": "nonempty blacklist",
+      "result": "REJECTED_AS_EXPECTED"
+    },
+    {
+      "case": "old-wallet-owned list",
+      "result": "REJECTED_AS_EXPECTED"
+    },
+    {
+      "case": "policy downgrade",
+      "result": "REJECTED_AS_EXPECTED"
+    },
+    {
+      "case": "unrecorded list",
+      "result": "REJECTED_AS_EXPECTED"
+    },
+    {
+      "case": "default policy after payout rotation",
+      "result": "PASS"
+    }
+  ]
+}

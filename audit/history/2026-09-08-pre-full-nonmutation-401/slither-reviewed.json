@@ -212,5 +212,5 @@
       "location": "src/RoyaltyMarketplace.sol:111"
     }
   ],
-  "scope": "4.0.1 complete non-mutation audit; all four production contracts including TokenRescue; exact source hashes and 29 reviewed finding IDs unchanged from the holder-approval patch snapshot"
+  "scope": "3.3.0 non-mutation audit; all four production contracts including TokenRescue"
 }

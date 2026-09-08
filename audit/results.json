@@ -1,15 +1,52 @@
 {
   "date": "2026-09-08",
   "version": "4.0.1",
-  "status": "PARTIAL",
-  "scope": "F4-01 security patch: require holder-controlled operator approval; default regression and invariant suite, focused OpenSea tests, static review and local lifecycle verification.",
+  "status": "NON_MUTATION_PASS",
+  "baseCommit": "96b473b00922262ccd8209563f2fda0962550712",
+  "scope": "First-party manual adversarial review and complete non-mutation audit of all four production contracts, deployment/configuration scripts, pinned permission/royalty dependencies, and local/fork integration. Production Solidity and interface remain unchanged from merged 4.0.1; deployment tooling, tests and documentation are improved.",
   "sourceSha256": {
     "src/AuctionEdition.sol": "a6b7321c5e79e8733897d113c7d70ee0139ee8578e8a47314b09830cefa6de34",
     "src/RankedAuction.sol": "804449f989d099500f9857553055993da69bcf04862b1ecf7ea8d101f89cecbc",
     "src/RoyaltyMarketplace.sol": "eaf99f7b0950c843283e28887bb63b948a62d0590d2f6e83f6fbd72f0480939f",
     "src/TokenRescue.sol": "bb8587c8ea3f380764fa4563d3aaf296d4f83760258e0b0542b5e68566cd907d"
   },
-  "fixedFinding": {
+  "manualReview": {
+    "status": "COMPLETE",
+    "reviewer": "Codex",
+    "independentThirdPartyCertification": false,
+    "report": "audit/MANUAL-REVIEW-2026-09-08.md",
+    "newDemonstratedHighOrMediumProductionDefects": 0,
+    "acceptedHighRefundRecoveryRiskRemains": true
+  },
+  "findingsAddressed": [
+    {
+      "id": "NM-01",
+      "severity": "Low",
+      "title": "Deployment accepts a royalty rate rejected by trading activation",
+      "status": "FIXED",
+      "evidence": "Pre-fix regression fails; Deploy now requires 1000 bps; focused and full suites plus actual-script lifecycle pass."
+    },
+    {
+      "id": "F4-02",
+      "severity": "Low",
+      "title": "Incomplete verification of inherited operator policy",
+      "status": "FIXED_IN_TOOLING",
+      "evidence": "Exact level/list/owner/operator/authorizer/blacklist checks; ten unit tests and six deliberately poisoned local-policy cases rejected."
+    },
+    {
+      "id": "N-01",
+      "title": "Direct ranked-list back-pointer coverage",
+      "status": "BEHAVIORAL_COVERAGE_ADDED",
+      "evidence": "Two tests independently sort bid records and verify both list directions. Mutation-gate extensions remain excluded."
+    },
+    {
+      "id": "NM-02",
+      "severity": "Informational",
+      "title": "Stale current audit and marketplace deployment documentation",
+      "status": "CORRECTED"
+    }
+  ],
+  "priorSecurityFix": {
     "id": "F4-01",
     "severity": "High",
     "title": "Payout wallet can seize holder NFTs through validator auto-approval",
@@ -17,36 +54,133 @@
     "unpatchedRegressionFailures": 7,
     "fix": "Read the OpenZeppelin 4.8.3 ERC721 holder approval mapping directly; inherited creator auto-approval flag has no effect on isApprovedForAll."
   },
+  "fullAudit": {
+    "status": "COMPLETE_NON_MUTATION",
+    "command": "AUDIT_FUZZ_SEED=0x2026090842 npm run audit:nonmutation",
+    "exitCode": 0,
+    "pipelineWallSeconds": 895.28,
+    "evidence": "audit/generated/full-nonmutation-401/pipeline.log",
+    "mutations": "EXCLUDED_BY_USER: neither source mutation campaigns nor mutation-runner tests executed."
+  },
   "regressionTests": {
-    "passed": 229,
+    "passed": 232,
     "failed": 0,
     "skipped": 0,
-    "nonInvariantTests": 226,
+    "suites": 19,
+    "nonInvariantTests": 229,
     "fuzzTests": 9,
-    "fuzzRuns": 1024,
+    "runsPerFuzzTest": 10000,
+    "generatedFuzzCases": 90000,
     "invariantCampaigns": 3,
-    "runsPerCampaign": 256,
-    "depth": 128,
-    "generatedInvariantActions": 98304,
-    "seed": "0x2026090841",
-    "evidence": "audit/generated/holder-approval-401/default-suite.log"
+    "runsPerCampaign": 1000,
+    "depth": 256,
+    "generatedInvariantActions": 768000,
+    "invariantReverts": 0,
+    "seed": "0x2026090842",
+    "wallSeconds": 802.17,
+    "evidence": "audit/generated/full-nonmutation-401/extended-tests.log"
   },
   "focusedTests": {
-    "passed": 25,
-    "holderApprovalTests": 7,
-    "openSeaIntegrationTests": 18,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "newRegressionTests": 3,
     "subsetOfRegressionTests": true,
-    "signatures": "Local test signatures; not live OpenSea API",
-    "evidence": "audit/generated/holder-approval-401/focused-regression.log"
+    "evidence": "audit/generated/full-nonmutation-401/focused.log"
+  },
+  "coverage": {
+    "status": "PASS",
+    "gate": "100% instrumented production lines, branches and functions; statement coverage is reported separately.",
+    "files": {
+      "src/AuctionEdition.sol": {
+        "lines": [
+          71,
+          71
+        ],
+        "statements": [
+          98,
+          99
+        ],
+        "branches": [
+          11,
+          11
+        ],
+        "functions": [
+          16,
+          16
+        ]
+      },
+      "src/RankedAuction.sol": {
+        "lines": [
+          254,
+          254
+        ],
+        "statements": [
+          340,
+          340
+        ],
+        "branches": [
+          62,
+          62
+        ],
+        "functions": [
+          35,
+          35
+        ]
+      },
+      "src/RoyaltyMarketplace.sol": {
+        "lines": [
+          58,
+          58
+        ],
+        "statements": [
+          90,
+          90
+        ],
+        "branches": [
+          18,
+          18
+        ],
+        "functions": [
+          9,
+          9
+        ]
+      },
+      "src/TokenRescue.sol": {
+        "lines": [
+          18,
+          18
+        ],
+        "statements": [
+          25,
+          25
+        ],
+        "branches": [
+          5,
+          5
+        ],
+        "functions": [
+          4,
+          4
+        ]
+      }
+    },
+    "pairMeaning": "[hit, total]",
+    "unhitStatement": "AuctionEdition.sol:155 interface cast IStrictRoyaltyRegistry(OPENSEA_TRANSFER_VALIDATOR). Debug instrumentation records zero for the cast but 245 hits for its enclosing assignment and 244 for subsequent registry configuration; reviewed as an instrumentation artifact, not an untested branch.",
+    "evidence": "audit/generated/full-nonmutation-401/coverage.log",
+    "debugEvidence": "audit/generated/full-nonmutation-401/coverage-debug.log",
+    "debugFuzzRunsPerTest": 32
   },
   "staticReview": {
     "status": "PASS",
     "reviewedFindings": 29,
-    "newDetectorClasses": 0,
-    "rekeyedFindings": 1,
-    "detail": "The same bounded AuctionEdition.mint loop has a new source-dependent ID; its explanation and the other 28 finding IDs are unchanged. Source pin refreshed after review.",
+    "newFindings": 0,
+    "rekeyedFindings": 0,
+    "sourceDrift": false,
     "auditGateTests": 10,
-    "nativeRunnerTests": 2
+    "nativeRunnerTests": 2,
+    "tradingPolicyTests": 10,
+    "evidence": "audit/generated/full-nonmutation-401/slither.final.json"
   },
   "build": {
     "status": "PASS",
@@ -61,29 +195,98 @@
       "RoyaltyMarketplace": 6105
     }
   },
-  "localRehearsal": {
-    "status": "PASS",
-    "deploymentGas": 6812730,
-    "auctionEndingLiabilities": 0,
-    "marketEndingLiabilities": 0,
-    "publicDeployment": false,
-    "evidence": "audit/generated/holder-approval-401/local-e2e.json"
-  },
   "format": "PASS",
   "interface": {
     "version": "4.0.1",
     "check": "PASS",
     "publicDeploymentsRecorded": 0
   },
-  "upstreamSourceIntegrity": {
-    "unchanged": true,
-    "verifiedAddedSolidityFiles": 21
+  "localRehearsal": {
+    "status": "PASS",
+    "publicDeployment": false,
+    "gasUsed": {
+      "atomic_deployment": 6812730,
+      "reserve_4": 189155,
+      "worst_bid": 590851,
+      "settle": 794266,
+      "claim_88": 3338611,
+      "secondary_sale": 194976,
+      "payout_rotation_accept": 30768,
+      "reserve_6": 220899
+    },
+    "batchGasUsed": {
+      "three_bids_batch": 430377,
+      "three_bids_separate_total": 530499,
+      "forty_five_bids_dense_first": 7371815,
+      "forty_five_bids_dense_second": 7360148,
+      "ninety_bids_empty_book_ties": 13667488,
+      "two_bids_late_full_book": 366292
+    },
+    "auctionEndingLiabilities": 0,
+    "marketEndingLiabilities": 0,
+    "evidence": "audit/generated/full-nonmutation-401/local-e2e.json"
   },
-  "fullAudit": {
-    "status": "NOT_CLAIMED_FOR_PATCH",
-    "extendedProfile": "The 10000-run fuzz and 1000-by-256 invariant audit profile was not rerun for 4.0.1; default-profile results above are current.",
-    "coverage": "Not rerun for 4.0.1.",
-    "mutations": "Not run, as requested."
+  "policyCheckerRehearsal": {
+    "status": "PASS",
+    "poisonedPoliciesRejected": 6,
+    "rotationAccepted": true,
+    "fixtureImpersonationOnly": true,
+    "evidence": "audit/generated/full-nonmutation-401/policy-check-rehearsal.json"
+  },
+  "pinnedForks": [
+    {
+      "chain": "ethereum",
+      "block": 25933485,
+      "exitCode": 0,
+      "testExecutedAndPassed": true,
+      "blockHash": "f184e274fe37fe33ab6c38552fe9b5b9aefe57f4ab82fdb079e07a7ca20bf76e",
+      "runtimeKeccak256": {
+        "0xA000027A9B2802E1ddf7000061001e5c005A0000": "c7dfe8ae4da5613f6406eab346f0808ee2322316f44d186136c830a71491366c",
+        "0x000056F7000000EcE9003ca63978907a00FFD100": "9e6930be6759e905574791278e46db4d510c072733fe62a0c7d4e6e76f13e324",
+        "0x9A1D00bEd7CD04BCDA516d721A596eb22Aac6834": "7f710dbe02ec41992287c9782a9d0dc237cb630d8677c7be3bc2936a0a691b45",
+        "0x9A1D001670C8b17F8B7900E8d7a41e785B3F0515": "19b5b1cedbe62bd819584e28ba04ed25675c1c706c49c2f460d0d35fae52935a"
+      }
+    },
+    {
+      "chain": "sepolia",
+      "block": 11661874,
+      "exitCode": 0,
+      "testExecutedAndPassed": true,
+      "blockHash": "616790cc9d68c6b92c2af080f1af8e1099c5f6f952a85b55f58084bced3af99f",
+      "runtimeKeccak256": {
+        "0xA000027A9B2802E1ddf7000061001e5c005A0000": "c7dfe8ae4da5613f6406eab346f0808ee2322316f44d186136c830a71491366c",
+        "0x000056F7000000EcE9003ca63978907a00FFD100": "16db75c2309f575f8a5d688edc0cb2f04b4f902ba5f5e994c3864e47ce5dcc15",
+        "0x9A1D00bEd7CD04BCDA516d721A596eb22Aac6834": "441606cca0c8749bf300146d16ce1d9947b399640c76939865ee9884b5e1f9e2",
+        "0x9A1D001670C8b17F8B7900E8d7a41e785B3F0515": "977811957bed426d194c5e38d58162db497b26928e6b39a1f3df9b4caaa9a516"
+      }
+    }
+  ],
+  "forkScope": "Actual deployed registry state, exact sets, holder consent, local marketplace royalty and payout rotation. No live OpenSea API signature or public transaction. Initial no-test/compile failures preserved separately; final named tests executed and passed.",
+  "upstreamSourceIntegrity": {
+    "creator-token-standards": {
+      "commit": "980a63b33591d568b6e04b45f37deba05a55f787",
+      "verifiedFiles": 10
+    },
+    "openzeppelin-contracts-v4": {
+      "commit": "0a25c1940ca220686588c4af3ec526f725fe2582",
+      "verifiedFiles": 10
+    },
+    "permit-c": {
+      "commit": "65e3a4a493aa14d1a03c23512233d7546e8f1e96",
+      "verifiedFiles": 1
+    }
+  },
+  "paymentProcessorReview": {
+    "status": "FOCUSED_REVIEW_COMPLETE",
+    "processors": 2,
+    "tradeModules": 4,
+    "runtimeVerifiedAtEthereumBlock": 25933485,
+    "notFullProtocolAudit": true,
+    "evidence": "audit/generated/full-nonmutation-401/payment-processor-review.json",
+    "constraints": [
+      "Keep royalty bounty zero to deliver the complete quote to the payout wallet.",
+      "Ceiling-rounded ERC2981 quotes may need a sufficient signed royalty cap to avoid a one-unit rejection."
+    ]
   },
   "acceptedDesignFinding": {
     "id": "R-01",
@@ -96,11 +299,20 @@
     "refundsCloseOn": "successful withdrawUnclaimedETH only",
     "decision": "audit/REFUND-RECOVERY-DESIGN-2026-09-08.md"
   },
+  "remainingReleaseItems": [
+    "F4-03: custom wallet-owned registry lists retain old-owner authority; strict default edition-owned policy and release checker mitigate this; custom-list migrations require atomic reconfiguration.",
+    "F4-04: edition emits no ownership-change event; actual OpenSea Studio/indexer recognition after payout rotation remains unverified.",
+    "F4-06: verify the selected deployment payout wallet accepts native ETH and intended sale tokens.",
+    "APP-01/APP-02/DEP-01/OS-01: off-chain reveal, frontend integration, public deployment and live marketplace activation remain separate release work."
+  ],
   "limitations": [
-    "Already deployed immutable contracts are not upgraded by this source patch.",
-    "Validator/policy administration remains trusted and can weaken royalties, but cannot manufacture holder approvals.",
-    "F4-02, F4-03, F4-04 and F4-06 remain recorded in the issue register.",
-    "Live OpenSea Studio activation and real API listing/buy/offer verification remain required.",
-    "The inherited auto-approval getter can report true; that flag cannot authorize transfers in this edition."
-  ]
+    "First-party review and finite tests cannot establish absence of every defect.",
+    "The creator can update metadata and weaken royalty policy; holder consent remains required.",
+    "The accepted High optional refund-recovery authority remains present, beginning 28 days after first successful settlement.",
+    "Immutable deployments are not updated by repository changes.",
+    "No public deployment, live OpenSea trade or complete external PaymentProcessor protocol audit is claimed.",
+    "Historical mutation results are not evidence of mutation testing on this version."
+  ],
+  "evidenceDirectory": "audit/generated/full-nonmutation-401",
+  "historicalMetadata": "audit/history/2026-09-08-pre-full-nonmutation-401"
 }

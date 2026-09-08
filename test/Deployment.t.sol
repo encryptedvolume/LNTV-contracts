@@ -14,7 +14,7 @@ contract DeploymentTest is Test {
         vm.warp(1_000_000);
         deployment = new Deploy();
         input = Deploy.DeploymentConfig(
-            31337, 1003600, 0.01 ether, 750, address(0x123), "ipfs://deployment-test/", "Deployment NFTs", "DEP"
+            31337, 1003600, 0.01 ether, 1000, address(0x123), "ipfs://deployment-test/", "Deployment NFTs", "DEP"
         );
     }
 
@@ -29,7 +29,7 @@ contract DeploymentTest is Test {
         vm.setEnv("CHAIN_ID", "31337");
         vm.setEnv("START_TIME", "1003600");
         vm.setEnv("RESERVE_WEI", "10000000000000000");
-        vm.setEnv("ROYALTY_BPS", "750");
+        vm.setEnv("ROYALTY_BPS", "1000");
         vm.setEnv("PAYOUT_WALLET", vm.toString(input.payoutWallet));
         vm.setEnv("METADATA_URI", input.uri);
         vm.setEnv("COLLECTION_NAME", input.collectionName);
@@ -61,7 +61,7 @@ contract DeploymentTest is Test {
         input.bps = type(uint256).max;
         vm.expectRevert("Invalid royalty basis points");
         deployment.validateConfig(input);
-        input.bps = 1;
+        input.bps = 1000;
         input.start = type(uint64).max;
         assertEq(deployment.validateConfig(input).startTime, type(uint64).max);
         input.start = type(uint256).max;

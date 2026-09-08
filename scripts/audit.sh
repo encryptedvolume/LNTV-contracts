@@ -23,6 +23,7 @@ fi
 npm run format:check 2>&1 | tee audit/generated/format.log
 node --test scripts/foundry.test.mjs 2>&1 | tee audit/generated/native-runner-tests.log
 .venv/bin/python scripts/test_audit_gates.py 2>&1 | tee audit/generated/audit-gate-tests.log
+.venv/bin/python scripts/test_trading_policy.py 2>&1 | tee audit/generated/trading-policy-tests.log
 if [[ "$skip_mutations" == false ]]; then
   .venv/bin/python scripts/test_mutation_audit.py 2>&1 | tee audit/generated/mutation-runner-tests.log
 fi

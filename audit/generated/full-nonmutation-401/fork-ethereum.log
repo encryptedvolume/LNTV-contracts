@@ -1,0 +1,14 @@
+Compiling 71 files with Solc 0.8.28
+Solc 0.8.28 finished in 2.40s
+Compiler run successful!
+2026-09-08T15:24:29.600810Z  WARN foundry_fork_db::cache: Failed to read cache file err=Os { code: 2, kind: NotFound, message: "No such file or directory" } path="/Users/aaa/.foundry/cache/rpc/mainnet/25933485"
+
+Ran 1 test for test/LivePolicyAudit.t.sol:LivePolicyAuditTest
+[PASS] testLiveRegistryConfiguration() (gas: 7711429)
+Logs:
+  chainId: 1
+  block: 25933485
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 27.47s (27.47s CPU time)
+
+Ran 1 test suite in 27.47s (27.47s CPU time): 1 tests passed, 0 failed, 0 skipped (1 total tests)

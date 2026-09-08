@@ -1,0 +1,8 @@
+Compiling 71 files with Solc 0.8.28
+Solc 0.8.28 finished in 2.45s
+Error: Compiler run failed:
+Error: Compiler error (/solidity/libsolidity/codegen/LValue.cpp:54):Stack too deep. Try compiling with `--via-ir` (cli) or the equivalent `viaIR: true` (standard JSON) while enabling the optimizer. Otherwise, try removing local variables.
+  --> test/LivePolicyAudit.t.sol:91:17:
+   |
+91 |         vm.warp(auction.endTime());
+   |                 ^^^^^^^

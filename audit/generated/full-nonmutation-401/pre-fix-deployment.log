@@ -1,0 +1,23 @@
+Compiling 90 files with Solc 0.8.28
+Solc 0.8.28 finished in 6.45s
+Compiler run successful with warnings:
+Warning (5159): "selfdestruct" has been deprecated. Note that, starting from the Cancun hard fork, the underlying opcode no longer deletes the code and data associated with an account and only transfers its Ether to the beneficiary, unless executed in the same transaction in which the contract was created (see EIP-6780). Any use in newly deployed contracts is strongly discouraged even if the new behavior is taken into account. Future changes to the EVM might further reduce the functionality of the opcode.
+   --> test/TestBase.sol:147:9:
+    |
+147 |         selfdestruct(to);
+    |         ^^^^^^^^^^^^
+
+
+Ran 1 test for test/FullAuditReview.t.sol:DeploymentRoyaltyAuditTest
+[FAIL: next call did not revert as expected] testDeploymentRejectsRateThatTradingSetupCannotAccept() (gas: 7784276)
+Suite result: FAILED. 0 passed; 1 failed; 0 skipped; finished in 3.29ms (1.77ms CPU time)
+
+Ran 1 test suite in 13.10ms (3.29ms CPU time): 0 tests passed, 1 failed, 0 skipped (1 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/FullAuditReview.t.sol:DeploymentRoyaltyAuditTest
+[FAIL: next call did not revert as expected] testDeploymentRejectsRateThatTradingSetupCannotAccept() (gas: 7784276)
+
+Encountered a total of 1 failing tests, 0 tests succeeded
+
+Tip: Run `forge test --rerun` to retry only the 1 failed test

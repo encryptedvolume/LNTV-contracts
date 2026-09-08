@@ -4,9 +4,9 @@
 
 Prepare a stable metadata base URL ending in `/` and serve initially unrevealed JSON at every ID from `1.json` to `100.json`. Collection name/symbol and trading royalty rate cannot change after deployment. The current payout wallet can update the metadata base with `edition.setMetadataURI(newBase)`. Contents and later owner-requested reveals are managed off-chain; use a mutable host if those responses will change. Verify that hosting and reveal permissions are under the creator's control separately from contract deployment.
 
-Set one `PAYOUT_WALLET` able to execute contract calls, such as a multisig. It receives all auction proceeds and trading royalties and owns the ten reserved NFT entitlements. To reserve them for the deployer, use the deployer's address here. The deployer has no independent role. Set a positive reserve acceptable for the regular tier if fewer than 90 bids win; the top winner always pays its full bid. The payout wallet can later be replaced through the two-step flow below.
+Set one `PAYOUT_WALLET` able to execute contract calls, such as a multisig. It receives all auction proceeds and trading royalties and owns the ten reserved NFT entitlements. For external marketplaces it must accept plain ETH transfers and the actual ERC20 sale tokens; pull-payment redirection in our local marketplace does not establish that compatibility. To reserve them for the deployer, use the deployer's address here. The deployer has no independent role. Set a positive reserve acceptable for the regular tier if fewer than 90 bids win; the top winner always pays its full bid. The payout wallet can later be replaced through the two-step flow below.
 
-Copy `.env.example` to `.env`, retain the confirmed `ROYALTY_BPS=1000` (10%), and replace the other example values for the target deployment. Foundry automatically reads the package's `.env`. Times are Unix **seconds**, amounts are **wei**, and 100 basis points is 1%. The deployment script rejects wrong RPC chain IDs, unsupported chains, less than ten minutes of lead time, a zero payout wallet, zero reserve, zero/over-100% royalty rates, empty metadata/name/symbol, metadata base missing its trailing slash, and numeric overflow before narrowing.
+Copy `.env.example` to `.env`, retain the confirmed `ROYALTY_BPS=1000` (10%), and replace the other example values for the target deployment. Foundry automatically reads the package's `.env`. Times are Unix **seconds**, amounts are **wei**, and 100 basis points is 1%. The deployment script rejects wrong RPC chain IDs, unsupported chains, less than ten minutes of lead time, a zero payout wallet, zero reserve, any royalty rate other than 1000 bps, empty metadata/name/symbol, metadata base missing its trailing slash, and numeric overflow before narrowing.
 
 | Variable | Meaning |
 |---|---|
@@ -29,7 +29,7 @@ Supported deployment networks are Ethereum mainnet (`1`), Sepolia (`11155111`), 
 
 ```bash
 npm ci
-npm run audit
+npm run audit:nonmutation
 
 # RPC_URL is supplied securely in the shell environment.
 # This simulates and prints the public configuration and resulting addresses.
@@ -132,7 +132,7 @@ Metadata changes do not invalidate active sale listings. `edition.setMetadataURI
 1. From the **current** wallet, call `auction.proposePayoutWallet(newWallet)`.
 2. Verify `pendingPayoutWallet()` and the proposal event. Until acceptance, the current wallet keeps all payout authority.
 3. From the **new** wallet, call `auction.acceptPayoutWallet()`.
-4. Confirm `payoutWallet()` and `edition.royaltyRecipient()` both equal the new wallet, and `pendingPayoutWallet()` is zero. Rerun deployment inspection with the new expected wallet.
+4. Confirm `payoutWallet()` and `edition.royaltyRecipient()` both equal the new wallet, and `pendingPayoutWallet()` is zero. Rerun deployment inspection with the new expected wallet and `REQUIRE_ENFORCED_TRADING=true`; the checked policy requires the active list to remain edition-owned. Follow the custom-list migration and Studio ownership checks in [OPENSEA.md](OPENSEA.md).
 
 The current wallet can replace an unaccepted nomination or cancel it with `cancelPayoutWalletChange()`. No arbitrary caller or deployer can rotate it. Both EOAs and contract wallets must be able to make these calls. Zero, the current wallet, and the three system contract addresses are rejected as nominees.
 

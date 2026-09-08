@@ -1,0 +1,106 @@
+{
+  "date": "2026-09-08",
+  "version": "4.0.1",
+  "status": "PARTIAL",
+  "scope": "F4-01 security patch: require holder-controlled operator approval; default regression and invariant suite, focused OpenSea tests, static review and local lifecycle verification.",
+  "sourceSha256": {
+    "src/AuctionEdition.sol": "a6b7321c5e79e8733897d113c7d70ee0139ee8578e8a47314b09830cefa6de34",
+    "src/RankedAuction.sol": "804449f989d099500f9857553055993da69bcf04862b1ecf7ea8d101f89cecbc",
+    "src/RoyaltyMarketplace.sol": "eaf99f7b0950c843283e28887bb63b948a62d0590d2f6e83f6fbd72f0480939f",
+    "src/TokenRescue.sol": "bb8587c8ea3f380764fa4563d3aaf296d4f83760258e0b0542b5e68566cd907d"
+  },
+  "fixedFinding": {
+    "id": "F4-01",
+    "severity": "High",
+    "title": "Payout wallet can seize holder NFTs through validator auto-approval",
+    "status": "FIXED_IN_SOURCE",
+    "unpatchedRegressionFailures": 7,
+    "fix": "Read the OpenZeppelin 4.8.3 ERC721 holder approval mapping directly; inherited creator auto-approval flag has no effect on isApprovedForAll."
+  },
+  "regressionTests": {
+    "passed": 229,
+    "failed": 0,
+    "skipped": 0,
+    "nonInvariantTests": 226,
+    "fuzzTests": 9,
+    "fuzzRuns": 1024,
+    "invariantCampaigns": 3,
+    "runsPerCampaign": 256,
+    "depth": 128,
+    "generatedInvariantActions": 98304,
+    "seed": "0x2026090841",
+    "evidence": "audit/generated/holder-approval-401/default-suite.log"
+  },
+  "focusedTests": {
+    "passed": 25,
+    "holderApprovalTests": 7,
+    "openSeaIntegrationTests": 18,
+    "subsetOfRegressionTests": true,
+    "signatures": "Local test signatures; not live OpenSea API",
+    "evidence": "audit/generated/holder-approval-401/focused-regression.log"
+  },
+  "staticReview": {
+    "status": "PASS",
+    "reviewedFindings": 29,
+    "newDetectorClasses": 0,
+    "rekeyedFindings": 1,
+    "detail": "The same bounded AuctionEdition.mint loop has a new source-dependent ID; its explanation and the other 28 finding IDs are unchanged. Source pin refreshed after review.",
+    "auditGateTests": 10,
+    "nativeRunnerTests": 2
+  },
+  "build": {
+    "status": "PASS",
+    "runtimeBytes": {
+      "RankedAuction": 11973,
+      "AuctionEdition": 11434,
+      "RoyaltyMarketplace": 5944
+    },
+    "initBytes": {
+      "RankedAuction": 32475,
+      "AuctionEdition": 19045,
+      "RoyaltyMarketplace": 6105
+    }
+  },
+  "localRehearsal": {
+    "status": "PASS",
+    "deploymentGas": 6812730,
+    "auctionEndingLiabilities": 0,
+    "marketEndingLiabilities": 0,
+    "publicDeployment": false,
+    "evidence": "audit/generated/holder-approval-401/local-e2e.json"
+  },
+  "format": "PASS",
+  "interface": {
+    "version": "4.0.1",
+    "check": "PASS",
+    "publicDeploymentsRecorded": 0
+  },
+  "upstreamSourceIntegrity": {
+    "unchanged": true,
+    "verifiedAddedSolidityFiles": 21
+  },
+  "fullAudit": {
+    "status": "NOT_CLAIMED_FOR_PATCH",
+    "extendedProfile": "The 10000-run fuzz and 1000-by-256 invariant audit profile was not rerun for 4.0.1; default-profile results above are current.",
+    "coverage": "Not rerun for 4.0.1.",
+    "mutations": "Not run, as requested."
+  },
+  "acceptedDesignFinding": {
+    "id": "R-01",
+    "quotedSeverity": "High",
+    "title": "payout wallet can confiscate all bidder refunds",
+    "status": "ACCEPTED_BY_DESIGN",
+    "recoveryDelaySeconds": 2419200,
+    "anchor": "first successful settlement (settledAt)",
+    "automaticRefundExpiry": false,
+    "refundsCloseOn": "successful withdrawUnclaimedETH only",
+    "decision": "audit/REFUND-RECOVERY-DESIGN-2026-09-08.md"
+  },
+  "limitations": [
+    "Already deployed immutable contracts are not upgraded by this source patch.",
+    "Validator/policy administration remains trusted and can weaken royalties, but cannot manufacture holder approvals.",
+    "F4-02, F4-03, F4-04 and F4-06 remain recorded in the issue register.",
+    "Live OpenSea Studio activation and real API listing/buy/offer verification remain required.",
+    "The inherited auto-approval getter can report true; that flag cannot authorize transfers in this edition."
+  ]
+}
