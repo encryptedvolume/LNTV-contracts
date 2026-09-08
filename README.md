@@ -4,6 +4,8 @@ A self-contained Ethereum system for **100 ERC-721 NFTs: 90 auctioned and 10 res
 
 The [current issue register](audit/ISSUES.md) records open work, accepted design decisions, verified fixes and the scope of available audit evidence.
 
+The current source release is **4.0.0** on `main`. [Earlier contract versions](docs/VERSIONS.md) are preserved under annotated archive tags.
+
 Ranked-list mechanics are adapted from [Transient Labs TLRankedAuction](https://github.com/Transient-Labs/tl-ranked-auction/tree/4dd148d9fcfa4c96454393d1e8272e6e997dbf7c). The reference source and MIT attribution are included. Tiered pricing, reserved inventory and minting are this adaptation's design; creator-token transfer enforcement uses Limit Break's existing ERC721-C implementation.
 
 The initial auction lasts exactly **48 hours**. Qualifying late bids leave ten minutes on the clock, without a total extension cap. Contract code, supply, reserve, start, collection name/symbol and trading royalty rate are fixed. The shared payout wallet can be changed through nomination and acceptance. That wallet can update the metadata base and rescue foreign tokens held by the contracts. There is no proxy, pause, cancellation, arbitrary execution or early ETH recovery role. Refunds remain available until the current payout wallet successfully recovers the remaining auction ETH. Recovery is optional and becomes available 28 days after settlement. The deployer has no separate authority; set `PAYOUT_WALLET` to the deployer if it should own that role.

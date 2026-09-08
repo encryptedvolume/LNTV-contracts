@@ -15,7 +15,6 @@ Open work is listed below. Integration and incomplete verification are distingui
 | AUD-40 | Complete audit of the ERC721-C release | Targeted checks pass. The creator cancelled the old long audit and all running jobs to prioritize this fix; 3.3.0 static/coverage approval does not attest the changed inheritance. | Run and record a complete non-mutation audit of the final 4.0.0 source and dependencies when requested. Mutations remain excluded unless separately authorized. |
 | Fable second pass N-01 | Ranked-list back-pointer regression coverage | The invariants catch the proposed regression, but a mutant deleting the successor's `prev` update survives the unit-only mutation selection. This is a test coverage gap, not a demonstrated defect in the current contract. | Add explicit list-integrity unit checks and both pointer-update mutants to the mutation gate. |
 | Fable second pass N-04 | Extra-mutant redundancy (optional) | Fifteen additional mutants outside the package campaign have only one behavioral test failure. | Strengthen independent behavioral coverage for these additional boundaries if adopted into the campaign. |
-| F3-03 | Release the corrected contract on the default branch | Corrected source and matching evidence are committed/pushed through PR #1, but `main` still holds the earlier 24-hour version. | Merge the reviewed contracts PR before using the default branch for deployment. |
 | F3-06 | CI dependency pinning (optional) | GitHub Actions are pinned to major tags, not immutable commit SHAs. | Pin reviewed action revisions by SHA and maintain updates. |
 | F3-07 | Audit author identity hygiene (optional) | An earlier audit names the commissioning individual. | Redact to the repository identity if the creator wants that privacy change. |
 
@@ -27,6 +26,7 @@ The integration items are supported by [the package README](../README.md), [the 
 
 | ID | Resolution |
 |---|---|
+| F3-03 | Resolved on 2026-09-08: [PR #1](https://github.com/encryptedvolume/LNTV-contracts/pull/1) merged the corrected 4.0.0 source into `main`. Earlier revisions are preserved in [the version archive](../docs/VERSIONS.md); the current partial audit status is unchanged. |
 | A-01 / Fable second pass N-03 | Complete standalone `npm run audit` passed on 2026-09-08 with seed `0x20260908`; current results and hash manifest were regenerated. See [split verification](REPOSITORY-SPLIT-2026-09-08.md). |
 | Fable first pass P-03 | Contracts, CI and previously ignored audit evidence were committed and pushed in LNTV catch-up commit `f2baeba`, then extracted with their Git history. Evidence is versioned in the standalone package. |
 
