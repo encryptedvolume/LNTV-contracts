@@ -32,3 +32,5 @@ new independent manual audit, public deployment, or end-to-end website integrati
 The earlier 0.5% reports retain their original meaning. Their original result
 snapshot and manifest are archived under `history/`; Git history retains the
 pre-extraction paths. See [migration provenance](../docs/REPOSITORY-SPLIT.md).
+
+The final publication uses the creator-approved private repository `encryptedvolume/LNTV-contracts`. After the full audit, only repository URLs, the interface manifest and hosted CI timeout changed; `npm run interface:check` passed again. Production source and audit tests/scripts are unchanged.

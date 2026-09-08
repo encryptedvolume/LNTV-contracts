@@ -299,5 +299,12 @@
     "Accepted uncapped extensions and floor increases without rank-change extension remain unchanged",
     "No public deployment, live auction wallet integration, or off-chain reveal backend",
     "Passing tests are not a proof of absence of defects"
-  ]
+  ],
+  "repositoryPublication": {
+    "repository": "https://github.com/encryptedvolume/LNTV-contracts",
+    "visibility": "private",
+    "approvedByCreator": "2026-09-08",
+    "changesSinceFullAudit": "Repository URL, interface manifest and CI timeout only; Solidity and audit tests/scripts unchanged",
+    "interfaceCheck": "PASS"
+  }
 }

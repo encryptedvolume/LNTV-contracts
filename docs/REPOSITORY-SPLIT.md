@@ -17,3 +17,5 @@ consult the dated split verification for current paths and evidence.
 
 The frontend receives only the versioned ABI/address interface, not Solidity
 sources or the audit toolchain. Both repositories remain private.
+
+The private contracts repository is [encryptedvolume/LNTV-contracts](https://github.com/encryptedvolume/LNTV-contracts), approved by the creator on 2026-09-08. This is the same GitHub account that hosts LNTV-posting. The frontend remains under fxckcomputer/LNTV and imports a pinned snapshot without private-repository credentials.

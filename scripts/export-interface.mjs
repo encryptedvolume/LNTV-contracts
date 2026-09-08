@@ -41,7 +41,7 @@ const files = {
   'package.json': json({ name: '@lntv/contracts-interface', version, private: true, type: 'module', main: './index.js', types: './index.d.ts' }),
 };
 files['manifest.json'] = json({
-  schemaVersion: 1, version, repository: 'https://github.com/fxckcomputer/LNTV-contracts', sourceSha256,
+  schemaVersion: 1, version, repository: 'https://github.com/encryptedvolume/LNTV-contracts', sourceSha256,
   files: Object.fromEntries(Object.entries(files).map(([path, content]) => [path, sha(content)])),
 });
 mkdirSync(resolve(root, 'interface'), { recursive: true });
