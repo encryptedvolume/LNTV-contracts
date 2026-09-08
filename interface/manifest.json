@@ -1,16 +1,16 @@
 {
   "schemaVersion": 1,
-  "version": "1.1.0",
+  "version": "2.0.0",
   "repository": "https://github.com/encryptedvolume/LNTV-contracts",
   "sourceSha256": {
-    "src/RankedAuction.sol": "ee85141991790851e711969b3703015b1a00362eb7f15addada31b6dc8f180bb",
+    "src/RankedAuction.sol": "0edfe997ba47b8ad425583c687bbe7803841fcffcf0ff5afe63ced97c2f8a0b7",
     "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
     "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
   },
   "files": {
-    "index.js": "9289e873464de3fdc35a682a66d1db4ec4a219d0ff4899ec3fdf65dac401ca87",
-    "index.d.ts": "121597bdac47a75c50ae54f0ca0c9709979fb20051b406f54366e31e503e2902",
+    "index.js": "4042b53e4575cc0210d8912b400243bac81902f3b376a137e0ef0b443a5efd9d",
+    "index.d.ts": "8a5a8a040e2a19ace468b16b8b6ff7683f55bebf56b5691942454afd88a2dfa5",
     "deployments.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
-    "package.json": "21b496a7f69bfb7287ae0f33ca551629c770bac6423534ce03027515f3a438f9"
+    "package.json": "0250d604fce8852d34f8dc86a2ae7779920451ca41d9cd750b9b047bb8c98be3"
   }
 }

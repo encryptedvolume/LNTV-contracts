@@ -6,7 +6,7 @@ The [current issue register](audit/ISSUES.md) records open work, accepted design
 
 Ranked-list mechanics are adapted from [Transient Labs TLRankedAuction](https://github.com/Transient-Labs/tl-ranked-auction/tree/4dd148d9fcfa4c96454393d1e8272e6e997dbf7c). The reference source and MIT attribution are included. Tiered pricing, reserved inventory, minting and royalty enforcement are this adaptation's design.
 
-The initial auction lasts exactly **48 hours**. Qualifying late bids leave ten minutes on the clock, without a total extension cap. Contract code, supply, reserve, start, metadata base URL, collection name/symbol and trading royalty rate are fixed. The shared payout wallet can be changed through nomination and acceptance. There is no proxy, pause, cancellation, arbitrary execution or rescue role. The deployer has no separate authority; set `PAYOUT_WALLET` to the deployer if it should own that role.
+The initial auction lasts exactly **48 hours**. Qualifying late bids leave ten minutes on the clock, without a total extension cap. Contract code, supply, reserve, start, metadata base URL, collection name/symbol and trading royalty rate are fixed. The shared payout wallet can be changed through nomination and acceptance. There is no proxy, pause, cancellation, arbitrary execution or early recovery role. Refunds expire 28 days after the final extended end; the current payout wallet can then recover the remaining auction ETH after settlement. The deployer has no separate authority; set `PAYOUT_WALLET` to the deployer if it should own that role.
 
 ## Auction rules
 
@@ -29,6 +29,8 @@ The initial auction lasts exactly **48 hours**. Qualifying late bids leave ten m
 | Extensions | New bids and rank-changing increases inside the final ten minutes reset remaining time to ten minutes; uncapped |
 | Settlement | Anyone after the current end; no recipient callbacks |
 | Winners | Claim tokens separately from crediting/withdrawing refunds |
+| Refund deadline | Credit and withdraw before `endTime + 28 days`; crediting alone does not preserve a refund |
+| Unclaimed auction ETH | Current payout wallet may recover it after settlement and the refund deadline; NFT claims remain available |
 | Unsold auction NFTs | Current payout wallet may claim unallocated IDs up to #90 after settlement |
 | Auction royalties | None; all tiered sale revenue becomes auction proceeds |
 | Shared payout wallet | Two-step replacement controls unwithdrawn business revenue and unclaimed creator inventory |
@@ -68,13 +70,13 @@ python3 -m venv .venv
 npm run audit
 ```
 
-`npm run audit` runs formatting, native-runner and mutation-runner regression tests, Slither with an exact reviewed-findings gate, production coverage, the extended fuzz/invariant suite, 60 intentional security mutations in an isolated copy, bytecode size checks, and a complete deployment/bidding/claims/resale/wallet-rotation rehearsal on a temporary local Anvil. It exits unsuccessfully on any failing gate. Local Anvil is shut down afterward. Reports are written to `audit/generated/`.
+`npm run audit` runs formatting, native-runner and mutation-runner regression tests, Slither with an exact reviewed-findings gate, production coverage, the extended fuzz/invariant suite, 73 intentional security mutations in an isolated copy, bytecode size checks, and a complete deployment/bidding/claims/resale/wallet-rotation rehearsal on a temporary local Anvil. It exits unsuccessfully on any failing gate. Local Anvil is shut down afterward. Reports are written to `audit/generated/`.
 
 The mutation campaign first requires the unmodified contracts to pass the same test selection and fixed seed. Each mutation must then fail at least two behavioral tests; configuration-only checks, compiler errors, setup failures, skipped tests and changed test inventories cannot satisfy that requirement. Explicit scenarios are required for the previously weak cases, including bidding at hour 47 and rejecting settlement at hour 24. The runner retains native Forge JSON, named test failures and input hashes. Use `python scripts/mutation_audit.py --output-dir <directory>` inside the audit virtual environment to retain a separate campaign without overwriting earlier evidence.
 
 The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x20260907 npm run audit` to run the current source with the 2026-09-07 re-audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts and randomized claim/refund ordering.
 
-Historical reports `audit/REPORT.md` and `audit/REAUDIT-2026-09-07.md` describe the earlier 0.5% increase snapshot; its original results and manifest are preserved under `audit/history/`. The current standalone-repository validation and attestation are documented in [the timing update audit](audit/TIMING-UPDATE-2026-09-08.md), `audit/results.json` and `audit/SHA256SUMS`. See [ISSUES.md](audit/ISSUES.md) for remaining findings.
+Historical reports `audit/REPORT.md` and `audit/REAUDIT-2026-09-07.md` describe the earlier 0.5% increase snapshot; its original results and manifest are preserved under `audit/history/`. The current standalone-repository validation and attestation are documented in [the refund recovery audit](audit/REFUND-RECOVERY-2026-09-08.md), `audit/results.json` and `audit/SHA256SUMS`. See [ISSUES.md](audit/ISSUES.md) for remaining findings.
 
 The native tool runner is also available directly:
 

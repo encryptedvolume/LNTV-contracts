@@ -49,6 +49,8 @@ def check(w3, auction_address, config):
     assert auction.functions.OUTBID_BPS().call(block_identifier=snapshot) == 500
     assert auction.functions.INCREASE_BPS().call(block_identifier=snapshot) == 250
     assert auction.functions.EXTENSION_WINDOW().call(block_identifier=snapshot) == 600
+    assert auction.functions.REFUND_CLAIM_PERIOD().call(block_identifier=snapshot) == 28 * 86400
+    assert auction.functions.refundDeadline().call(block_identifier=snapshot) == auction.functions.endTime().call(block_identifier=snapshot) + 28 * 86400
     assert edition.functions.metadataURI().call(block_identifier=snapshot) == config["METADATA_URI"]
     assert edition.functions.name().call(block_identifier=snapshot) == config["COLLECTION_NAME"]
     assert edition.functions.symbol().call(block_identifier=snapshot) == config["COLLECTION_SYMBOL"]

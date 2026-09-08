@@ -40,15 +40,15 @@ At every transaction boundary:
 
 ```text
 auction.balance >= escrow + totalRefunds + pendingProceeds
-totalRefunds = sum(refunds[wallet])
+totalRefunds = sum(unwithdrawn credited refunds), until recovery
 market.balance >= totalCredits = sum(credits[seller]) + market.pendingRoyalties
 ```
 
-Without forced ETH, both inequalities are equalities. Forced ETH never influences ranking, allocation, price, revenue or withdrawals. There is deliberately no surplus sweep; forced donations remain trapped, without affecting any legitimate entitlement.
+Without forced ETH, both inequalities are equalities. Forced ETH does not influence ranking, allocation, clearing prices, normal proceeds or refund credits. After settlement and the refund deadline, auction surplus is included in `withdrawUnclaimedETH`; marketplace surplus has no new recovery path.
 
-Before settlement, `escrow` is the sum of all active bids. Each eviction moves its payment from `escrow` to `refunds` and `totalRefunds`. Settlement computes `gross = topBid + clearingPrice * (activeCount - 1)` for a nonempty auction, or zero for an empty auction, removes exactly `gross` from `escrow`, and credits all of it to `pendingProceeds`. There is no primary-auction royalty. The head bid pays its full amount; all other winners pay the lowest winning bid at 90 occupied places, or reserve below capacity. A sole winner pays its full bid. Afterwards `escrow` contains only uncredited winner overpayments. `creditRefunds` moves each winner's `bid.amount - winningBidCost(id)` into that bidder's refund credit exactly once; duplicate credit requests are idempotent. Withdrawal zeros the caller's entitlement before the ETH interaction. A failure reverts the entire withdrawal, preserving the entitlement.
+Before settlement, `escrow` is the sum of all active bids. Each eviction moves its payment from `escrow` to `refunds` and `totalRefunds`. Settlement computes `gross = topBid + clearingPrice * (activeCount - 1)` for a nonempty auction, or zero for an empty auction, removes exactly `gross` from `escrow`, and credits all of it to `pendingProceeds`. There is no primary-auction royalty. The head bid pays its full amount; all other winners pay the lowest winning bid at 90 occupied places, or reserve below capacity. A sole winner pays its full bid. Afterwards `escrow` contains only uncredited winner overpayments. `creditRefunds` moves each winner's `bid.amount - winningBidCost(id)` into that bidder's refund credit exactly once; duplicate credit requests are idempotent. Before `refundDeadline()`, withdrawal zeros the caller's entitlement before the ETH interaction. A failure reverts the entire withdrawal, preserving the entitlement.
 
-Auction revenue can be withdrawn before any NFT claim; refund and mint entitlements remain protected. There is no dependence on the payout wallet, other bidders or any recipient callback to finish settlement. A rejecting ETH recipient can be changed by the entitled caller.
+Auction revenue can be withdrawn before any NFT claim. Refund entitlements are protected until the 28-day deadline; mint entitlements have no expiry. There is no dependence on the payout wallet, other bidders or any recipient callback to finish settlement. A rejecting ETH recipient can be changed by the entitled caller.
 
 ## NFT invariants
 
@@ -59,7 +59,7 @@ edition.totalSupply = tokensClaimed + unsold units claimed + reservedClaimed
 edition.totalSupply + unclaimed winning units + unsoldRemaining + reservedRemaining = 100  (after settlement)
 ```
 
-Mint claims accept 1–90 bid IDs and resolve their assigned ERC-721 token IDs. All claim flags and the aggregate claimed count are updated before the collection safely mints each NFT, with a separate ERC-721 receiver check for each token. A receiver rejecting a later NFT rolls back every mint and claim flag in that transaction; the winner can retry a smaller batch or choose a different recipient. During the batch, the collection increments totalSupply for each NFT before its callback. The supply equations above apply at transaction boundaries. Only a bid's owner can initiate its mint and choose the recipient. Third parties cannot force delivery to a bidding wallet ahead of the winner's redirect. Duplicates or an invalid bid revert the entire mint batch. Refund crediting is a separate operation so a failed receiver never locks the overpayment. The owner can retry with a compliant receiver. Unclaimed entitlements never expire or become unsold inventory.
+Mint claims accept 1–90 bid IDs and resolve their assigned ERC-721 token IDs. All claim flags and the aggregate claimed count are updated before the collection safely mints each NFT, with a separate ERC-721 receiver check for each token. A receiver rejecting a later NFT rolls back every mint and claim flag in that transaction; the winner can retry a smaller batch or choose a different recipient. During the batch, the collection increments totalSupply for each NFT before its callback. The supply equations above apply at transaction boundaries. Only a bid's owner can initiate its mint and choose the recipient. Third parties cannot force delivery to a bidding wallet ahead of the winner's redirect. Duplicates or an invalid bid revert the entire mint batch. Refund crediting is a separate operation so a failed receiver never locks the overpayment. The owner can retry with a compliant receiver. Unclaimed NFT entitlements never expire or become unsold inventory.
 
 Minting is auction-only and capped again in the token contract. There is no burn path and therefore no burn/remint cap bypass. The current payout wallet can claim only `90 - winningCount` unsold units. Winning ranks reserve IDs 1 through winningCount. Unsold claims mint sequential IDs from winningCount + 1 through 90, so they cannot consume a winner’s reserved token. The ten reserved NFTs occupy IDs 91–100. The current payout wallet may claim them independently in batches of 1 through `reservedRemaining`, at any auction phase. Reserved and unsold counters decrement before safe-mint callbacks and roll back with any failed batch. Two-step wallet rotation moves only unclaimed inventory authority; already minted NFTs remain with their owners. Neither inventory pool can consume a winning ID or each other's allocation. Reserved mints create no ETH proceeds or royalties.
 
@@ -87,7 +87,7 @@ ERC-721 _update enforces the marketplace restriction for transferFrom and both s
 
 Only the current wallet can call `proposePayoutWallet(newWallet)` or `cancelPayoutWalletChange()`. Only the pending wallet can call `acceptPayoutWallet()`. Acceptance clears the pending address, updates the current wallet, and emits an event without sending funds. A current wallet can replace or cancel an unaccepted nomination. Zero, current, auction, edition and marketplace addresses are rejected as nominees. System addresses are also rejected during construction.
 
-After acceptance the old wallet loses authority over all unwithdrawn auction proceeds, all accrued/future trading royalties, and unclaimed reserved/unsold NFTs. The old wallet still owns its personal seller credits, bids, refunds and winning NFTs. Already withdrawn funds never move. All auction settings and the royalty percentage stay fixed. This same role controls unclaimed reserved and unsold inventory, but cannot take a winner's ID, change the metadata base, set off-chain reveal permissions through the contract or take personal funds. Every state-changing auction payout-management, inventory-claim and withdrawal entry point is nonReentrant. No extra recovery authority exists if the current key is lost before a nomination.
+After acceptance the old wallet loses authority over all unwithdrawn auction proceeds, all accrued/future trading royalties, and unclaimed reserved/unsold NFTs. The old wallet still owns its personal seller credits, bids, unexpired refunds and winning NFTs. Already withdrawn funds never move. All auction settings and the royalty percentage stay fixed. This same role controls unclaimed reserved and unsold inventory, but cannot take a winner's ID, change the metadata base, set off-chain reveal permissions through the contract or take personal seller credits or unexpired bidder refunds. After the refund deadline it can recover unclaimed auction ETH, including expired bidder refunds. Every state-changing auction payout-management, inventory-claim and withdrawal entry point is nonReentrant. No extra recovery authority exists if the current key is lost before a nomination.
 
 ## Comparison to the reference
 
@@ -104,3 +104,30 @@ After acceptance the old wallet loses authority over all unwithdrawn auction pro
 | No collection transfer policy in the auction | Fixed trading royalty rate, shared mutable recipient, restricted royalty-paying market |
 
 The reference source is preserved as `.sol.txt` for review and is not compiled or deployed. The reference's ERC-721 tests cannot serve as an audit of this adaptation. This package uses its own independent array model, adversarial receivers, lifecycle and mutation tests.
+
+## Refund expiry and unclaimed ETH
+
+`REFUND_CLAIM_PERIOD` is fixed at 28 days. `refundDeadline()` returns the current
+`endTime + 28 days`, so extensions also extend the projected refund deadline.
+After bidding ends this deadline is final; settlement timing cannot reset it.
+Both `creditRefunds` and `withdrawRefund` reject at or after that timestamp.
+Crediting a refund is not withdrawal and does not exempt it from expiry.
+`refunds(wallet)` returns only the currently withdrawable credited amount and
+returns zero at expiry. Private ledger entries and per-bid history can remain in
+storage after expiry; they cannot be used to resurrect credits or withdraw ETH.
+
+After settlement and at/after the deadline, only the current `payoutWallet` may
+call `withdrawUnclaimedETH(recipient)`. It sends the entire remaining auction
+balance: expired displaced-bid credits, credited or uncredited winner excess,
+unwithdrawn primary proceeds and any forced ETH surplus. The function zeros
+`escrow`, `totalRefunds` and `pendingProceeds` before calling the recipient and
+uses the reentrancy guard. A failed transfer rolls back all effects. An empty
+recovery reverts; later forced ETH can be recovered by another call.
+
+Until recovery, the accounting totals still include expired refunds now
+recoverable by the payout wallet; they need not equal the sum of the public
+`refunds(wallet)` getter after expiry. `liabilities()` remains the sum of the three
+accounted buckets and excludes forced surplus. After a successful recovery all
+three buckets are zero. Token allocation, NFT claims and marketplace seller
+credits/royalties are unaffected by recovery. Normal `withdrawProceeds` remains
+available after settlement, before or after the refund deadline.

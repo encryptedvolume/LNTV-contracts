@@ -41,6 +41,7 @@ contract RankedAuction is ReentrancyGuard {
     uint256 public constant RESERVED_SUPPLY = 10;
     uint256 public constant AUCTION_DURATION = 48 hours;
     uint256 public constant EXTENSION_WINDOW = 10 minutes;
+    uint256 public constant REFUND_CLAIM_PERIOD = 28 days;
     uint256 public constant MAX_BID = type(uint128).max;
     uint256 public constant OUTBID_BPS = 500;
     uint256 public constant INCREASE_BPS = 250;
@@ -68,7 +69,7 @@ contract RankedAuction is ReentrancyGuard {
     uint256 public totalRefunds;
     uint256 public pendingProceeds;
     mapping(uint256 => Bid) public bids;
-    mapping(address => uint256) public refunds;
+    mapping(address => uint256) private _refunds;
 
     error InvalidConfiguration();
     error BiddingClosed();
@@ -86,6 +87,8 @@ contract RankedAuction is ReentrancyGuard {
     error TransferFailed();
     error InvalidPayoutWallet();
     error NoPendingPayoutWallet();
+    error RefundClaimPeriodExpired();
+    error RefundClaimPeriodNotEnded();
 
     event BidCreated(uint256 indexed id, address indexed bidder, uint256 amount);
     event BidIncreased(uint256 indexed id, uint256 amount);
@@ -98,6 +101,7 @@ contract RankedAuction is ReentrancyGuard {
     event UnsoldClaimed(address indexed recipient, uint256 firstTokenId, uint256 quantity);
     event RefundWithdrawn(address indexed bidder, address indexed recipient, uint256 amount);
     event ProceedsWithdrawn(address indexed recipient, uint256 amount);
+    event UnclaimedETHWithdrawn(address indexed recipient, uint256 amount);
     event PayoutWalletProposed(address indexed currentWallet, address indexed proposedWallet);
     event PayoutWalletChangeCancelled(address indexed cancelledWallet);
     event PayoutWalletChanged(address indexed previousWallet, address indexed newWallet);
@@ -179,7 +183,7 @@ contract RankedAuction is ReentrancyGuard {
             displaced.refundCredited = true;
             uint256 amount = displaced.amount;
             escrow -= amount;
-            refunds[displaced.bidder] += amount;
+            _refunds[displaced.bidder] += amount;
             totalRefunds += amount;
             emit BidDisplaced(displacedId, displaced.bidder, amount);
         }
@@ -229,10 +233,11 @@ contract RankedAuction is ReentrancyGuard {
         return id == head ? bids[id].amount : clearingPrice;
     }
 
-    /// @notice Anyone can credit winner overpayments; refunds always belong to the original bidder.
-    /// @dev Independent of NFT delivery, so a rejecting ERC-721 receiver can still obtain its refund.
+    /// @notice Anyone can credit winner overpayments to the original bidder before refundDeadline().
+    /// @dev Independent of NFT delivery. Both crediting and withdrawing must finish before refundDeadline().
     function creditRefunds(uint256[] calldata ids) external nonReentrant {
         _requireSettledBatch(ids.length);
+        _requireRefundPeriod();
         uint256 credited;
         for (uint256 i; i < ids.length; ++i) {
             uint256 id = ids[i];
@@ -242,7 +247,7 @@ contract RankedAuction is ReentrancyGuard {
             bid.refundCredited = true;
             uint256 amount = uint256(bid.amount) - winningBidCost(id);
             credited += amount;
-            refunds[bid.bidder] += amount;
+            _refunds[bid.bidder] += amount;
             emit RefundCredited(id, bid.bidder, amount);
         }
         escrow -= credited;
@@ -298,9 +303,21 @@ contract RankedAuction is ReentrancyGuard {
         emit ReservedClaimed(recipient, firstTokenId, quantity);
     }
 
+    /// @notice Refunds expire 28 days after the final extended end, irrespective of settlement time.
+    /// @dev This projected deadline moves with endTime while bidding remains live.
+    function refundDeadline() public view returns (uint256) {
+        return endTime + REFUND_CLAIM_PERIOD;
+    }
+
+    /// @notice Currently withdrawable credit; returns zero once the refund period expires.
+    function refunds(address bidder) external view returns (uint256) {
+        return block.timestamp < refundDeadline() ? _refunds[bidder] : 0;
+    }
+
     function withdrawRefund(address payable recipient) external nonReentrant {
-        uint256 amount = refunds[msg.sender];
-        refunds[msg.sender] = 0;
+        _requireRefundPeriod();
+        uint256 amount = _refunds[msg.sender];
+        _refunds[msg.sender] = 0;
         totalRefunds -= amount;
         _send(recipient, amount);
         emit RefundWithdrawn(msg.sender, recipient, amount);
@@ -314,7 +331,22 @@ contract RankedAuction is ReentrancyGuard {
         emit ProceedsWithdrawn(recipient, amount);
     }
 
-    /// @notice Total protected ETH. Forced ETH is surplus, and never changes the clearing price or liabilities.
+    /// @notice After settlement and the refund deadline, the current payout wallet can withdraw all remaining ETH.
+    /// @dev Includes expired credited/uncredited refunds, unwithdrawn proceeds and forced surplus. NFT claims survive.
+    function withdrawUnclaimedETH(address payable recipient) external nonReentrant {
+        if (msg.sender != payoutWallet) revert Unauthorized();
+        if (!settled) revert NotSettled();
+        if (block.timestamp < refundDeadline()) revert RefundClaimPeriodNotEnded();
+        uint256 amount = address(this).balance;
+        escrow = 0;
+        totalRefunds = 0;
+        pendingProceeds = 0;
+        _send(recipient, amount);
+        emit UnclaimedETHWithdrawn(recipient, amount);
+    }
+
+    /// @notice Accounted ETH; after expiry the remaining refund balances are recoverable by the payout wallet.
+    /// @dev Forced ETH is surplus and does not change clearing prices or these accounting totals.
     function liabilities() public view returns (uint256) {
         return escrow + totalRefunds + pendingProceeds;
     }
@@ -339,6 +371,10 @@ contract RankedAuction is ReentrancyGuard {
 
     function _requireLive() private view {
         if (phase() != Phase.Live) revert BiddingClosed();
+    }
+
+    function _requireRefundPeriod() private view {
+        if (block.timestamp >= refundDeadline()) revert RefundClaimPeriodExpired();
     }
 
     function _requireSettledBatch(uint256 length) private view {

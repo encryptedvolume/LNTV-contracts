@@ -1,5 +1,7 @@
 # Auction timing update — 2026-09-08
 
+> Historical timing-only snapshot: the subsequent [refund recovery update](REFUND-RECOVERY-2026-09-08.md) adds a 28-day refund deadline. Its current evidence supersedes this report. Prior results and checksums are archived in `history/2026-09-08-pre-refund-expiry-*`.
+
 The creator requested a 48-hour initial auction, a ten-minute rolling closing
 window, and no 24-hour limit on extensions. The existing contract already had
 no cumulative cap. The only production Solidity changes are
