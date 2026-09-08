@@ -129,7 +129,9 @@ contract MutationBehaviorTest is TestBase {
     function testPurchasedNftRequiresAnotherRoyaltyPayingSaleToTransferAgain() public {
         _sellReservedToBob();
         vm.prank(bob);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
+        vm.expectRevert(
+            bytes4(keccak256("StrictAuthorizedTransferSecurityRegistry__CallerMustBeWhitelistedOperator()"))
+        );
         edition.safeTransferFrom(bob, carol, 91);
         assertEq(edition.ownerOf(91), bob);
         assertEq(edition.transferNonce(91), 1);
@@ -258,12 +260,14 @@ contract MutationBehaviorTest is TestBase {
         assertEq(edition.totalSupply(), 2);
     }
 
-    function testPurchasedNftRejectsTokenApprovalToFormerSeller() public {
+    function testPurchasedNftApprovalDoesNotBypassRegistryAndClearsAfterResale() public {
         _sellReservedToBob();
         vm.prank(bob);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
         edition.approve(alice, 91);
-        assertEq(edition.getApproved(91), address(0));
+        assertEq(edition.getApproved(91), alice);
+        vm.prank(alice);
+        vm.expectRevert(bytes4(keccak256("StrictAuthorizedTransferSecurityRegistry__UnauthorizedTransfer()")));
+        edition.transferFrom(bob, alice, 91);
         uint256 resale = _list(bob, 91, 2 ether);
         vm.prank(carol);
         market.buy{ value: 2 ether }(resale, carol);

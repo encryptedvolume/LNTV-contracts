@@ -3,6 +3,8 @@
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+expected = {str(path.relative_to(ROOT)) for path in (ROOT / "src").rglob("*.sol")}
+assert expected, "No production sources found"
 seen = set()
 for record in (ROOT / "lcov.info").read_text().split("end_of_record"):
     lines = record.strip().splitlines()
@@ -12,5 +14,5 @@ for record in (ROOT / "lcov.info").read_text().split("end_of_record"):
         seen.add(path)
         for found, hit in [("LF", "LH"), ("BRF", "BRH"), ("FNF", "FNH")]:
             assert fields[found] == fields[hit], f"Incomplete {found} coverage in {path}: {fields[hit]}/{fields[found]}"
-assert seen == {"src/RankedAuction.sol", "src/AuctionEdition.sol", "src/RoyaltyMarketplace.sol"}, "Missing production coverage"
+assert seen == expected, f"Production coverage inventory mismatch: missing={expected - seen}, unexpected={seen - expected}"
 print("PASS: all production contracts have 100% instrumented line, branch and function coverage.")

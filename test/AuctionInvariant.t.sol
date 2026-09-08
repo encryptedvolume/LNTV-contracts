@@ -2,6 +2,7 @@
 pragma solidity 0.8.28;
 
 import { Test } from "forge-std/Test.sol";
+import { TradingTestSetup } from "./TradingTestSetup.sol";
 import { StdInvariant } from "forge-std/StdInvariant.sol";
 import { RankedAuction } from "../src/RankedAuction.sol";
 import { AuctionEdition } from "../src/AuctionEdition.sol";
@@ -280,7 +281,7 @@ contract AuctionHandler is Test {
     }
 }
 
-abstract contract AuctionInvariantBase is StdInvariant, Test {
+abstract contract AuctionInvariantBase is StdInvariant, TradingTestSetup {
     AuctionHandler internal handler;
 
     function initialize(uint256 initialBids) internal {

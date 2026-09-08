@@ -1,0 +1,69 @@
+{
+  "date": "2026-09-08",
+  "version": "3.3.0",
+  "status": "PARTIAL",
+  "scope": "Creator-requested admin metadata and non-ETH token rescue additions; focused verification only",
+  "sourceSha256": {
+    "src/AuctionEdition.sol": "c80d4f2104b7a33449f1228e4b27169d77d752ab2e791a381beb64b5af7f461e",
+    "src/RankedAuction.sol": "804449f989d099500f9857553055993da69bcf04862b1ecf7ea8d101f89cecbc",
+    "src/RoyaltyMarketplace.sol": "eaf99f7b0950c843283e28887bb63b948a62d0590d2f6e83f6fbd72f0480939f",
+    "src/TokenRescue.sol": "bb8587c8ea3f380764fa4563d3aaf296d4f83760258e0b0542b5e68566cd907d"
+  },
+  "focusedSolidityTests": {
+    "passed": 14,
+    "failed": 0,
+    "skipped": 0,
+    "selection": "AdminFeaturesTest|MetadataTest",
+    "evidence": "audit/generated/admin-focused.log"
+  },
+  "build": {
+    "result": "PASS",
+    "runtimeBytes": {
+      "RankedAuction": 11973,
+      "AuctionEdition": 8336,
+      "RoyaltyMarketplace": 5944
+    },
+    "initBytes": {
+      "RankedAuction": 29098,
+      "AuctionEdition": 15668,
+      "RoyaltyMarketplace": 6105
+    }
+  },
+  "format": "PASS",
+  "frontendInterface": {
+    "version": "3.3.0",
+    "freshBuildMatchesExports": true,
+    "publicDeploymentsRecorded": 0,
+    "frontendChangesDeferredByCreator": true
+  },
+  "fullAudit": {
+    "status": "NOT_RUN_AT_CREATOR_REQUEST",
+    "staticReview": "Previous source-pinned approval retained; must be refreshed for new source",
+    "coverage": "NOT_RUN",
+    "fuzzAndInvariants": "NOT_RUN",
+    "mutations": "NOT_RUN",
+    "lifecycleRehearsal": "NOT_RUN"
+  },
+  "acceptedDesignFinding": {
+    "id": "R-01",
+    "quotedSeverity": "High",
+    "title": "payout wallet can confiscate all bidder refunds",
+    "status": "ACCEPTED_BY_DESIGN",
+    "recoveryDelaySeconds": 2419200,
+    "anchor": "first successful settlement (settledAt)",
+    "automaticRefundExpiry": false,
+    "refundsCloseOn": "successful withdrawUnclaimedETH only",
+    "decision": "audit/REFUND-RECOVERY-DESIGN-2026-09-08.md"
+  },
+  "previousEvidence": {
+    "commit": "08718d4",
+    "results": "audit/history/2026-09-08-pre-admin-results.json",
+    "manifest": "audit/history/2026-09-08-pre-admin-SHA256SUMS"
+  },
+  "limitations": [
+    "Full audit waived for this addition; Claude will audit. No comprehensive audit PASS claimed.",
+    "Existing deployments require redeployment. No public deployment performed.",
+    "Foreign-token rescue excludes the LNTV collection and never transfers ETH.",
+    "Metadata can now be changed by the current payout wallet; off-chain reveal service remains separate."
+  ]
+}

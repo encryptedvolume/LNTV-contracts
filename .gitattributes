@@ -1,2 +1,7 @@
 audit/generated/** -whitespace
 reference/** -whitespace
+audit/history/** -whitespace
+lib/creator-token-standards/** -whitespace
+lib/openzeppelin-contracts-v4/** -whitespace
+lib/permit-c/** -whitespace
+test/vendor/** -whitespace

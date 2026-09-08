@@ -1,6 +1,6 @@
 {
   "name": "@lntv/contracts",
-  "version": "3.3.0",
+  "version": "4.0.0",
   "private": true,
   "description": "LNTV ERC-721 ranked auction contracts, audit suite, and frontend interface",
   "engines": {
@@ -16,7 +16,8 @@
     "deploy:dry": "node scripts/foundry.mjs forge script script/Deploy.s.sol:Deploy --sig 'run()'",
     "audit": "bash scripts/audit.sh",
     "interface:export": "node scripts/export-interface.mjs",
-    "interface:check": "node scripts/export-interface.mjs --check"
+    "interface:check": "node scripts/export-interface.mjs --check",
+    "audit:nonmutation": "bash scripts/audit.sh --skip-mutations"
   },
   "devDependencies": {
     "@foundry-rs/forge": "1.7.1",

@@ -1,0 +1,36 @@
+Compiling 1 files with Solc 0.8.28
+Solc 0.8.28 finished in 1.97s
+Compiler run successful with warnings:
+Warning (5159): "selfdestruct" has been deprecated. Note that, starting from the Cancun hard fork, the underlying opcode no longer deletes the code and data associated with an account and only transfers its Ether to the beneficiary, unless executed in the same transaction in which the contract was created (see EIP-6780). Any use in newly deployed contracts is strongly discouraged even if the new behavior is taken into account. Future changes to the EVM might further reduce the functionality of the opcode.
+   --> test/TestBase.sol:147:9:
+    |
+147 |         selfdestruct(to);
+    |         ^^^^^^^^^^^^
+
+Warning (2018): Function state mutability can be restricted to pure
+   --> test/vendor/opensea-zone/src/main/zones/signed-zone/signed-zone-sub-1/SignedZone.sol:430:5:
+    |
+430 |     function supportsInterface(
+    |     ^ (Relevant source part starts here and spans across multiple lines).
+
+
+Ran 16 tests for test/OpenSeaIntegration.t.sol:OpenSeaIntegrationTest
+[PASS] testActualOpenSeaConduitPaysTenPercent() (gas: 319861)
+[PASS] testActualSeaportAndSignedZonePayTenPercentAndClearAuthorization() (gas: 316166)
+[PASS] testActualSeaportERC20OfferAcceptancePaysTenPercent() (gas: 719681)
+[PASS] testConduitApprovalAloneCannotBypassRoyalties() (gas: 184295)
+[PASS] testConfigurationRejectsMissingRegistryAndUnauthorizedCaller() (gas: 46972)
+[PASS] testCreatorTokenInterfacesAndStrictRegistryConfiguration() (gas: 59606)
+[PASS] testFilledSeaportOrderCannotReplay() (gas: 284592)
+[PASS] testMissingFakeExpiredAndWrongFulfillerSignaturesFail() (gas: 215781)
+[PASS] testOpenSeaTransferInvalidatesExistingLocalListing() (gas: 523317)
+[PASS] testOrdinarySeaportOrderCannotBypassRoyalties() (gas: 108113)
+[PASS] testOtherCompatibleMarketplaceTradesWithoutCustomMarket() (gas: 684177)
+[PASS] testRemovingRoyaltyCannotReuseZoneAuthorization() (gas: 105829)
+[PASS] testRotationMovesCreatorTokenAdministrationAndNewSaleRoyalties() (gas: 276573)
+[PASS] testUnconfiguredEditionCanMintButCannotTransfer() (gas: 3819196)
+[PASS] testUnsetValidatorCannotDisableEnforcement() (gas: 524377)
+[PASS] testZoneAuthorizationCannotMoveAnotherToken() (gas: 110688)
+Suite result: ok. 16 passed; 0 failed; 0 skipped; finished in 14.17ms (30.22ms CPU time)
+
+Ran 1 test suite in 20.82ms (14.17ms CPU time): 16 tests passed, 0 failed, 0 skipped (16 total tests)

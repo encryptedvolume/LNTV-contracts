@@ -41,6 +41,19 @@ class AuditGateTests(unittest.TestCase):
             source.write("\n// changed\n")
         self.assertNotEqual(self.static_gate(), 0)
 
+    def test_new_production_source_requires_static_review(self):
+        (self.root / "src/Unreviewed.sol").write_text("pragma solidity 0.8.28; contract Unreviewed {}")
+        self.assertNotEqual(self.static_gate(), 0)
+
+    def test_changed_rescue_source_requires_static_review(self):
+        with (self.root / "src/TokenRescue.sol").open("a") as source:
+            source.write("\n// changed\n")
+        self.assertNotEqual(self.static_gate(), 0)
+
+    def test_new_production_source_requires_coverage(self):
+        (self.root / "src/Uncovered.sol").write_text("pragma solidity 0.8.28; contract Uncovered {}")
+        self.assertNotEqual(self.coverage_gate(), 0)
+
     def test_missing_finding_requires_new_review(self):
         self.report["results"]["detectors"].pop()
         self.assertNotEqual(self.static_gate(), 0)
@@ -50,7 +63,7 @@ class AuditGateTests(unittest.TestCase):
         self.assertNotEqual(self.static_gate(), 0)
 
     def coverage_gate(self, hit=1, omit=False):
-        contracts = ["AuctionEdition", "RankedAuction", "RoyaltyMarketplace"]
+        contracts = ["AuctionEdition", "RankedAuction", "RoyaltyMarketplace", "TokenRescue"]
         if omit:
             contracts.pop()
         records = [f"SF:src/{name}.sol\nLF:1\nLH:{hit}\nBRF:1\nBRH:1\nFNF:1\nFNH:1\nend_of_record\n" for name in contracts]

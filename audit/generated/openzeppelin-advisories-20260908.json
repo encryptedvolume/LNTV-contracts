@@ -1,0 +1,560 @@
+[
+  {
+    "ghsa_id": "GHSA-9rcw-c2f9-2j55",
+    "summary": "Bytes's lastIndexOf function with position argument performs out-of-bound memory access on empty buffers",
+    "severity": "low",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-9rcw-c2f9-2j55",
+    "published_at": "2025-07-17T16:42:28Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=5.2.0",
+        "patched_versions": "5.4.0",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=5.2.0",
+        "patched_versions": "5.4.0",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-9vx6-7xxf-x967",
+    "summary": "Base64 encoding may read from potentially dirty memory",
+    "severity": "low",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-9vx6-7xxf-x967",
+    "published_at": "2024-02-29T17:38:34Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.5.0 <5.0.2",
+        "patched_versions": "5.0.2,4.9.6",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.5.0 <5.0.2",
+        "patched_versions": "5.0.2,4.9.6",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-699g-q6qh-q4v8",
+    "summary": "Duplicated execution of subcalls in v4.9.4",
+    "severity": "medium",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-699g-q6qh-q4v8",
+    "published_at": "2023-12-08T21:34:12Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": "4.9.4",
+        "patched_versions": "4.9.5",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": "4.9.4",
+        "patched_versions": "4.9.5",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-g4vp-m682-qqmp",
+    "summary": "ERC2771Context with custom forwarder may lead to zero-valued _msgSender",
+    "severity": "low",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-g4vp-m682-qqmp",
+    "published_at": "2023-08-10T18:15:42Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.0.0 <4.9.3",
+        "patched_versions": "4.9.3",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.0.0 <4.9.3",
+        "patched_versions": "4.9.3",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-wprv-93r4-jj2p",
+    "summary": "MerkleProof multiproofs may allow proving arbitrary leaves for specific trees",
+    "severity": "medium",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-wprv-93r4-jj2p",
+    "published_at": "2023-06-16T21:04:17Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.7.0 <4.9.2",
+        "patched_versions": "4.9.2",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.7.0 <4.9.2",
+        "patched_versions": "4.9.2",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-5h3x-9wvq-w4m2",
+    "summary": "Governor proposal creation may be blocked by frontrunning",
+    "severity": "medium",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-5h3x-9wvq-w4m2",
+    "published_at": "2023-06-07T01:47:52Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.3.0 <4.9.1",
+        "patched_versions": "4.9.1",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.3.0 <4.9.1",
+        "patched_versions": "4.9.1",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-mx2q-35m2-x2rh",
+    "summary": "TransparentUpgradeableProxy clashing selector calls may not be delegated",
+    "severity": "low",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-mx2q-35m2-x2rh",
+    "published_at": "2023-04-13T20:44:02Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=3.2.0 <4.8.3",
+        "patched_versions": "4.8.3",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=3.2.0 <4.8.3",
+        "patched_versions": "4.8.3",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-93hq-5wgc-jc82",
+    "summary": "GovernorCompatibilityBravo may trim proposal calldata",
+    "severity": "medium",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-93hq-5wgc-jc82",
+    "published_at": "2023-04-13T20:43:58Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.3.0 <4.8.3",
+        "patched_versions": "4.8.3",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.3.0 <4.8.3",
+        "patched_versions": "4.8.3",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-878m-3g6q-594q",
+    "summary": "ERC721Consecutive incorrect balance update with batch of 1",
+    "severity": "medium",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-878m-3g6q-594q",
+    "published_at": "2023-03-02T23:24:58Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.8.0 <4.8.2",
+        "patched_versions": "4.8.2",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.8.0 <4.8.2",
+        "patched_versions": "4.8.2",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-4h98-2769-gh6h",
+    "summary": "ECDSA signature malleability",
+    "severity": "high",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-4h98-2769-gh6h",
+    "published_at": "2022-08-10T19:12:47Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">= 4.1.0 < 4.7.3",
+        "patched_versions": "4.7.3",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">= 4.1.0 < 4.7.3",
+        "patched_versions": "4.7.3",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-9j3m-g383-29qr",
+    "summary": "Cross chain utilities for Arbitrum L2 see EOA calls as cross chain calls",
+    "severity": "low",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-9j3m-g383-29qr",
+    "published_at": "2022-07-28T16:00:58Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">= 4.6.0 < 4.7.2",
+        "patched_versions": "4.7.2",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">= 4.6.0 < 4.7.2",
+        "patched_versions": "4.7.2",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-xrc4-737v-9q75",
+    "summary": "GovernorVotesQuorumFraction updates to quorum may affect past defeated proposals",
+    "severity": "high",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-xrc4-737v-9q75",
+    "published_at": "2022-07-28T16:00:52Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">= 4.3.0 < 4.7.2",
+        "patched_versions": "4.7.2",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">= 4.3.0 < 4.7.2",
+        "patched_versions": "4.7.2",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-7grf-83vw-6f5x",
+    "summary": "ERC165Checker unbounded gas consumption",
+    "severity": "medium",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-7grf-83vw-6f5x",
+    "published_at": "2022-07-28T16:00:55Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=2.0.0 < 4.7.2",
+        "patched_versions": "4.7.2",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "openzeppelin-solidity"
+        },
+        "vulnerable_version_range": ">=2.0.0",
+        "patched_versions": "",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=3.2.0 < 4.7.2",
+        "patched_versions": "4.7.2",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "openzeppelin-eth"
+        },
+        "vulnerable_version_range": ">=2.0.0",
+        "patched_versions": "",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-4g63-c64m-25w9",
+    "summary": "SignatureChecker may revert on invalid EIP-1271 signers",
+    "severity": "medium",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-4g63-c64m-25w9",
+    "published_at": "2022-07-20T14:29:46Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">= 4.1.0 <4.7.1",
+        "patched_versions": "4.7.1",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">= 4.1.0 <4.7.1",
+        "patched_versions": "4.7.1",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-qh9x-gcfh-pcrw",
+    "summary": "ERC165Checker may revert instead of returning false",
+    "severity": "high",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-qh9x-gcfh-pcrw",
+    "published_at": "2022-07-20T14:29:50Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.0.0 <4.7.1",
+        "patched_versions": "4.7.1",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.0.0 <4.7.1",
+        "patched_versions": "4.7.1",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-m6w8-fq7v-ph4m",
+    "summary": "GovernorCompatibilityBravo incorrect ABI encoding may lead to unexpected behavior",
+    "severity": "medium",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-m6w8-fq7v-ph4m",
+    "published_at": "2022-01-11T23:15:41Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.3.0 <4.4.2",
+        "patched_versions": "4.4.2",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.3.0 <4.4.2",
+        "patched_versions": "4.4.2",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-9c22-pwxw-p6hx",
+    "summary": "Initializer reentrancy may lead to double initialization",
+    "severity": "low",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-9c22-pwxw-p6hx",
+    "published_at": "2021-12-14T19:07:16Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=3.2.0 <4.4.1",
+        "patched_versions": "4.4.1",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=3.2.0 <4.4.1",
+        "patched_versions": "4.4.1",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-wmpv-c2jp-j2xg",
+    "summary": "ERC1155Supply vulnerability in OpenZeppelin Contracts",
+    "severity": "low",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-wmpv-c2jp-j2xg",
+    "published_at": "2021-11-15T15:00:53Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">= 4.2.0 < 4.3.3",
+        "patched_versions": "4.3.3",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">= 4.2.0 < 4.3.3",
+        "patched_versions": "4.3.3",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-5vp3-v4hc-gx76",
+    "summary": "UUPSUpgradeable vulnerability in OpenZeppelin Contracts",
+    "severity": "critical",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-5vp3-v4hc-gx76",
+    "published_at": "2021-09-14T21:17:11Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">= 4.1.0 < 4.3.2",
+        "patched_versions": "4.3.2",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">= 4.1.0 < 4.3.2",
+        "patched_versions": "4.3.2",
+        "vulnerable_functions": []
+      }
+    ]
+  },
+  {
+    "ghsa_id": "GHSA-fg47-3c2x-m2wr",
+    "summary": "TimelockController vulnerability in OpenZeppelin Contracts",
+    "severity": "critical",
+    "html_url": "https://github.com/OpenZeppelin/openzeppelin-contracts/security/advisories/GHSA-fg47-3c2x-m2wr",
+    "published_at": "2021-08-26T21:04:49Z",
+    "vulnerabilities": [
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts"
+        },
+        "vulnerable_version_range": ">=4.0.0 <=4.3.0, >=3.3.0 <=3.4.1, 3.3.0-solc-0.7, 3.4.0-solc-0.7, 3.4.1-solc-0.7-2",
+        "patched_versions": "4.3.1, 3.4.2, 3.4.2-solc-0.7",
+        "vulnerable_functions": []
+      },
+      {
+        "package": {
+          "ecosystem": "npm",
+          "name": "@openzeppelin/contracts-upgradeable"
+        },
+        "vulnerable_version_range": ">=4.0.0 <=4.3.0, >=3.3.0 <=3.4.1, 3.3.0-solc-0.7, 3.4.0-solc-0.7, 3.4.1-solc-0.7-2",
+        "patched_versions": "4.3.1, 3.4.2, 3.4.2-solc-0.7",
+        "vulnerable_functions": []
+      }
+    ]
+  }
+]

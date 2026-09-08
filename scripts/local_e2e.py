@@ -8,10 +8,12 @@ import subprocess
 import tempfile
 import time
 
+from local_trading_setup import configure_local_trading
 from web3 import Web3
 from check_deployment import check
 from refund_recovery_e2e import run_refund_recovery
 from batch_bidding_e2e import run_batch_bidding
+from admin_features_e2e import run_admin_features
 
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "audit/generated"
@@ -23,7 +25,8 @@ def native(tool):
 
 
 def artifact(name):
-    return json.loads((ROOT / f"out/{name}.sol/{name}.json").read_text())
+    source_file = "AdminFeatures.t.sol" if name in {"RescueCoin", "RescueNFT", "RescueMultiToken"} else f"{name}.sol"
+    return json.loads((ROOT / f"out/{source_file}/{name}.json").read_text())
 
 
 def main():
@@ -102,6 +105,8 @@ def main():
             finally:
                 w3.provider.make_request("anvil_setCode", [auction.address, "0x" + original_code.hex()])
                 w3.provider.make_request("evm_mine", [])
+            configure_local_trading(w3, edition, payout, artifact)
+            assert check(w3, auction.address, dict(env, REQUIRE_ENFORCED_TRADING="true"))["result"] == "PASS"
             gas = {"atomic_deployment": deployment_receipt.gasUsed}
             timed_transactions = []
 
@@ -235,7 +240,9 @@ def main():
             functions = {entry["name"] for entry in artifact("AuctionEdition")["abi"] if entry["type"] == "function"}
             assert not functions.intersection({"reveal", "enableReveals", "revealsEnabled", "revealed"})
             assert edition.functions.tokenURI(3).call() == "https://metadata.example/local-e2e/3.json"
-            assert gas["atomic_deployment"] < 6_000_000
+            # 4.0.0 includes upstream ERC721-C and registry configuration APIs.
+            # Keep deployment below the rehearsal transaction limit of 8 million gas.
+            assert gas["atomic_deployment"] < 7_500_000, gas["atomic_deployment"]
             assert gas["worst_bid"] < 1_500_000
             assert gas["settle"] < 2_000_000
             assert gas["claim_88"] < 5_000_000
@@ -245,7 +252,7 @@ def main():
                       "auctionRoyalties": 0, "initialPayoutWallet": payout, "finalPayoutWallet": next_payout,
                       "walletRotation": "Two-step acceptance, old-wallet revocation, accrued and future revenue",
                       "secondarySales": 2,
-                      "tokenStandard": "ERC-721", "tokenIds": "1-90 by final rank; 91-100 reserved",
+                      "tokenStandard": "ERC721-C (ERC-721 compatible)", "tokenIds": "1-90 by final rank; 91-100 reserved",
                       "metadata": "Admin-updatable per-token off-chain endpoints; reveal policy belongs to the metadata service",
                       "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
                       "initialDurationSeconds": 172800, "auctionedSupply": 90, "reservedSupply": 10,
@@ -256,6 +263,7 @@ def main():
                       "claimAuthorization": "Third-party forced mint rejected; winning bidders claim successfully"}
             result["refundRecovery"] = run_refund_recovery(w3, artifact)
             result["batchBidding"] = run_batch_bidding(w3, artifact)
+            result["adminFeatures"] = run_admin_features(w3, artifact)
             (OUT / "local-e2e.json").write_text(json.dumps(result, indent=2) + "\n")
             print(json.dumps(result, indent=2))
         finally:

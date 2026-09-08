@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import { ERC721C, ERC721OpenZeppelin } from "@limitbreak/creator-token-standards/src/erc721c/ERC721C.sol";
 import { TokenRescue } from "./TokenRescue.sol";
 import { IERC4906 } from "@openzeppelin/contracts/interfaces/IERC4906.sol";
 import { IERC2981 } from "@openzeppelin/contracts/interfaces/IERC2981.sol";
@@ -10,14 +10,27 @@ import { Strings } from "@openzeppelin/contracts/utils/Strings.sol";
 import { Math } from "@openzeppelin/contracts/utils/math/Math.sol";
 import { RoyaltyMarketplace } from "./RoyaltyMarketplace.sol";
 
+/// @notice Minimal interface to OpenSea's existing StrictAuthorizedTransferSecurityRegistry.
+interface IStrictRoyaltyRegistry {
+    function createListCopy(string calldata name, uint120 sourceListId) external returns (uint120);
+    function addAccountToAuthorizers(uint120 listId, address account) external;
+    function addAccountToWhitelist(uint120 listId, address account) external;
+    function applyListToCollection(address collection, uint120 listId) external;
+    function setTransferSecurityLevelOfCollection(address collection, uint8 level) external;
+}
+
 interface IAuctionPayout {
     function payoutWallet() external view returns (address);
 }
 
 /// @title AuctionEdition
 /// @notice 100 ERC-721 NFTs with admin-updatable per-token off-chain metadata endpoints.
-/// @dev Only the deploying auction mints; all secondary transfers require the immutable royalty marketplace.
-contract AuctionEdition is ERC721, IERC2981, TokenRescue {
+/// @dev Uses unmodified Limit Break ERC721-C. Secondary transfers require the configured enforcement registry.
+contract AuctionEdition is ERC721C, IERC2981, TokenRescue {
+    address public constant OPENSEA_TRANSFER_VALIDATOR = 0xA000027A9B2802E1ddf7000061001e5c005A0000;
+    address public constant OPENSEA_SIGNED_ZONE = 0x000056F7000000EcE9003ca63978907a00FFD100;
+    bool public tradingConfigured;
+    uint120 public tradingListId;
     uint256 public constant MAX_SUPPLY = 100;
     address public immutable auction;
     uint96 public immutable royaltyBps;
@@ -34,9 +47,11 @@ contract AuctionEdition is ERC721, IERC2981, TokenRescue {
     error RoyaltyTransferRequired();
 
     event MetadataURIUpdated(string previousURI, string newURI);
+    event TradingConfigured(address indexed validator, uint120 indexed listId);
+    event ContractURIUpdated();
 
     constructor(string memory name_, string memory symbol_, string memory metadataURI_, uint96 bps)
-        ERC721(name_, symbol_)
+        ERC721OpenZeppelin(name_, symbol_)
     {
         if (
             bytes(name_).length == 0 || bytes(symbol_).length == 0 || bytes(metadataURI_).length == 0 || bps == 0
@@ -73,6 +88,7 @@ contract AuctionEdition is ERC721, IERC2981, TokenRescue {
         metadataURI = newURI;
         emit MetadataURIUpdated(previousURI, newURI);
         emit IERC4906.BatchMetadataUpdate(1, MAX_SUPPLY);
+        emit ContractURIUpdated();
     }
 
     function _tokenRescueAdmin() internal view override returns (address) {
@@ -84,7 +100,7 @@ contract AuctionEdition is ERC721, IERC2981, TokenRescue {
     }
 
     function tokenURI(uint256 tokenId) public view override returns (string memory) {
-        _requireOwned(tokenId);
+        _requireMinted(tokenId);
         return string.concat(metadataURI, Strings.toString(tokenId), ".json");
     }
 
@@ -100,26 +116,61 @@ contract AuctionEdition is ERC721, IERC2981, TokenRescue {
         }
     }
 
-    function supportsInterface(bytes4 interfaceId) public view override(ERC721, IERC165) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(ERC721C, IERC165) returns (bool) {
         return
             interfaceId == 0x49064906 || interfaceId == type(IERC2981).interfaceId
                 || super.supportsInterface(interfaceId);
     }
 
-    function approve(address to, uint256 tokenId) public override {
-        if (to != address(0) && to != address(marketplace)) revert RoyaltyTransferRequired();
-        super.approve(to, tokenId);
+    /// @notice OpenSea/registry ownership follows the auction's two-step payout-wallet rotation.
+    /// @dev Ownership is changed through RankedAuction, never through a separate NFT owner role.
+    function owner() public view returns (address) {
+        return royaltyRecipient();
     }
 
-    function setApprovalForAll(address operator, bool approved) public override {
-        if (approved && operator != address(marketplace)) revert RoyaltyTransferRequired();
-        super.setApprovalForAll(operator, approved);
+    /// @notice Collection metadata endpoint; publish contract.json alongside the token metadata.
+    function contractURI() external view returns (string memory) {
+        return string.concat(metadataURI, "contract.json");
     }
 
-    function _update(address to, uint256 tokenId, address auth) internal override returns (address) {
-        if (_ownerOf(tokenId) != address(0) && msg.sender != address(marketplace)) revert RoyaltyTransferRequired();
-        address from = super._update(to, tokenId, auth);
-        if (from != address(0)) ++transferNonce[tokenId];
-        return from;
+    function _requireCallerIsContractOwner() internal view override {
+        if (msg.sender != owner()) revert Unauthorized();
+    }
+
+    /// @notice Atomically enable strict marketplace enforcement using OpenSea's supported registry.
+    /// @dev Copies the registry's curated list, adds SignedZone and the optional local royalty marketplace,
+    ///      and disables direct wallet transfers. The edition owns this list; payout rotation cannot leave
+    ///      its management with the previous wallet. Other supported marketplaces use registry policies.
+    ///      OpenSea Studio must separately enforce the collection's royalty rate and payout recipient.
+    function configureEnforcedTrading() external nonReentrant {
+        _requireCallerIsContractOwner();
+        IStrictRoyaltyRegistry registry = IStrictRoyaltyRegistry(OPENSEA_TRANSFER_VALIDATOR);
+        if (OPENSEA_TRANSFER_VALIDATOR.code.length == 0) revert InvalidConfiguration();
+        uint120 listId = registry.createListCopy("LNTV royalty enforcement", 0);
+        registry.addAccountToAuthorizers(listId, OPENSEA_SIGNED_ZONE);
+        registry.addAccountToWhitelist(listId, address(marketplace));
+        registry.applyListToCollection(address(this), listId);
+        registry.setTransferSecurityLevelOfCollection(address(this), 4);
+        setTransferValidator(OPENSEA_TRANSFER_VALIDATOR);
+        tradingListId = listId;
+        tradingConfigured = true;
+        emit TradingConfigured(OPENSEA_TRANSFER_VALIDATOR, listId);
+    }
+
+    function _preValidateTransfer(address caller, address from, address to, uint256 tokenId, uint256 value)
+        internal
+        override
+    {
+        // Never turn a missing/unset validator into unrestricted transfers. Minting is unaffected.
+        if (!tradingConfigured || getTransferValidator().code.length == 0) revert RoyaltyTransferRequired();
+        super._preValidateTransfer(caller, from, to, tokenId, value);
+    }
+
+    function _postValidateTransfer(address caller, address from, address to, uint256 tokenId, uint256 value)
+        internal
+        override
+    {
+        super._postValidateTransfer(caller, from, to, tokenId, value);
+        ++transferNonce[tokenId];
     }
 }

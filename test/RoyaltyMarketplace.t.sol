@@ -99,14 +99,20 @@ contract RoyaltyMarketplaceTest is TestBase {
         assertEq(edition.balanceOf(alice), 0);
     }
 
-    function testAllERC721TransferEntrypointsRequireRoyaltyMarket() public {
+    function testAllERC721TransferEntrypointsRequireRegistryAuthorization() public {
         mintForMarket();
         vm.startPrank(alice);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
+        vm.expectRevert(
+            bytes4(keccak256("StrictAuthorizedTransferSecurityRegistry__CallerMustBeWhitelistedOperator()"))
+        );
         edition.transferFrom(alice, bob, 1);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
+        vm.expectRevert(
+            bytes4(keccak256("StrictAuthorizedTransferSecurityRegistry__CallerMustBeWhitelistedOperator()"))
+        );
         edition.safeTransferFrom(alice, bob, 1);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
+        vm.expectRevert(
+            bytes4(keccak256("StrictAuthorizedTransferSecurityRegistry__CallerMustBeWhitelistedOperator()"))
+        );
         edition.safeTransferFrom(alice, bob, 1, "payload");
         vm.expectRevert();
         edition.transferFrom(alice, address(0), 1);
@@ -116,11 +122,11 @@ contract RoyaltyMarketplaceTest is TestBase {
         assertEq(edition.transferNonce(1), 0);
     }
 
-    function testUnapprovedOperatorCannotTransferOrApproveItself() public {
+    function testApprovedUntrustedOperatorStillCannotTransfer() public {
         mintForMarket();
         vm.prank(alice);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
         edition.setApprovalForAll(bob, true);
+        assertTrue(edition.isApprovedForAll(alice, bob));
         vm.prank(bob);
         vm.expectRevert();
         edition.safeTransferFrom(alice, bob, 1);
@@ -319,6 +325,7 @@ contract RoyaltyMarketplaceTest is TestBase {
         auction = new RankedAuction(c);
         edition = auction.edition();
         market = edition.marketplace();
+        configureTrading(edition, auction.payoutWallet());
         finish();
         rejector.execute(address(auction), abi.encodeCall(auction.claimUnsold, (90, alice)));
         vm.prank(alice);
@@ -387,6 +394,7 @@ contract RoyaltyMarketplaceTest is TestBase {
         auction = new RankedAuction(c);
         edition = auction.edition();
         market = edition.marketplace();
+        configureTrading(edition, auction.payoutWallet());
         mintForMarket();
         uint256 id = listing(1, 1 ether);
         vm.prank(bob);
@@ -416,6 +424,7 @@ contract RoyaltyMarketplaceTest is TestBase {
         auction = new RankedAuction(c);
         edition = auction.edition();
         market = edition.marketplace();
+        configureTrading(edition, auction.payoutWallet());
         mintForMarket();
         uint256 id = listing(10, 10 ether);
         vm.prank(bob);
@@ -471,8 +480,8 @@ contract RoyaltyMarketplaceTest is TestBase {
         mintForMarket();
         vm.startPrank(alice);
         edition.setApprovalForAll(address(market), false);
-        vm.expectRevert(AuctionEdition.RoyaltyTransferRequired.selector);
         edition.approve(bob, 1);
+        assertEq(edition.getApproved(1), bob);
         edition.approve(address(market), 1);
         vm.stopPrank();
         assertEq(edition.getApproved(1), address(market));

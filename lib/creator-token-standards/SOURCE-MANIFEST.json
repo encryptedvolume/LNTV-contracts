@@ -1,0 +1,15 @@
+{
+  "commit": "980a63b33591d568b6e04b45f37deba05a55f787",
+  "files": {
+    "src/access/OwnablePermissions.sol": "3d9c577aa989bbefc26ef4d5378b4a99a26c684230276dfcca262611307487fd",
+    "src/erc721c/ERC721C.sol": "b93e3150db912e8f92de1027380e68af678ece790516c5a5cc6bf0690453ba16",
+    "src/interfaces/ICreatorToken.sol": "8f732910fd5b157b373f4ee28302bfe97e2a00db91382db88214334d0166cff0",
+    "src/interfaces/ICreatorTokenLegacy.sol": "28f3f7be4a695cd8a87a6a61ee43e3008e354a5d910a8b33d71ec6145e1099b5",
+    "src/interfaces/ITransferValidator.sol": "0621be990e6e53d7d56761d641c81a5228d147c183c513e6190d7b1babfb0eb5",
+    "src/interfaces/ITransferValidatorSetTokenType.sol": "68d5ce28f3ce2c2978fa5df679dc3df43412eeec56f5dfdca73d15f69e2f4f78",
+    "src/token/erc721/ERC721OpenZeppelin.sol": "62649273f73243a82e8d5d59627dc60abf7652ebc8698de3ee40f0bddd115e18",
+    "src/utils/AutomaticValidatorTransferApproval.sol": "ce2f8e63631e91a5dd05f3fe61f5435abe4efa1568dfe404f7a80a7c9aa54be5",
+    "src/utils/CreatorTokenBase.sol": "83d19828bd441e6f1e025006870fd66af2582cf7f71e32bab257dd9c2cdd283a",
+    "src/utils/TransferValidation.sol": "b3c48d6ab94e889a1487160e3d105fcf5f1ad072d7987133c17548f434345d29"
+  }
+}

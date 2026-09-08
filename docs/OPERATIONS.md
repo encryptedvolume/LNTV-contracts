@@ -21,6 +21,8 @@ Copy `.env.example` to `.env`, retain the confirmed `ROYALTY_BPS=1000` (10%), an
 
 There is no `END_TIME` input: the contract sets the initial close to `START_TIME + 172800` seconds. The 90 auction/10 reserved split is also fixed.
 
+For hardware-wallet or multisig deployment, allow **at least one hour of start-time lead** and re-check the pending transaction's start time before final approval. The script's ten-minute minimum is a validation floor; wallet approval and network delays can consume it.
+
 Supported deployment networks are Ethereum mainnet (`1`), Sepolia (`11155111`), and local Anvil (`31337`). The RPC must support the Cancun EVM. No live RPC or private key is embedded in the repository. Use a Foundry encrypted keystore or hardware wallet; keep RPC and explorer API credentials in environment variables through your normal credential mechanism. Do not put private keys into shell commands or source files.
 
 ## Simulate, then broadcast deliberately
@@ -44,6 +46,8 @@ node scripts/foundry.mjs forge script script/Deploy.s.sol:Deploy \
 
 Explorer verification uses the `ETHERSCAN_API_KEY` environment variable. Foundry persists public transaction/receipt records under `broadcast/`; inspect the successful receipt on the correct chain and retain those deployment records. If broadcasting is interrupted, inspect the recorded transaction hash and receipt before sending anything else. Do not blindly rerun a deployment that may already have succeeded. Use Foundry's `--resume` with the existing broadcast records if needed, after verifying the target configuration and chain.
 
+The binding/configuration checks performed after broadcasting are verification steps: they cannot roll back a transaction already mined. If a post-broadcast check fails, inspect the receipt and deployed addresses before connecting the frontend or opening bids. For a confirmed configuration error before bidding, deploy a corrected replacement and publish only its verified addresses. Existing contracts cannot be edited or cancelled; if funds have already arrived, handle their settlement and refund rights under the original contract's rules.
+
 Deployment is a single transaction that creates the auction and its two nested contracts. The returned auction has immutable `edition()`; that edition has immutable `marketplace()`. Retain all three addresses. Verify source for all three on the explorer, including child contracts if the initial automatic verification did not do so. Auction constructor arguments are the `Config` tuple; edition arguments are `(collectionName, collectionSymbol, metadataURI, royaltyBps)`; marketplace has no constructor arguments. Compile with this exact package, Solidity 0.8.28, Cancun, optimizer 200 runs and `bytecode_hash = "none"`.
 
 Run the read-only deployment checker after exporting the same expected configuration plus `AUCTION_ADDRESS` and `RPC_URL`:
@@ -61,6 +65,10 @@ For a complete rehearsal without external RPCs or real funds:
 ```bash
 .venv/bin/python scripts/local_e2e.py
 ```
+
+## Enable enforced marketplace trading
+
+Follow [the ERC721-C/OpenSea runbook](OPENSEA.md) after deployment. From the current payout wallet run `script/ConfigureTrading.s.sol`, then configure and verify 10% enforced earnings in OpenSea Studio. Tokens are nontransferable until contract configuration succeeds, although auction bidding and NFT claims work. No public marketplace activation is implied by deploying the auction alone. Registry configuration is trusted administration under the upstream ERC721-C model.
 
 ## Bidder and indexer integration
 
@@ -109,7 +117,7 @@ The frontend should make first-place full-bid liability explicit before submissi
 4. Seller calls `marketplace.withdraw(payableRecipient)` for its seller credit.
 5. The current payout wallet calls `marketplace.withdrawRoyalties(payableRecipient)` for the trading royalty pool. `totalCredits()` includes both seller credits and `pendingRoyalties()`.
 
-Sellers permanently cancel a listing with `cancel(listingId)`. Revoking approval blocks fills only while approval is absent; restoring approval can make an otherwise valid old listing fillable again. A transfer invalidates earlier listings for the same token, including if it later returns to that seller. Check ownership, current off-chain metadata, approval, expiry, active status and the recorded transfer nonce, and simulate the purchase before sending. Re-listing creates a new listing ID. Prices cannot be edited and there are no partial fills. Direct gifts and external-market transfers revert.
+Sellers permanently cancel a listing with `cancel(listingId)`. Revoking approval blocks fills only while approval is absent; restoring approval can make an otherwise valid old listing fillable again. A transfer invalidates earlier listings for the same token, including if it later returns to that seller. Check ownership, current off-chain metadata, approval, expiry, active status and the recorded transfer nonce, and simulate the purchase before sending. Re-listing creates a new listing ID. Prices cannot be edited and there are no partial fills. Direct gifts revert under the configured strict registry policy. Compatible external marketplaces can trade through ERC721-C enforcement; see [OpenSea integration](OPENSEA.md).
 
 ## Reserved NFTs and off-chain reveal
 
@@ -128,13 +136,13 @@ Metadata changes do not invalidate active sale listings. `edition.setMetadataURI
 
 The current wallet can replace an unaccepted nomination or cancel it with `cancelPayoutWalletChange()`. No arbitrary caller or deployer can rotate it. Both EOAs and contract wallets must be able to make these calls. Zero, the current wallet, and the three system contract addresses are rejected as nominees.
 
-Acceptance applies to unwithdrawn auction proceeds, accrued and future trading royalties, control of unclaimed reserved and unsold NFTs, metadata updates, and foreign-token rescue on all three contracts. Unrecovered bidder refunds, winning NFTs, seller credits, and already withdrawn funds keep their existing owners. Optional recovery 28 days after settlement follows the current payout wallet and closes outstanding auction refunds only when successful. If the old payout wallet also sold NFTs, its seller credits stay withdrawable by that old wallet. No separate royalty-recipient update is necessary.
+Acceptance applies to unwithdrawn auction proceeds, accrued and future trading royalties, control of unclaimed reserved and unsold NFTs, metadata updates, and foreign-token rescue on all three contracts. Unrecovered bidder refunds, winning NFTs, seller credits, and already withdrawn funds keep their existing owners. Optional recovery 28 days after settlement follows the current payout wallet and closes outstanding auction refunds only when successful. If the old payout wallet also sold NFTs, its seller credits stay withdrawable by that old wallet. No separate royalty-recipient update is necessary inside this contract package. Update OpenSea Studio/royalty-registry settings and other venues separately, and cancel/recreate affected external orders; their signed payment recipients cannot be rewritten by changing the payout wallet.
 
 ## Recovery and operational limits
 
 If a refund recipient rejects ETH, the entitlement survives and the bidder can retry to another address until a successful recovery closes refunds. If an NFT receiver rejects ERC-721, the mint entitlement survives and the bidder can redirect it; refund crediting and withdrawal are independent. Batch mint failure reverts that batch only; smaller batches help isolate a rejecting recipient. The current payout wallet can redirect auction proceeds and trading royalties in the same way.
 
-No admin intervention can replace a lost bidder key, redirect somebody else's tokens, cancel an auction after a configuration mistake, change the royalty percentage, recover unclaimed bidder ETH before the authorized recovery eligibility time, or unlock direct transfers. Unclaimed winning units are reserved forever. The payout wallet can be rotated only while the current wallet can nominate a replacement (or a previously nominated wallet can still accept). There is no separate lost-key recovery authority. Keep wallets operational and communicate these constraints before opening the auction.
+No admin intervention can replace a lost bidder key, redirect somebody else's tokens, cancel an auction after a configuration mistake, change the royalty percentage, recover unclaimed bidder ETH before the authorized recovery eligibility time. Unclaimed winning units are reserved forever. The payout wallet can be rotated only while the current wallet can nominate a replacement (or a previously nominated wallet can still accept). There is no separate lost-key recovery authority. Keep wallets operational and communicate these constraints before opening the auction.
 
 Monitor `liabilities() <= auction.balance`, `market.totalCredits() <= market.balance`, `activeCount <= 90`, the current closing time, and total supply. Normal donations cannot be sent directly; `selfdestruct` or protocol-level balance transfers can create surplus, recoverable with the remaining auction ETH after settlement and recovery eligibility. Regular-tier uniform-price demand reduction, bid shading, transaction ordering, Sybil bidding, and self-outbidding are economic properties, not solvency failures. The design supplies no per-person allocation guarantee.
 
@@ -142,7 +150,7 @@ Monitor `liabilities() <= auction.balance`, `market.totalCredits() <= market.bal
 
 This is a new deployment and requires regenerated ABIs. `Config.endTime` and the `END_TIME` environment input are removed. The remaining tuple is `(payoutWallet, royaltyBps, reservePrice, startTime, metadataURI, collectionName, collectionSymbol)`. Start is uint64; initial/current end times are uint256. `SUPPLY()` is now 90; `RESERVED_SUPPLY()` is 10; `AUCTION_DURATION()` is 172800. New calls include `claimReserved`, `reservedRemaining`, and `winningBidCost`.
 
-`METADATA_URI` is now a base ending `/`, not a shared JSON file. `enableReveals`, `reveal`, `revealsEnabled`, `revealedMetadataURI`, `revealed`, their reveal-specific events are removed. Interface 3.3.0 restores ERC-4906 support for admin metadata updates, without restoring those reveal functions. Transfer nonces advance only on transfers. Frontends must obtain reveal state from the metadata service and stop sending the removed calls.
+`METADATA_URI` is now a base ending `/`, not a shared JSON file. `enableReveals`, `reveal`, `revealsEnabled`, `revealedMetadataURI`, `revealed`, their reveal-specific events are removed. Interface 3.3.0 restored ERC-4906 support for admin metadata updates, without restoring those reveal functions. Transfer nonces advance only on transfers. Frontends must obtain reveal state from the metadata service and stop sending the removed calls.
 
 ERC-721 claims take bid IDs and return the NFTs assigned to those bids at settlement. Listings take `(tokenId, price, expiry)`; buys take `(listingId, recipient)`. The single two-step payout wallet and trading-only royalty policy remain in place. The old hard-end cap and its getters remain removed. No public deployment has been migrated or modified.
 
@@ -211,4 +219,4 @@ Each rescue function exists on the auction, edition and marketplace. Call the on
 
 Rescue functions never transfer ETH or alter ETH accounting. They reject the LNTV edition itself, preserving its royalty transfer policy and NFT claim entitlements. Use existing proceeds/refund/royalty functions for ETH. `ERC20Rescued`, `ERC721Rescued` and `ERC1155Rescued` record token transfers; unusual fee-on-transfer tokens may deliver less than the requested amount.
 
-No deployment parameter is added. Existing immutable deployments require a new deployment for these functions. Interface 3.3.0 is exported for later integration; frontend code and wording are unchanged. Only focused tests and build/interface checks were requested for this release; the full audit and mutation suite were not rerun.
+No deployment parameter is added. Existing immutable deployments require a new deployment for these functions. The current export is interface 4.0.0, which also includes ERC721-C controls. Frontend code and wording remain unchanged. See the ERC721-C review for the current verification scope; the old admin-only verification is historical.

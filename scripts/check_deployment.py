@@ -39,6 +39,39 @@ def check(w3, auction_address, config):
     assert auction.functions.payoutWallet().call(block_identifier=snapshot) == payout, "Unexpected payout wallet"
     assert auction.functions.pendingPayoutWallet().call(block_identifier=snapshot) == pending, "Unexpected pending wallet"
     assert edition.functions.royaltyRecipient().call(block_identifier=snapshot) == payout
+    assert edition.functions.owner().call(block_identifier=snapshot) == payout, "Creator-token owner mismatch"
+    configured = edition.functions.tradingConfigured().call(block_identifier=snapshot)
+    validator = edition.functions.getTransferValidator().call(block_identifier=snapshot)
+    assert edition.functions.getTransferValidationFunction().call(block_identifier=snapshot) == [bytes.fromhex("caee23ea"), True]
+    creator_interface = bytes(a ^ b ^ c for a, b, c in zip(
+        Web3.keccak(text="getTransferValidator()")[:4],
+        Web3.keccak(text="getTransferValidationFunction()")[:4],
+        Web3.keccak(text="setTransferValidator(address)")[:4]))
+    assert edition.functions.supportsInterface(creator_interface).call(block_identifier=snapshot)
+    if str(config.get("REQUIRE_ENFORCED_TRADING", "false")).lower() == "true":
+        assert configured, "Trading is not configured"
+        assert validator == edition.functions.OPENSEA_TRANSFER_VALIDATOR().call(block_identifier=snapshot), "Unexpected transfer validator"
+        assert w3.eth.get_code(validator, block_identifier=snapshot), "Validator has no code"
+        policy_abi = [
+            {"type": "function", "name": "getCollectionSecurityPolicy", "stateMutability": "view",
+             "inputs": [{"name": "collection", "type": "address"}],
+             "outputs": [{"name": "level", "type": "uint8"}, {"name": "listId", "type": "uint120"}, {"name": "receivers", "type": "uint120"}]},
+            {"type": "function", "name": "getAuthorizerAccountsByCollection", "stateMutability": "view",
+             "inputs": [{"name": "collection", "type": "address"}], "outputs": [{"name": "accounts", "type": "address[]"}]},
+            {"type": "function", "name": "getWhitelistedAccountsByCollection", "stateMutability": "view",
+             "inputs": [{"name": "collection", "type": "address"}], "outputs": [{"name": "accounts", "type": "address[]"}]}]
+        registry = w3.eth.contract(address=validator, abi=policy_abi)
+        policy = registry.functions.getCollectionSecurityPolicy(edition.address).call(block_identifier=snapshot)
+        assert policy[0] == 4, "Expected strict security level 4"
+        authorizers = registry.functions.getAuthorizerAccountsByCollection(edition.address).call(block_identifier=snapshot)
+        operators = registry.functions.getWhitelistedAccountsByCollection(edition.address).call(block_identifier=snapshot)
+        assert edition.functions.OPENSEA_SIGNED_ZONE().call(block_identifier=snapshot) in authorizers, "SignedZone not authorized"
+        assert market.address in operators, "Optional local royalty marketplace missing from configured policy"
+        seaport_operators = {address.lower() for address in (
+            "0x0000000000000068F116a894984e2DB1123eB395",
+            "0x1e0049783f008a0085193e00003d00cd54003c71",
+            "0x963f00d3ff000064ffcba824b800c0000000c300")}
+        assert not seaport_operators.intersection(address.lower() for address in operators), "Unsafe unrestricted Seaport/conduit operator"
     royalty_receiver, royalty_amount = edition.functions.royaltyInfo(1, 10**18).call(block_identifier=snapshot)
     assert royalty_receiver == payout
     assert royalty_amount == (10**18 * int(config["ROYALTY_BPS"]) + 9999) // 10000
@@ -79,7 +112,7 @@ def check(w3, auction_address, config):
     assert w3.eth.get_block(snapshot).hash == snapshot_hash, "Chain reorganized during verification; retry"
     return {"result": "PASS", "chainId": w3.eth.chain_id, "blockNumber": snapshot, "blockHash": snapshot_hash.hex(), "auction": auction.address,
             "edition": edition.address, "marketplace": market.address,
-            "payoutWallet": payout, "pendingPayoutWallet": pending,
+            "payoutWallet": payout, "pendingPayoutWallet": pending, "tradingConfigured": configured, "transferValidator": validator,
             "checks": "Runtime code, immutable bindings, expected payout/configuration, supply and solvency"}
 
 

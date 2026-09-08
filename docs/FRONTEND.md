@@ -73,3 +73,8 @@ These are integration instructions only. The separate frontend's controls, wordi
 ## Admin interface 3.3.0
 
 The latest export adds `AuctionEdition.setMetadataURI(string)`, metadata refresh events and ERC-4906 support, plus `rescueERC20`, `rescueERC721` and `rescueERC1155` on all three contracts. These methods require the current shared payout wallet. See [operations](OPERATIONS.md#admin-metadata-and-token-recovery-interface-330) for parameters. The previous 3.2.0 batch methods remain unchanged. Frontend implementation and wording are deferred by the creator.
+
+
+## ERC721-C interface 4.0.0
+
+The exported NFT ABI now includes `owner`, `contractURI`, `getTransferValidator`, `getTransferValidationFunction`, `configureEnforcedTrading`, `tradingConfigured`, `tradingListId`, `setTransferValidator`, and `setAutomaticApprovalOfTransfersFromValidator`. These are creator administration/discovery functions; bidding remains on the ranked auction. Standard `approve`/`setApprovalForAll` are no longer restricted to the local marketplace. Never substitute unrestricted Seaport/conduit whitelisting for valid royalty-enforced order fulfillment. Read [OpenSea integration](OPENSEA.md). The separate frontend and its wording have not been changed.

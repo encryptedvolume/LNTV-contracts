@@ -6,19 +6,25 @@
 flowchart LR
     B[Bidder] -->|escrow ETH| A[RankedAuction]
     A -->|constructor creates| E[AuctionEdition]
-    E -->|constructor creates| M[RoyaltyMarketplace]
+    E -->|constructor creates| M[Optional RoyaltyMarketplace]
     A -->|claim mint| E
     A -->|pull refunds| B
     A -->|all auction revenue| W[Shared payout wallet]
-    O[Edition owner] -->|listing and approval| M
+    O[Token holder] -->|listing and approval| M
     P[Buyer] -->|exact ETH| M
     M -->|safe transfer| E
     M -->|seller credits| S[Seller]
     M -->|trading royalties| W
     E -->|read current payout wallet| A
+    P -->|signed order fill| X[Seaport / compatible marketplace]
+    O -->|approval| X
+    X -->|transfer| E
+    E -->|ERC721-C validation| V[Transfer registry]
+    Z[OpenSea SignedZone] -->|temporary authorization| V
+    X -->|configured royalty| W
 ```
 
-Construction is atomic. `AuctionEdition.auction` is its deploying auction; `RoyaltyMarketplace.edition` is its deploying edition. There is no separate initialization transaction, temporary administrator, mutable validator, or binding race. Each contract's runtime is independently below the EIP-170 limit, and the auction creation code is below EIP-3860's limit.
+Construction is atomic. `AuctionEdition.auction` is its deploying auction; `RoyaltyMarketplace.edition` is its deploying edition. Those bindings are immutable. Secondary trading has a separate owner-authorized registry configuration transaction and is blocked until configuration succeeds. ERC721-C creator-token controls can change the validator; there is no temporary deployment administrator or binding race. Each contract's runtime is independently below the EIP-170 limit, and the auction creation code is below EIP-3860's limit.
 
 ## Auction state
 
@@ -81,11 +87,11 @@ Every secondary transfer, including a self-transfer, advances the collection's t
 
 A purchase marks the listing inactive, computes the royalty on that token's full declared price with ceiling division, increments the separate pendingRoyalties pool, credits the seller with price minus royalty, and safely transfers that one NFT. No ETH is pushed during the sale. A rejected receiver reverts all ownership, nonce, listing and credit changes. A seller who is also the payout wallet withdraws seller credit and royalties separately. Accepted wallet rotation never changes personal seller credits. A 100% royalty leaves zero seller proceeds. There are no quantities or partial fills.
 
-ERC-721 _update enforces the marketplace restriction for transferFrom and both safeTransferFrom variants. The mint exception is reachable only through the auction-authorized mint entry point. Nonexistent IDs cannot be minted through public transfer functions. Token-specific approve and collection-wide setApprovalForAll permit only the marketplace as a recipient of positive approval; revocation remains possible. There is no market entry point for an unpaid transfer.
+The unmodified upstream ERC721-C before/after transfer hooks replace the old exclusive `_update` restriction. Standard ERC-721 approvals are accepted, while the selected registry decides whether a secondary transfer is authorized. Minting still requires the auction; transfers before trading configuration or with a zero/no-code validator fail closed. Every successful secondary transfer increments the local listing nonce, including external-market transfers. `configureEnforcedTrading` atomically selects the documented OpenSea registry, copies its curated list, adds SignedZone and the optional local market, and selects security level 4. The current payout wallet controls upstream creator-token administration and external registry policies. This is a trusted-admin standard, not immutable enforcement; see [OpenSea operations and limits](OPENSEA.md).
 
 ## Shared payout wallet
 
-`RankedAuction.payoutWallet` is the single source of payout authority. `AuctionEdition.royaltyRecipient()` reads it through the immutable auction binding. The marketplace resolves the same wallet through `royaltyInfo(1, 0)` when royalties are withdrawn. No cross-contract setter or synchronization transaction is needed.
+`RankedAuction.payoutWallet` is the single source of payout authority. `AuctionEdition.royaltyRecipient()` reads it through the immutable auction binding. The marketplace resolves the same wallet through `royaltyInfo(1, 0)` when royalties are withdrawn. No synchronization transaction is needed for this package's royalty pool. External marketplace settings and previously signed orders must be handled separately after a wallet change; see [OpenSea operations](OPENSEA.md).
 
 Only the current wallet can call `proposePayoutWallet(newWallet)` or `cancelPayoutWalletChange()`. Only the pending wallet can call `acceptPayoutWallet()`. Acceptance clears the pending address, updates the current wallet, and emits an event without sending funds. A current wallet can replace or cancel an unaccepted nomination. Zero, current, auction, edition and marketplace addresses are rejected as nominees. System addresses are also rejected during construction.
 
@@ -109,7 +115,7 @@ The LNTV edition address is rejected by every rescue entry point, including on t
 | Rank processing before claims | One bounded pass assigns each winner its final-rank token ID |
 | Per-prize NFT failure recovery | Independent refunds and retryable safe ERC-721 batch claims |
 | Owner proceeds | 100% of auction revenue to the shared payout wallet; royalties only on resales |
-| No collection transfer policy in the auction | Fixed trading royalty rate, shared mutable recipient, restricted royalty-paying market |
+| No collection transfer policy in the auction | Fixed ERC-2981 rate, shared mutable recipient, ERC721-C registry enforcement and compatible marketplaces |
 
 The reference source is preserved as `.sol.txt` for review and is not compiled or deployed. The reference's ERC-721 tests cannot serve as an audit of this adaptation. This package uses its own independent array model, adversarial receivers, lifecycle and mutation tests.
 
