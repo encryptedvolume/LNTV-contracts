@@ -1,0 +1,8 @@
+Compiler run failed:
+Error (3419): Cannot call function via contract type name.
+   --> /private/tmp/lntv-full-audit-401/src/AuctionEdition.sol:124:16:
+    |
+124 |         return ERC721.isApprovedForAll(holder, operator);
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Error: Compilation failed

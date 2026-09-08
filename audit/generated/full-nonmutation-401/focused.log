@@ -1,0 +1,30 @@
+Compiling 3 files with Solc 0.8.28
+Solc 0.8.28 finished in 6.87s
+Compiler run successful with warnings:
+Warning (5159): "selfdestruct" has been deprecated. Note that, starting from the Cancun hard fork, the underlying opcode no longer deletes the code and data associated with an account and only transfers its Ether to the beneficiary, unless executed in the same transaction in which the contract was created (see EIP-6780). Any use in newly deployed contracts is strongly discouraged even if the new behavior is taken into account. Future changes to the EVM might further reduce the functionality of the opcode.
+   --> test/TestBase.sol:147:9:
+    |
+147 |         selfdestruct(to);
+    |         ^^^^^^^^^^^^
+
+
+Ran 1 test for test/FullAuditReview.t.sol:DeploymentRoyaltyAuditTest
+[PASS] testDeploymentRejectsRateThatTradingSetupCannotAccept() (gas: 7806862)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 2.43ms (1.47ms CPU time)
+
+Ran 6 tests for test/Deployment.t.sol:DeploymentTest
+[PASS] testChainMismatchAndUnsupportedNetwork() (gas: 44655)
+[PASS] testDeploymentRunLoadsEnvironmentAndBindsAllContracts() (gas: 6313292)
+[PASS] testLeadTimeAndFixed48HourDuration() (gas: 6296963)
+[PASS] testNoSilentNumericTruncation() (gas: 66285)
+[PASS] testRejectsZeroPayoutAndEmptyMetadata() (gas: 70668)
+[PASS] testValidatesDeploymentConfiguration() (gas: 29535)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 4.18ms (2.05ms CPU time)
+
+Ran 2 tests for test/FullAuditReview.t.sol:RankedLinksAuditTest
+[PASS] testFullBookDisplacementAndTailIncreaseMaintainBothLinks() (gas: 392658553)
+[PASS] testHeadMiddleTailAndStableTieInsertionMaintainBothLinks() (gas: 1236291)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 372.51ms (374.17ms CPU time)
+
+Ran 3 test suites in 374.67ms (379.12ms CPU time): 9 tests passed, 0 failed, 0 skipped (9 total tests)
+2026-09-08T15:15:34.204956Z  WARN evm::traces: failed to flush signature cache err=failed to create file "/Users/aaa/.foundry/cache/signatures": Operation not permitted (os error 1)

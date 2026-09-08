@@ -1,7 +1,18 @@
-# Current evidence: 4.0.1 holder-approval fix
+# Current evidence: complete 4.0.1 non-mutation audit
 
-See `holder-approval-401/` and `../HOLDER-APPROVAL-FIX-2026-09-08.md` for current default-profile regression, static and local-lifecycle evidence. Earlier 4.0.0 and 3.3.0 evidence below retains its original scope.
+The authoritative current run is in `full-nonmutation-401/`: 232 passing tests,
+90,000 fuzz cases, 768,000 invariant actions, coverage, 29 reviewed static findings,
+actual-script local lifecycle, exact-policy rejection checks, and two pinned chain
+forks. See [results](../results.json), [manual review](../MANUAL-REVIEW-2026-09-08.md)
+and [reproduction/scope](full-nonmutation-401/README.md). Mutation campaigns and
+mutation-runner tests were excluded. Live OpenSea activation remains release work.
 
-# Evidence scope
+`holder-approval-401/` retains the earlier 4.0.1 default-profile security-patch run.
+`erc721c-400/` retains the targeted 4.0.0 review. Top-level generated logs and root
+`lcov.info` retain their historical snapshots; they are not the current full run.
+Old metadata and its manifest are archived under
+`../history/2026-09-08-pre-full-nonmutation-401/`.
 
-Current 4.0.0 targeted evidence is under `erc721c-400/`; see `../results.json`. The complete audit is not finished. Top-level static/coverage/extended logs are from the cancelled 3.3.0 audit and do not attest ERC721-C. Mutation reports are historical. Local lifecycle/trading-configuration output has been refreshed for 4.0.0 and is copied into its evidence directory.
+Earlier 3.3.0 and mutation evidence retain their original source-specific scope.
+The cancelled audit remains cancelled; the new completion does not retroactively
+change the status of earlier runs.

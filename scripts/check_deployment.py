@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 from web3 import Web3
+from trading_policy import check_trading_policy
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -59,19 +60,24 @@ def check(w3, auction_address, config):
             {"type": "function", "name": "getAuthorizerAccountsByCollection", "stateMutability": "view",
              "inputs": [{"name": "collection", "type": "address"}], "outputs": [{"name": "accounts", "type": "address[]"}]},
             {"type": "function", "name": "getWhitelistedAccountsByCollection", "stateMutability": "view",
-             "inputs": [{"name": "collection", "type": "address"}], "outputs": [{"name": "accounts", "type": "address[]"}]}]
+             "inputs": [{"name": "collection", "type": "address"}], "outputs": [{"name": "accounts", "type": "address[]"}]},
+            {"type": "function", "name": "getBlacklistedAccountsByCollection", "stateMutability": "view",
+             "inputs": [{"name": "collection", "type": "address"}], "outputs": [{"name": "accounts", "type": "address[]"}]},
+            {"type": "function", "name": "listOwners", "stateMutability": "view",
+             "inputs": [{"name": "id", "type": "uint120"}], "outputs": [{"name": "owner", "type": "address"}]}]
         registry = w3.eth.contract(address=validator, abi=policy_abi)
         policy = registry.functions.getCollectionSecurityPolicy(edition.address).call(block_identifier=snapshot)
         assert policy[0] == 4, "Expected strict security level 4"
         authorizers = registry.functions.getAuthorizerAccountsByCollection(edition.address).call(block_identifier=snapshot)
         operators = registry.functions.getWhitelistedAccountsByCollection(edition.address).call(block_identifier=snapshot)
-        assert edition.functions.OPENSEA_SIGNED_ZONE().call(block_identifier=snapshot) in authorizers, "SignedZone not authorized"
-        assert market.address in operators, "Optional local royalty marketplace missing from configured policy"
-        seaport_operators = {address.lower() for address in (
-            "0x0000000000000068F116a894984e2DB1123eB395",
-            "0x1e0049783f008a0085193e00003d00cd54003c71",
-            "0x963f00d3ff000064ffcba824b800c0000000c300")}
-        assert not seaport_operators.intersection(address.lower() for address in operators), "Unsafe unrestricted Seaport/conduit operator"
+        check_trading_policy(
+            chain_id=w3.eth.chain_id, edition=edition.address, market=market.address,
+            level=policy[0], list_id=policy[1],
+            recorded_list_id=edition.functions.tradingListId().call(block_identifier=snapshot),
+            list_owner=registry.functions.listOwners(policy[1]).call(block_identifier=snapshot),
+            authorizers=authorizers, operators=operators,
+            blacklist=registry.functions.getBlacklistedAccountsByCollection(edition.address).call(block_identifier=snapshot))
+        assert edition.functions.royaltyBps().call(block_identifier=snapshot) == 1000, "Expected 10 percent royalties"
     royalty_receiver, royalty_amount = edition.functions.royaltyInfo(1, 10**18).call(block_identifier=snapshot)
     assert royalty_receiver == payout
     assert royalty_amount == (10**18 * int(config["ROYALTY_BPS"]) + 9999) // 10000

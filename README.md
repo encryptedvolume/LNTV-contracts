@@ -72,16 +72,16 @@ npm run build
 npm test
 python3 -m venv .venv
 .venv/bin/pip install -r requirements-audit.txt
-npm run audit
+npm run audit:nonmutation
 ```
 
-`npm run audit` runs formatting, native-runner and mutation-runner regression tests, Slither with an exact reviewed-findings gate, production coverage, the extended fuzz/invariant suite, 90 intentional security mutations in an isolated copy, bytecode size checks, and a complete deployment/bidding/claims/resale/wallet-rotation rehearsal on a temporary local Anvil. It exits unsuccessfully on any failing gate. Local Anvil is shut down afterward. Reports are written to `audit/generated/`.
+`npm run audit:nonmutation` runs formatting, native-runner, audit-gate and deployment-policy regression tests, Slither with an exact reviewed-findings gate, production coverage, the extended fuzz/invariant suite, bytecode size checks, and a complete deployment/bidding/claims/resale/wallet-rotation rehearsal on a temporary local Anvil. Mutation campaigns and mutation-runner tests are excluded from this command. It exits unsuccessfully on any failing gate. Local Anvil is shut down afterward. Reports are written to `audit/generated/`.
 
-The mutation campaign first requires the unmodified contracts to pass the same test selection and fixed seed. Each mutation must then fail at least two behavioral tests; configuration-only checks, compiler errors, setup failures, skipped tests and changed test inventories cannot satisfy that requirement. Explicit scenarios are required for the previously weak cases, including bidding at hour 47 and rejecting settlement at hour 24. The runner retains native Forge JSON, named test failures and input hashes. Use `python scripts/mutation_audit.py --output-dir <directory>` inside the audit virtual environment to retain a separate campaign without overwriting earlier evidence.
+The optional `npm run audit` command additionally starts the mutation campaign; it is not part of the requested current audit. The mutation campaign first requires the unmodified contracts to pass the same test selection and fixed seed. Each mutation must then fail at least two behavioral tests; configuration-only checks, compiler errors, setup failures, skipped tests and changed test inventories cannot satisfy that requirement. Explicit scenarios are required for the previously weak cases, including bidding at hour 47 and rejecting settlement at hour 24. The runner retains native Forge JSON, named test failures and input hashes. Use `python scripts/mutation_audit.py --output-dir <directory>` inside the audit virtual environment to retain a separate campaign without overwriting earlier evidence.
 
-The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x20260907 npm run audit` to run the current source with the 2026-09-07 re-audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts, randomized claim/refund ordering, and batch equivalence to sequential bids. Both auction invariant campaigns mix batch bidding into their independent ranking and ETH model.
+The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x2026090842 npm run audit:nonmutation` to run the current source with the completed 4.0.1 audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts, randomized claim/refund ordering, and batch equivalence to sequential bids. Both auction invariant campaigns mix batch bidding into their independent ranking and ETH model.
 
-Interface **4.0.1** retains ERC721-C/OpenSea support and fixes creator-controlled validator auto-approval. The [fix report](audit/HOLDER-APPROVAL-FIX-2026-09-08.md) records 229 passing default-profile tests, static review and local lifecycle checks. The full extended audit and coverage were not rerun for this patch, and mutations remain excluded. Earlier integration reviews and Fable's fourth pass attest their named snapshots, not an automatic full-audit PASS for the changed source. `npm run audit:nonmutation` excludes mutations. See [ISSUES.md](audit/ISSUES.md) for remaining work.
+Interface **4.0.1** retains ERC721-C/OpenSea support and fixes creator-controlled validator auto-approval. The [completed manual and non-mutation audit](audit/MANUAL-REVIEW-2026-09-08.md) records **232 passing tests, 90,000 fuzz cases and 768,000 invariant actions**, complete instrumented line/branch/function coverage, reviewed Slither findings, local lifecycle and pinned Ethereum/Sepolia fork checks. Deployment now rejects rates other than 10%, and release verification requires the exact reviewed marketplace policy. Production Solidity and interface bytes are unchanged from merged 4.0.1. Mutation testing remains excluded; live OpenSea activation and the remaining operational checks are listed in [ISSUES.md](audit/ISSUES.md). Earlier reports retain their named source snapshots.
 
 The native tool runner is also available directly:
 
@@ -90,7 +90,7 @@ node scripts/foundry.mjs forge test --match-contract RankedAuctionTest
 node scripts/foundry.mjs cast --help
 ```
 
-The runner deliberately bypasses the upstream npm JavaScript shim to preserve failing native exit codes. See [ISSUES.md](audit/ISSUES.md) for current status and verification scope, and `audit/REPORT.md` for the historical full-run results; passing tests do not establish that every possible defect has been excluded.
+The runner deliberately bypasses the upstream npm JavaScript shim to preserve failing native exit codes. See [ISSUES.md](audit/ISSUES.md) for current status and verification scope, and [the current manual review](audit/MANUAL-REVIEW-2026-09-08.md) and `audit/results.json` for current results (`audit/REPORT.md` is historical); passing tests do not establish that every possible defect has been excluded.
 
 ## Contents
 
@@ -105,7 +105,9 @@ The runner deliberately bypasses the upstream npm JavaScript shim to preserve fa
 | `scripts/` | Audit gates, mutation testing, local deployment rehearsal and deployment inspection |
 | `docs/ARCHITECTURE.md` | State transitions, accounting invariants, and reference differences |
 | `docs/OPERATIONS.md` | Deployment, verification, bidder calls, payouts, and recovery |
-| `audit/REPORT.md` | Measured audit results and reviewed findings |
+| `audit/MANUAL-REVIEW-2026-09-08.md` | Current manual reasoning, findings and non-mutation verification |
+| `audit/results.json` | Current measured results and exact production source hashes |
+| `audit/REPORT.md` | Historical audit results for its named source snapshot |
 | `audit/ISSUES.md` | Current open work, accepted design decisions, verified fixes and evidence status |
 | `audit/REAUDIT-2026-09-07.md` | Repeat manual review, additional adversarial tests and verification scope |
 | `audit/MUTATION-STRENGTHENING-2026-09-07.md` | Stronger behavioral mutation coverage, named failure attribution and verification scope |

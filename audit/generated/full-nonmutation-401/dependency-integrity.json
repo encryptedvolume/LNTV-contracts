@@ -1,0 +1,14 @@
+{
+  "creator-token-standards": {
+    "commit": "980a63b33591d568b6e04b45f37deba05a55f787",
+    "verifiedFiles": 10
+  },
+  "openzeppelin-contracts-v4": {
+    "commit": "0a25c1940ca220686588c4af3ec526f725fe2582",
+    "verifiedFiles": 10
+  },
+  "permit-c": {
+    "commit": "65e3a4a493aa14d1a03c23512233d7546e8f1e96",
+    "verifiedFiles": 1
+  }
+}
