@@ -1,0 +1,21 @@
+Live registry queries 2026-09-08T14:26:00Z
+===== https://ethereum-rpc.publicnode.com chain 1  block 25933230
+registry code keccak: 0xc7dfe8ae4da5613f6406eab346f0808ee2322316f44d186136c830a71491366c
+zone code keccak: 0x9e6930be6759e905574791278e46db4d510c072733fe62a0c7d4e6e76f13e324
+lastListId: 41
+list0 owner: 0x939C8d89EBC11fA45e576215E2353673AD0bA18A
+list0 whitelist: [0x9A1D00bEd7CD04BCDA516d721A596eb22Aac6834, 0x9A1D001670C8b17F8B7900E8d7a41e785B3F0515]
+list0 authorizers: [0x000056F7000000EcE9003ca63978907a00FFD100]
+list0 blacklist: []
+zone active signers: [0x2F16C6D67bbE8920117093ead9bC3310d81c8Fd2]
+===== https://ethereum-sepolia-rpc.publicnode.com chain 11155111  block 11661631
+registry code keccak: 0xc7dfe8ae4da5613f6406eab346f0808ee2322316f44d186136c830a71491366c
+zone code keccak: 0x16db75c2309f575f8a5d688edc0cb2f04b4f902ba5f5e994c3864e47ce5dcc15
+lastListId: 68
+list0 owner: 0x939C8d89EBC11fA45e576215E2353673AD0bA18A
+list0 whitelist: [0x9A1D00bEd7CD04BCDA516d721A596eb22Aac6834, 0x9A1D001670C8b17F8B7900E8d7a41e785B3F0515]
+list0 authorizers: [0x000056F7000000EcE9003ca63978907a00FFD100]
+list0 blacklist: []
+zone active signers: [0x022233001c1604ee0516d96F4b925CF30458A101]
+
+Sourcify: both list-0 operators are exact-match verified 'src/PaymentProcessor.sol:PaymentProcessor' (Limit Break Payment Processor 2.0.0, solc 0.8.19), deployer 0x67985B1f8B613b57077bbDb24A5DEFCDDA458317 (deployer.limitbreak.eth); PP1 block 19142797, PP2 block 19313404.

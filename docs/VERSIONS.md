@@ -1,6 +1,14 @@
 # Contract version archive
 
-The current contract implementation is **4.0.0** on `main`, merged through
+Version **4.0.1** fixes the creator-controlled implicit approval vulnerability
+(F4-01); see [the fix report](../audit/HOLDER-APPROVAL-FIX-2026-09-08.md). The
+`v4.0.0` tag and the release history below preserve the affected implementation.
+The following section records the prior 4.0.0 merge and archive, not a current
+security attestation.
+
+## Previous 4.0.0 release and archive
+
+The previous contract implementation **4.0.0** was merged into `main` through
 [PR #1](https://github.com/encryptedvolume/LNTV-contracts/pull/1) on 2026-09-08.
 Production source is unchanged from commit `1c7c1a90ccc24a38d74b530fbdbc22954c2f83bb`;
 the release tag is `v4.0.0`. This identifies a source version, not a deployment or

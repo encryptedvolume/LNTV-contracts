@@ -4,7 +4,7 @@ A self-contained Ethereum system for **100 ERC-721 NFTs: 90 auctioned and 10 res
 
 The [current issue register](audit/ISSUES.md) records open work, accepted design decisions, verified fixes and the scope of available audit evidence.
 
-The current source release is **4.0.0** on `main`. [Earlier contract versions](docs/VERSIONS.md) are preserved under annotated archive tags.
+The current source release is **4.0.1**, which fixes validator auto-approval seizure (F4-01). [Earlier contract versions](docs/VERSIONS.md) are preserved under annotated archive tags.
 
 Ranked-list mechanics are adapted from [Transient Labs TLRankedAuction](https://github.com/Transient-Labs/tl-ranked-auction/tree/4dd148d9fcfa4c96454393d1e8272e6e997dbf7c). The reference source and MIT attribution are included. Tiered pricing, reserved inventory and minting are this adaptation's design; creator-token transfer enforcement uses Limit Break's existing ERC721-C implementation.
 
@@ -45,7 +45,7 @@ The creator confirmed uncapped extensions and floor increases without an extensi
 
 ## Royalty policy
 
-The edition now inherits **Limit Break ERC721-C**, with ERC-2981 reporting the confirmed **10%** trading royalty and current shared payout wallet. Standard ERC-721 marketplace approvals are supported. The old exclusive-marketplace transfer restriction has been removed; the included `RoyaltyMarketplace` is optional.
+The edition now inherits **Limit Break ERC721-C**, with ERC-2981 reporting the confirmed **10%** trading royalty and current shared payout wallet. Standard ERC-721 marketplace approvals are supported. The old exclusive-marketplace transfer restriction has been removed; the included `RoyaltyMarketplace` is optional. Version 4.0.1 requires explicit holder approvals for operators: the creator cannot manufacture approval by changing the validator or its auto-approval flag. See [the security fix and verification](audit/HOLDER-APPROVAL-FIX-2026-09-08.md).
 
 Before secondary trading, the payout wallet calls `configureEnforcedTrading()` (or runs `script/ConfigureTrading.s.sol`) and enables **10% enforced earnings in OpenSea Studio**. The contract configures OpenSea's supported transfer validator and SignedZone, with strict level-4 transfer rules. Other marketplaces work when they support that enforcement system and their required royalty settings are configured. Ordinary transfers remain blocked under that profile. There are no royalties on the initial auction.
 
@@ -81,7 +81,7 @@ The mutation campaign first requires the unmodified contracts to pass the same t
 
 The runner prints its fuzz seed. Use `AUDIT_FUZZ_SEED=0x20260907 npm run audit` to run the current source with the 2026-09-07 re-audit seed; the default remains `0x20260906`. Stateful campaigns advance auction time and marketplace time, and independently check the auction deadline and minimum bid. Additional tests exercise callbacks across contracts, randomized claim/refund ordering, and batch equivalence to sequential bids. Both auction invariant campaigns mix batch bidding into their independent ranking and ETH model.
 
-Interface **4.0.0** adds ERC721-C and OpenSea enforcement setup. The creator cancelled all long audit/mutation jobs to prioritize this migration. Current evidence is [targeted integration verification](audit/ERC721C-INTEGRATION-2026-09-08.md), not a complete audit pass. `npm run audit:nonmutation` explicitly excludes mutations, but the full audit gates/source review and mutation inventory must be refreshed for the changed inheritance before claiming a new complete audit. Historical reports and the cancelled 3.3.0 partial run are retained under `audit/history/`. See [ISSUES.md](audit/ISSUES.md).
+Interface **4.0.1** retains ERC721-C/OpenSea support and fixes creator-controlled validator auto-approval. The [fix report](audit/HOLDER-APPROVAL-FIX-2026-09-08.md) records 229 passing default-profile tests, static review and local lifecycle checks. The full extended audit and coverage were not rerun for this patch, and mutations remain excluded. Earlier integration reviews and Fable's fourth pass attest their named snapshots, not an automatic full-audit PASS for the changed source. `npm run audit:nonmutation` excludes mutations. See [ISSUES.md](audit/ISSUES.md) for remaining work.
 
 The native tool runner is also available directly:
 

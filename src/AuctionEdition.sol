@@ -2,6 +2,7 @@
 pragma solidity 0.8.28;
 
 import { ERC721C, ERC721OpenZeppelin } from "@limitbreak/creator-token-standards/src/erc721c/ERC721C.sol";
+import { ERC721 } from "../lib/openzeppelin-contracts-v4/contracts/token/ERC721/ERC721.sol";
 import { TokenRescue } from "./TokenRescue.sol";
 import { IERC4906 } from "@openzeppelin/contracts/interfaces/IERC4906.sol";
 import { IERC2981 } from "@openzeppelin/contracts/interfaces/IERC2981.sol";
@@ -114,6 +115,13 @@ contract AuctionEdition is ERC721C, IERC2981, TokenRescue {
         if (tokenId > 0 && tokenId <= MAX_SUPPLY) {
             amount = Math.mulDiv(salePrice, royaltyBps, 10_000, Math.Rounding.Ceil);
         }
+    }
+
+    /// @notice Only the holder can grant operator approval; the validator has no implicit approval.
+    /// @dev Read the exact OpenZeppelin base used by ERC721-C, bypassing its optional creator-controlled
+    ///      auto-approval. The inherited flag/setter remain ABI-compatible but cannot authorize transfers.
+    function isApprovedForAll(address holder, address operator) public view override returns (bool) {
+        return ERC721.isApprovedForAll(holder, operator);
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721C, IERC165) returns (bool) {

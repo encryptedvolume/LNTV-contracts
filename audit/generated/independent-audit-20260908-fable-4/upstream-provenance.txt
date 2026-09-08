@@ -1,0 +1,25 @@
+Vendored dependency provenance vs GitHub raw at pinned commits (fetched live)
+--- lib/creator-token-standards @ 980a63b33591d568b6e04b45f37deba05a55f787 (10 files)
+MATCH    src/access/OwnablePermissions.sol
+MATCH    src/erc721c/ERC721C.sol
+MATCH    src/interfaces/ICreatorToken.sol
+MATCH    src/interfaces/ICreatorTokenLegacy.sol
+MATCH    src/interfaces/ITransferValidator.sol
+MATCH    src/interfaces/ITransferValidatorSetTokenType.sol
+MATCH    src/token/erc721/ERC721OpenZeppelin.sol
+MATCH    src/utils/AutomaticValidatorTransferApproval.sol
+MATCH    src/utils/CreatorTokenBase.sol
+MATCH    src/utils/TransferValidation.sol
+--- lib/openzeppelin-contracts-v4 @ 0a25c1940ca220686588c4af3ec526f725fe2582 (10 files)
+MATCH    contracts/token/ERC721/ERC721.sol
+MATCH    contracts/token/ERC721/IERC721.sol
+MATCH    contracts/token/ERC721/IERC721Receiver.sol
+MATCH    contracts/token/ERC721/extensions/IERC721Metadata.sol
+MATCH    contracts/utils/Address.sol
+MATCH    contracts/utils/Context.sol
+MATCH    contracts/utils/Strings.sol
+MATCH    contracts/utils/introspection/ERC165.sol
+MATCH    contracts/utils/introspection/IERC165.sol
+MATCH    contracts/utils/math/Math.sol
+--- lib/permit-c @ 65e3a4a493aa14d1a03c23512233d7546e8f1e96 (1 files)
+MATCH    src/Constants.sol

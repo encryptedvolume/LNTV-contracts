@@ -1,0 +1,16 @@
+Compiling 1 files with Solc 0.8.28
+Solc 0.8.28 finished in 1.16s
+Compiler run successful with warnings:
+Warning (5159): "selfdestruct" has been deprecated. Note that, starting from the Cancun hard fork, the underlying opcode no longer deletes the code and data associated with an account and only transfers its Ether to the beneficiary, unless executed in the same transaction in which the contract was created (see EIP-6780). Any use in newly deployed contracts is strongly discouraged even if the new behavior is taken into account. Future changes to the EVM might further reduce the functionality of the opcode.
+   --> test/TestBase.sol:147:9:
+    |
+147 |         selfdestruct(to);
+    |         ^^^^^^^^^^^^
+
+
+Ran 2 tests for test/poc/FableFixCheck.t.sol:FableFixCheckTest
+[PASS] testHardenedEditionResistsValidatorAutoApprovalSeizure() (gas: 7214819)
+[PASS] testUnpatchedEditionIsSeizable() (gas: 7223505)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 5.78ms (4.63ms CPU time)
+
+Ran 1 test suite in 11.30ms (5.78ms CPU time): 2 tests passed, 0 failed, 0 skipped (2 total tests)
