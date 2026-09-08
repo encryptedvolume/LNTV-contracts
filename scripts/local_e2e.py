@@ -246,7 +246,7 @@ def main():
                       "walletRotation": "Two-step acceptance, old-wallet revocation, accrued and future revenue",
                       "secondarySales": 2,
                       "tokenStandard": "ERC-721", "tokenIds": "1-90 by final rank; 91-100 reserved",
-                      "metadata": "Fixed per-token off-chain endpoints; reveal policy belongs to the metadata service",
+                      "metadata": "Admin-updatable per-token off-chain endpoints; reveal policy belongs to the metadata service",
                       "pricing": "Top bid pays full; ranks 2-90 pay 90th winning bid or reserve if undersubscribed",
                       "initialDurationSeconds": 172800, "auctionedSupply": 90, "reservedSupply": 10,
                       "outbidBps": 500, "increaseBps": 250, "extensionLimit": None,

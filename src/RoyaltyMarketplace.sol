@@ -3,7 +3,7 @@ pragma solidity 0.8.28;
 
 import { IERC721 } from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import { IERC2981 } from "@openzeppelin/contracts/interfaces/IERC2981.sol";
-import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import { TokenRescue } from "./TokenRescue.sol";
 
 interface ITransferNonce {
     function transferNonce(uint256 tokenId) external view returns (uint256);
@@ -11,7 +11,7 @@ interface ITransferNonce {
 
 /// @title RoyaltyMarketplace
 /// @notice Noncustodial ETH sales of individual ERC-721 NFTs from its deploying collection.
-contract RoyaltyMarketplace is ReentrancyGuard {
+contract RoyaltyMarketplace is TokenRescue {
     struct Listing {
         address seller;
         uint128 price;
@@ -92,6 +92,14 @@ contract RoyaltyMarketplace is ReentrancyGuard {
 
         IERC721(edition).safeTransferFrom(item.seller, recipient, item.tokenId);
         emit Purchased(id, msg.sender, recipient, item.tokenId, price, royalty);
+    }
+
+    function _tokenRescueAdmin() internal view override returns (address wallet) {
+        (wallet,) = IERC2981(edition).royaltyInfo(1, 0);
+    }
+
+    function _protectedToken() internal view override returns (address) {
+        return edition;
     }
 
     function _isApproved(address seller, uint256 tokenId) private view returns (bool) {

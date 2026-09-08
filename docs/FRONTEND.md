@@ -69,3 +69,7 @@ Decode every `BidCreated` event in the confirmed receipt, not only the first. Bi
 Handle `IncorrectPayment`, `InvalidBatch`, `BidTooLow`, `BidTooLarge`, and `BiddingClosed`. The floor can rise during a batch or before inclusion, so multiplying the current minimum by quantity does not reliably produce a valid batch quote. Existing credits cannot fund bids automatically. `increaseBid` remains a single-bid top-up. A late successful batch leaves ten minutes once, without accumulating ten-minute extensions per item. Pricing, the settlement-anchored recovery delay, and NFT claims retain their existing rules.
 
 These are integration instructions only. The separate frontend's controls, wording and copied ABI are not modified by the batch contract update.
+
+## Admin interface 3.3.0
+
+The latest export adds `AuctionEdition.setMetadataURI(string)`, metadata refresh events and ERC-4906 support, plus `rescueERC20`, `rescueERC721` and `rescueERC1155` on all three contracts. These methods require the current shared payout wallet. See [operations](OPERATIONS.md#admin-metadata-and-token-recovery-interface-330) for parameters. The previous 3.2.0 batch methods remain unchanged. Frontend implementation and wording are deferred by the creator.

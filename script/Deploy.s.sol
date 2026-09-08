@@ -67,7 +67,7 @@ contract Deploy is Script {
         console2.log("Reserve (wei)", c.reservePrice);
         console2.log("Start (unix seconds)", c.startTime);
         console2.log("Initial end (unix seconds)", uint256(c.startTime) + 48 hours);
-        console2.log("Fixed off-chain metadata base URI", c.metadataURI);
+        console2.log("Initial off-chain metadata base URI", c.metadataURI);
         console2.log("ERC-721 collection name", c.collectionName);
         console2.log("ERC-721 symbol", c.collectionSymbol);
         vm.startBroadcast();

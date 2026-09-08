@@ -2,7 +2,7 @@
 
 ## Prepare configuration
 
-Prepare a stable metadata base URL ending in `/` and serve initially unrevealed JSON at every ID from `1.json` to `100.json`. The base, collection name/symbol and trading royalty rate cannot change after deployment. Contents and later owner-requested reveals are managed off-chain; use a mutable host if those responses will change. Verify that hosting and reveal permissions are under the creator's control separately from contract deployment.
+Prepare a stable metadata base URL ending in `/` and serve initially unrevealed JSON at every ID from `1.json` to `100.json`. Collection name/symbol and trading royalty rate cannot change after deployment. The current payout wallet can update the metadata base with `edition.setMetadataURI(newBase)`. Contents and later owner-requested reveals are managed off-chain; use a mutable host if those responses will change. Verify that hosting and reveal permissions are under the creator's control separately from contract deployment.
 
 Set one `PAYOUT_WALLET` able to execute contract calls, such as a multisig. It receives all auction proceeds and trading royalties and owns the ten reserved NFT entitlements. To reserve them for the deployer, use the deployer's address here. The deployer has no independent role. Set a positive reserve acceptable for the regular tier if fewer than 90 bids win; the top winner always pays its full bid. The payout wallet can later be replaced through the two-step flow below.
 
@@ -17,7 +17,7 @@ Copy `.env.example` to `.env`, retain the confirmed `ROYALTY_BPS=1000` (10%), an
 | `ROYALTY_BPS` | Fixed secondary-trading royalty only; **1000 = 10%, confirmed for future deployments** |
 | `RESERVE_WEI` | Positive starting auction minimum in wei |
 | `START_TIME` | Unix seconds, at least ten minutes after deployment |
-| `METADATA_URI` | Fixed off-chain base ending `/`; token URI is `<base><id>.json` |
+| `METADATA_URI` | Initial admin-updatable off-chain base ending `/`; token URI is `<base><id>.json` |
 
 There is no `END_TIME` input: the contract sets the initial close to `START_TIME + 172800` seconds. The 90 auction/10 reserved split is also fixed.
 
@@ -54,7 +54,7 @@ Run the read-only deployment checker after exporting the same expected configura
 
 For inspection, `PAYOUT_WALLET` must be the expected current wallet; optional `PENDING_PAYOUT_WALLET` defaults to the zero address. Update these expected values after an authorized nomination/rotation. The checker fails on an unexpected current or pending wallet.
 
-It checks runtime bytecode against the pinned build while masking compiler-designated immutable slots, requires repeated copies of each immutable to agree, then checks every immutable binding and configuration value separately. It checks liabilities against actual ETH balances at one pinned block and verifies that block's hash has not changed during inspection. Do this from optimized build artifacts (`npm run build`) rather than the unoptimized coverage artifacts.
+It checks runtime bytecode against the pinned build while masking compiler-designated immutable slots, requires repeated copies of each immutable to agree, then checks every immutable binding and expected configuration value separately. After an authorized metadata update or wallet rotation, supply the expected current `METADATA_URI` / `PAYOUT_WALLET` for later inspections; retain the original deployment configuration separately. It checks liabilities against actual ETH balances at one pinned block and verifies that block's hash has not changed during inspection. Do this from optimized build artifacts (`npm run build`) rather than the unoptimized coverage artifacts.
 
 For a complete rehearsal without external RPCs or real funds:
 
@@ -115,9 +115,9 @@ Sellers permanently cancel a listing with `cancel(listingId)`. Revoking approval
 
 The current payout wallet can call `claimReserved(quantity, recipient)` before, during or after the auction. Batches mint the next unused reserved IDs from #91 through #100. Choose the payout wallet itself as recipient to hold them there, or redirect to a compatible wallet. There is no mint price or royalty. A failed receiver reverts the whole batch and leaves the entitlement available. Observe `ReservedClaimed`, `reservedRemaining` and ERC-721 `Transfer` events. Already minted reserved NFTs are subject to the same trading royalty policy as auction NFTs.
 
-All 100 metadata endpoints must initially return unrevealed placeholder content. Implement the later creator-enabled, holder-requested reveal in the metadata service. The contract supplies stable per-ID URLs and current ownership; it has no activation or reveal transactions and no on-chain revealed state. The backend must independently authenticate the creator and verify the current owner for each request. A wallet rotation does not move hosting credentials. These service/API features are outside this contract implementation.
+All 100 metadata endpoints must initially return unrevealed placeholder content. Implement the later creator-enabled, holder-requested reveal in the metadata service. The contract supplies per-ID URLs under an admin-updatable base and current ownership; it has no activation or reveal transactions and no on-chain revealed state. The backend must independently authenticate the creator and verify the current owner for each request. A wallet rotation does not move hosting credentials. These service/API features are outside this contract implementation.
 
-Metadata changes do not invalidate active sale listings or emit ERC-4906 events. Cancel affected listings before changing metadata, and refresh external caches through the relevant marketplace/service. A fixed IPFS directory cannot change its content; use a stable mutable endpoint for this design. Inspect metadata availability and content separately from the code/configuration checker.
+Metadata changes do not invalidate active sale listings. `edition.setMetadataURI(newBase)` emits `MetadataURIUpdated(previousURI, newURI)` and ERC-4906 `BatchMetadataUpdate(1, 100)`; passing the same base can announce an off-chain content refresh. Hosting-only edits do not automatically emit events. Cancel affected listings before changing metadata, and refresh external caches through the relevant marketplace/service. A fixed IPFS directory cannot change its content; use a stable mutable endpoint for this design. Inspect metadata availability and content separately from the code/configuration checker.
 
 ## Change the shared payout wallet
 
@@ -128,13 +128,13 @@ Metadata changes do not invalidate active sale listings or emit ERC-4906 events.
 
 The current wallet can replace an unaccepted nomination or cancel it with `cancelPayoutWalletChange()`. No arbitrary caller or deployer can rotate it. Both EOAs and contract wallets must be able to make these calls. Zero, the current wallet, and the three system contract addresses are rejected as nominees.
 
-Acceptance applies to unwithdrawn auction proceeds, accrued and future trading royalties, control of unclaimed reserved and unsold NFTs. Unrecovered bidder refunds, winning NFTs, seller credits, and already withdrawn funds keep their existing owners. Optional recovery 28 days after settlement follows the current payout wallet and closes outstanding auction refunds only when successful. If the old payout wallet also sold NFTs, its seller credits stay withdrawable by that old wallet. No separate royalty-recipient update is necessary.
+Acceptance applies to unwithdrawn auction proceeds, accrued and future trading royalties, control of unclaimed reserved and unsold NFTs, metadata updates, and foreign-token rescue on all three contracts. Unrecovered bidder refunds, winning NFTs, seller credits, and already withdrawn funds keep their existing owners. Optional recovery 28 days after settlement follows the current payout wallet and closes outstanding auction refunds only when successful. If the old payout wallet also sold NFTs, its seller credits stay withdrawable by that old wallet. No separate royalty-recipient update is necessary.
 
 ## Recovery and operational limits
 
 If a refund recipient rejects ETH, the entitlement survives and the bidder can retry to another address until a successful recovery closes refunds. If an NFT receiver rejects ERC-721, the mint entitlement survives and the bidder can redirect it; refund crediting and withdrawal are independent. Batch mint failure reverts that batch only; smaller batches help isolate a rejecting recipient. The current payout wallet can redirect auction proceeds and trading royalties in the same way.
 
-No admin intervention can replace a lost bidder key, redirect somebody else's tokens, cancel an auction after a configuration mistake, change the on-chain metadata base, change the royalty percentage, recover unclaimed bidder ETH before the authorized recovery eligibility time, or unlock direct transfers. Unclaimed winning units are reserved forever. The payout wallet can be rotated only while the current wallet can nominate a replacement (or a previously nominated wallet can still accept). There is no separate lost-key recovery authority. Keep wallets operational and communicate these constraints before opening the auction.
+No admin intervention can replace a lost bidder key, redirect somebody else's tokens, cancel an auction after a configuration mistake, change the royalty percentage, recover unclaimed bidder ETH before the authorized recovery eligibility time, or unlock direct transfers. Unclaimed winning units are reserved forever. The payout wallet can be rotated only while the current wallet can nominate a replacement (or a previously nominated wallet can still accept). There is no separate lost-key recovery authority. Keep wallets operational and communicate these constraints before opening the auction.
 
 Monitor `liabilities() <= auction.balance`, `market.totalCredits() <= market.balance`, `activeCount <= 90`, the current closing time, and total supply. Normal donations cannot be sent directly; `selfdestruct` or protocol-level balance transfers can create surplus, recoverable with the remaining auction ETH after settlement and recovery eligibility. Regular-tier uniform-price demand reduction, bid shading, transaction ordering, Sybil bidding, and self-outbidding are economic properties, not solvency failures. The design supplies no per-person allocation guarantee.
 
@@ -142,7 +142,7 @@ Monitor `liabilities() <= auction.balance`, `market.totalCredits() <= market.bal
 
 This is a new deployment and requires regenerated ABIs. `Config.endTime` and the `END_TIME` environment input are removed. The remaining tuple is `(payoutWallet, royaltyBps, reservePrice, startTime, metadataURI, collectionName, collectionSymbol)`. Start is uint64; initial/current end times are uint256. `SUPPLY()` is now 90; `RESERVED_SUPPLY()` is 10; `AUCTION_DURATION()` is 172800. New calls include `claimReserved`, `reservedRemaining`, and `winningBidCost`.
 
-`METADATA_URI` is now a base ending `/`, not a shared JSON file. `enableReveals`, `reveal`, `revealsEnabled`, `revealedMetadataURI`, `revealed`, their events and ERC-4906 support are removed. Transfer nonces advance only on transfers. Frontends must obtain reveal state from the metadata service and stop sending the removed calls.
+`METADATA_URI` is now a base ending `/`, not a shared JSON file. `enableReveals`, `reveal`, `revealsEnabled`, `revealedMetadataURI`, `revealed`, their reveal-specific events are removed. Interface 3.3.0 restores ERC-4906 support for admin metadata updates, without restoring those reveal functions. Transfer nonces advance only on transfers. Frontends must obtain reveal state from the metadata service and stop sending the removed calls.
 
 ERC-721 claims take bid IDs and return the NFTs assigned to those bids at settlement. Listings take `(tokenId, price, expiry)`; buys take `(listingId, recipient)`. The single two-step payout wallet and trading-only royalty policy remain in place. The old hard-end cap and its getters remain removed. No public deployment has been migrated or modified.
 
@@ -195,3 +195,20 @@ Version 3.1.0 supersedes the auction-end anchor in 3.0.0 and resolves F3-02. The
 ## Batch bidding — interface 3.2.0
 
 `createBids(uint256[] amounts)` is an additive payable entry point. Single-bid, top-up, settlement, recovery and claim signatures retain their behavior; no deployment parameter changes. Existing immutable deployments require a new deployment for batch support. Regenerate and synchronize the versioned interface before adding frontend controls. This contract update leaves frontend code and wording for the creator's separate integration work.
+
+## Admin metadata and token recovery (interface 3.3.0)
+
+The **current `payoutWallet`** is the admin. A nomination grants no authority until accepted; the previous wallet loses these permissions at acceptance. These functions are available before, during and after the auction, independently of the 28-day ETH recovery delay.
+
+| Target | Function | Purpose |
+|---|---|---|
+| NFT edition | `setMetadataURI(string newBase)` | Set a nonempty base ending `/` for every minted and future token; announce an ERC-4906 refresh |
+| Contract holding the foreign tokens | `rescueERC20(address token, address recipient, uint256 amount)` | Transfer the specified ERC-20 amount, including wrapped ETH as a token |
+| Contract holding the foreign NFT | `rescueERC721(address token, address recipient, uint256 tokenId)` | Safely transfer that foreign NFT |
+| Contract holding the foreign tokens | `rescueERC1155(address token, address recipient, uint256 tokenId, uint256 amount)` | Safely transfer the specified token ID and amount |
+
+Each rescue function exists on the auction, edition and marketplace. Call the one that actually holds the tokens. The admin chooses the recipient, so it can return assets to the original sender; the contract does not infer depositor ownership. Positive amounts are required for ERC-20/ERC-1155. The token must have code, and the recipient must be nonzero and different from the called contract. Safe NFT recipients must support the relevant receiver interface. Rejected transfers leave assets available for retry. Normal safe NFT deposits remain blocked by the absence of receiver hooks; these functions recover assets already held.
+
+Rescue functions never transfer ETH or alter ETH accounting. They reject the LNTV edition itself, preserving its royalty transfer policy and NFT claim entitlements. Use existing proceeds/refund/royalty functions for ETH. `ERC20Rescued`, `ERC721Rescued` and `ERC1155Rescued` record token transfers; unusual fee-on-transfer tokens may deliver less than the requested amount.
+
+No deployment parameter is added. Existing immutable deployments require a new deployment for these functions. Interface 3.3.0 is exported for later integration; frontend code and wording are unchanged. Only focused tests and build/interface checks were requested for this release; the full audit and mutation suite were not rerun.

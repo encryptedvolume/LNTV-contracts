@@ -12,7 +12,7 @@ contract MetadataTest is TestBase {
         assertEq(edition.tokenURI(90), "ipfs://edition-metadata/90.json");
         assertEq(edition.tokenURI(91), "ipfs://edition-metadata/91.json");
         assertEq(edition.tokenURI(100), "ipfs://edition-metadata/100.json");
-        assertFalse(edition.supportsInterface(0x49064906));
+        assertTrue(edition.supportsInterface(0x49064906));
     }
 
     function testBaseEndpointMustEndWithSlash() public {
@@ -25,7 +25,7 @@ contract MetadataTest is TestBase {
         assertEq(replacement.edition().metadataURI(), c.metadataURI);
     }
 
-    function testNoOnchainRevealOrMetadataReplacementAuthority() public {
+    function testNoOnchainRevealAuthority() public {
         mintForMarket();
         vm.prank(payoutWallet);
         (bool enabled,) = address(edition).call(abi.encodeWithSignature("enableReveals(string)", "https://changed/"));

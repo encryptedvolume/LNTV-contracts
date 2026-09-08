@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
-import { ReentrancyGuard } from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import { TokenRescue } from "./TokenRescue.sol";
 import { AuctionEdition } from "./AuctionEdition.sol";
 
 /// @title RankedAuction
 /// @notice 90 ranked NFT auction places and 10 reserved NFTs. Rank #1 pays its full bid; other winners pay the cutoff.
 /// @dev Ranked-list mechanics adapted from Transient Labs TLRankedAuction (MIT), reference commit in NOTICE.md.
 ///      A bounded list keeps only the best 90 bids. No callbacks during bidding or settlement.
-contract RankedAuction is ReentrancyGuard {
+contract RankedAuction is TokenRescue {
     enum Phase {
         Scheduled,
         Live,
@@ -372,6 +372,14 @@ contract RankedAuction is ReentrancyGuard {
             ids[i] = next;
             next = bids[next].next;
         }
+    }
+
+    function _tokenRescueAdmin() internal view override returns (address) {
+        return payoutWallet;
+    }
+
+    function _protectedToken() internal view override returns (address) {
+        return address(edition);
     }
 
     function _createBid(address bidder, uint256 bidAmount) private returns (uint256 id) {

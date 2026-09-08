@@ -68,7 +68,7 @@ def check(w3, auction_address, config):
     assert edition.functions.MAX_SUPPLY().call(block_identifier=snapshot) == 100
     assert edition.functions.supportsInterface(bytes.fromhex("80ac58cd")).call(block_identifier=snapshot)
     assert edition.functions.supportsInterface(bytes.fromhex("5b5e139f")).call(block_identifier=snapshot)
-    assert not edition.functions.supportsInterface(bytes.fromhex("49064906")).call(block_identifier=snapshot)
+    assert edition.functions.supportsInterface(bytes.fromhex("49064906")).call(block_identifier=snapshot)
     assert not edition.functions.supportsInterface(bytes.fromhex("d9b67a26")).call(block_identifier=snapshot)
     assert (int(config["START_TIME"]) + 172800) <= auction.functions.endTime().call(block_identifier=snapshot)
     assert auction.functions.activeCount().call(block_identifier=snapshot) <= 90

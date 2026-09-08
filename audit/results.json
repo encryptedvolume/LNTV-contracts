@@ -1,133 +1,69 @@
 {
   "date": "2026-09-08",
+  "version": "3.3.0",
   "status": "PARTIAL",
-  "scope": "Batch bidding: requested test run completed; mutation testing stopped by creator, who will obtain Claude audit",
+  "scope": "Creator-requested admin metadata and non-ETH token rescue additions; focused verification only",
   "sourceSha256": {
-    "src/AuctionEdition.sol": "fe163f6db23b7f0f5ab61a7382dd09de0607f3c7264953dafe13977c1712cab9",
-    "src/RankedAuction.sol": "a8934f1700ab27545204657e13b8e4b74bedfe4f9e9cb0920b7215376e219404",
-    "src/RoyaltyMarketplace.sol": "ba2d6c869ddaf9f589f88d673f00f9bbecb75dbc73fea10f26de64bb22b6eb85"
+    "src/AuctionEdition.sol": "c80d4f2104b7a33449f1228e4b27169d77d752ab2e791a381beb64b5af7f461e",
+    "src/RankedAuction.sol": "804449f989d099500f9857553055993da69bcf04862b1ecf7ea8d101f89cecbc",
+    "src/RoyaltyMarketplace.sol": "eaf99f7b0950c843283e28887bb63b948a62d0590d2f6e83f6fbd72f0480939f",
+    "src/TokenRescue.sol": "bb8587c8ea3f380764fa4563d3aaf296d4f83760258e0b0542b5e68566cd907d"
   },
-  "solidityTests": {
-    "passed": 187,
+  "focusedSolidityTests": {
+    "passed": 14,
     "failed": 0,
-    "skipped": 0
+    "skipped": 0,
+    "selection": "AdminFeaturesTest|MetadataTest",
+    "evidence": "audit/generated/admin-focused.log"
   },
-  "statelessFuzz": {
-    "tests": 7,
-    "runsPerTest": 10000
-  },
-  "invariants": {
-    "campaigns": 3,
-    "runsPerCampaign": 1000,
-    "depth": 256,
-    "totalHandlerCalls": 768000,
-    "unexpectedReverts": 0,
-    "seed": "0x2026090832",
-    "batchActions": 72810
-  },
-  "productionCoverage": {
-    "lines": "100%",
-    "statements": "100%",
-    "branches": "100%",
-    "functions": "100%"
-  },
-  "mutations": {
-    "status": "STOPPED_AT_CREATOR_REQUEST",
-    "complete": false,
-    "planned": 90,
-    "completedBeforeCancellation": 4,
-    "newBatchMutationsRun": 0,
-    "cleanBaselineTests": 184,
-    "historicalCampaignCommit": "ff5e952",
-    "evidence": "audit/history/2026-09-08-batch-mutations-interrupted/"
-  },
-  "nativeRunnerTests": 2,
-  "auditGateTests": 7,
-  "mutationRunnerTests": 14,
-  "slither": {
-    "reviewedWarnings": 28,
-    "unreviewed": 0
-  },
-  "localDeployment": {
+  "build": {
     "result": "PASS",
-    "auction": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
-    "gasUsed": {
-      "three_bids_batch": 430421,
-      "three_bids_separate_total": 530430,
-      "forty_five_bids_dense_first": 7371850,
-      "forty_five_bids_dense_second": 7360192,
-      "ninety_bids_empty_book_ties": 13667532,
-      "two_bids_late_full_book": 366336
+    "runtimeBytes": {
+      "RankedAuction": 11973,
+      "AuctionEdition": 8336,
+      "RoyaltyMarketplace": 5944
     },
-    "batchSizeLimit": 90,
-    "maximumBatchMined": true,
-    "denseNinetyBidGasEstimate": 17861124,
-    "transactionGasBudget": 16000000,
-    "overBudgetBatchRolledBackAndRetriedAsTwoBatches": true,
-    "denseBookMatchesIndependentModel": true,
-    "sameBatchDisplacementRefunded": true,
-    "rejectedBatchRollsBackEventsEscrowRefundsIdsAndTimer": true,
-    "oneExtensionForLateBatch": true,
-    "minted": 100,
-    "auctionEndingLiabilities": 0,
-    "auctionEndingBalance": 0,
-    "scope": "Dedicated batch rehearsal; prior full lifecycle/recovery rehearsal was not repeated after the creator ended the run"
+    "initBytes": {
+      "RankedAuction": 29098,
+      "AuctionEdition": 15668,
+      "RoyaltyMarketplace": 6105
+    }
   },
+  "format": "PASS",
   "frontendInterface": {
-    "version": "3.2.0",
+    "version": "3.3.0",
     "freshBuildMatchesExports": true,
-    "publicDeployments": 0,
-    "frontendCopyUpdated": false,
+    "publicDeploymentsRecorded": 0,
     "frontendChangesDeferredByCreator": true
   },
-  "limitations": [
-    "Mutation audit incomplete by explicit creator request; Claude will audit. No comprehensive audit PASS is claimed.",
-    "Existing unrelated issues remain in audit/ISSUES.md.",
-    "Large batches may exceed the selected gas budget; estimate and reduce quantity as needed.",
-    "Frontend code, wording and copied ABI remain deferred to separate work.",
-    "No public deployment performed by this task. Existing immutable deployments require redeployment for batch support."
-  ],
-  "timing": {
-    "initialDurationSeconds": 172800,
-    "extensionWindowSeconds": 600,
-    "cumulativeExtensionCap": null
+  "fullAudit": {
+    "status": "NOT_RUN_AT_CREATOR_REQUEST",
+    "staticReview": "Previous source-pinned approval retained; must be refreshed for new source",
+    "coverage": "NOT_RUN",
+    "fuzzAndInvariants": "NOT_RUN",
+    "mutations": "NOT_RUN",
+    "lifecycleRehearsal": "NOT_RUN"
   },
-  "refundPolicy": {
+  "acceptedDesignFinding": {
+    "id": "R-01",
+    "quotedSeverity": "High",
+    "title": "payout wallet can confiscate all bidder refunds",
+    "status": "ACCEPTED_BY_DESIGN",
     "recoveryDelaySeconds": 2419200,
-    "eligibilityAnchor": "first successful settlement timestamp (settledAt)",
+    "anchor": "first successful settlement (settledAt)",
     "automaticRefundExpiry": false,
-    "refundsCloseOn": "successful withdrawUnclaimedETH transaction only",
-    "failedRecoveryClosesRefunds": false,
-    "normalProceedsWithdrawalClosesRefunds": false,
-    "recoveryRole": "current payoutWallet",
-    "settlementRequiredForRecovery": true,
-    "nftClaimExpiry": null,
-    "marketplaceCreditsAffected": false,
-    "preSettlementGetter": "earliest estimate based on final extended endTime; settlement required",
-    "lateSettlementPreservesFullDelay": true
+    "refundsCloseOn": "successful withdrawUnclaimedETH only",
+    "decision": "audit/REFUND-RECOVERY-DESIGN-2026-09-08.md"
   },
-  "resolvedFindings": [
-    "F3-02"
-  ],
-  "batchBidding": {
-    "function": "createBids(uint256[])",
-    "minimumItems": 1,
-    "maximumItems": 90,
-    "payment": "exact sum of individual wei amounts",
-    "ordering": "input order; updated minimum after each bid",
-    "bidOwner": "msg.sender",
-    "failure": "atomic rollback of all batch effects",
-    "sameBatchDisplacement": "allowed with full pull refund",
-    "extension": "timestamp + 600, at most once per late batch",
-    "walletCap": null,
-    "gasMeasurements": {
-      "three_bids_batch": 430421,
-      "three_bids_separate_total": 530430,
-      "forty_five_bids_dense_first": 7371850,
-      "forty_five_bids_dense_second": 7360192,
-      "ninety_bids_empty_book_ties": 13667532,
-      "two_bids_late_full_book": 366336
-    },
-    "maximumQuantityDoesNotGuaranteeGasFit": true
-  }
+  "previousEvidence": {
+    "commit": "08718d4",
+    "results": "audit/history/2026-09-08-pre-admin-results.json",
+    "manifest": "audit/history/2026-09-08-pre-admin-SHA256SUMS"
+  },
+  "limitations": [
+    "Full audit waived for this addition; Claude will audit. No comprehensive audit PASS claimed.",
+    "Existing deployments require redeployment. No public deployment performed.",
+    "Foreign-token rescue excludes the LNTV collection and never transfers ETH.",
+    "Metadata can now be changed by the current payout wallet; off-chain reveal service remains separate."
+  ]
 }

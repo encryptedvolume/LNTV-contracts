@@ -1,5 +1,7 @@
 # Batch bidding — 2026-09-08
 
+> Historical 3.2.0 validation: the subsequent [3.3.0 admin additions](ADMIN-FEATURES-2026-09-08.md) change production source. This report does not attest those additions. Its results and manifest are preserved under `history/2026-09-08-pre-admin-*`.
+
 Interface 3.2.0 adds `createBids(uint256[] amounts)` and `IncorrectPayment`.
 The creator requested this feature and then instructed: “No need to do mutation
 testing” and “Finish up the current run here; Claude will audit.”
